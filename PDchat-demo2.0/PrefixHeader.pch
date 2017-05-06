@@ -1,0 +1,16 @@
+//
+//  PrefixHeader.pch
+//  PDchat-demo2.0
+//
+//  Created by 陈希灿 on 2017/3/29.
+//  Copyright © 2017年 hdu. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import "EaseMob.h"
+#import <UIKit/UIKit.h>
+#endif /* PrefixHeader_pch */

@@ -1,0 +1,24 @@
+1.使用环信的思想
+所有的网络请求使用[EaseMob sharedInstance].chatManage 聊天管理器
+结果(自动登录,自动重连)-通过代理来回调:调用chatmanager的- (void)addDelegate:(id<EMChatManagerDelegate>)delegate delegateQueue:(dispatch_queue_t)queue;
+2.添加好友
+1.添加聊天管理器的代理时，在控制器被dealloc时，要移除代理
+2.添加好友的代理方法，最还咋conversation控制器实现
+
+
+聊天的时间显示
+时间显示的规则
+同一分中内的消息，只显示一个时间
+/*
+15:52
+msg1 15:52:10
+msg2 15:52:08
+msg2 15:52:02
+*/
+
+/*今天：时:分 (HH:mm)
+*昨天: 昨天 + 时 + 分 (昨天 HH:mm)
+*昨天以前:(前天) 年：月：日 时 分（2015-09-26 15:27）
+*/
+
+服务器IP http://112.74.92.197
