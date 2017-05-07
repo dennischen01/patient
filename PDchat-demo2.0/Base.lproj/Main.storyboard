@@ -663,7 +663,7 @@
                         <outlet property="age" destination="ivS-5z-762" id="UFt-as-3Bf"/>
                         <outlet property="detail" destination="qNX-x7-tQB" id="cbz-ah-1ov"/>
                         <outlet property="hospital" destination="gxi-s8-Wvf" id="tkp-Uu-gL0"/>
-                        <outlet property="phonenumber" destination="cSw-N5-xZC" id="0vW-Q4-afG"/>
+                        <outlet property="phonenumberInput" destination="cSw-N5-xZC" id="sHi-lA-coJ"/>
                         <outlet property="type" destination="aJX-Uh-jMc" id="0Hr-nM-Jrc"/>
                         <outlet property="username" destination="fOW-J7-pY3" id="1km-1W-pQW"/>
                     </connections>

@@ -10,7 +10,7 @@
 #import "MBProgressHUD.h"
 @interface DetailViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *username;
-@property (weak, nonatomic) IBOutlet UITextField *phonenumber;
+@property (weak, nonatomic) IBOutlet UITextField *phonenumberInput;
 @property (weak, nonatomic) IBOutlet UITextField *age;
 @property (weak, nonatomic) IBOutlet UITextField *hospital;
 @property (weak, nonatomic) IBOutlet UITextField *type;
@@ -35,13 +35,21 @@
     requset.HTTPBody=[requestBody dataUsingEncoding:NSUTF8StringEncoding];
     NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_sync(dispatch_get_main_queue(), ^{
-       id obj=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+       NSDictionary *dit=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"正在网络请求");
-        NSLog(@"%@",obj);
+        NSLog(@"%@",dit);
+            self.username.text=[dit objectForKey:@"username"];
+            self.phonenumberInput.text=[dit objectForKey:@"phonenumber"];
+            self.age.text=[dit objectForKey:@"age"];
+            self.hospital.text=[dit objectForKey:@"hospital"];
+            self.type.text=[dit objectForKey:@"type"];
+            self.detail.text=[dit objectForKey:@"detail"];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
                       }];
     [task resume];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
