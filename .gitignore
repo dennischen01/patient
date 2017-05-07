@@ -1,1 +1,4 @@
 PDchat-demo2.0/EaseMobSDK/lib/libEaseMobClientSDK.a
+.DS_Store
+*/**/.DS_Store
+*/**/*.xcuserdatad
