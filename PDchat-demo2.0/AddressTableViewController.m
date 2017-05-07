@@ -67,6 +67,7 @@
 #warning 强调buddyList没有值的情况 1.第一次登录 2.自动登录还没有完成
     
     [self setTableFooterView:self.tableView];
+    
 }
 
 - (void)setTableFooterView:(UITableView *)tb {
@@ -80,7 +81,13 @@
 }
 
 - (void) addUsername{
+    //1.创建信号量
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+    
     for (EMBuddy *buddy in self.buddyList) {
+        //2.等待-1
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+
         NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_username.php"];
         NSURLSession *session=[NSURLSession sharedSession];
         NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
@@ -88,7 +95,12 @@
         NSString *str=[NSString stringWithFormat:@"phonenumber=%@",buddy.username];
         requset.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
         NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            dispatch_sync(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
+                //3 +1
+                dispatch_semaphore_signal(semaphore);
+                
+                
                 NSString *name=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
                 NSLog(@"%@",name);
                 [self.usernames addObject:name];
@@ -96,6 +108,7 @@
                     [self.buddyName addObject:name];
                 }
                 [self.tableView reloadData];
+                
             });
             
             
@@ -103,6 +116,7 @@
         [task resume];
 
     }
+    
 
 }
 

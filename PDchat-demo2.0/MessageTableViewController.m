@@ -51,6 +51,8 @@
     [self setTableFooterView:self.tableView];
 }
 
+
+//消除横线
 - (void)setTableFooterView:(UITableView *)tb {
     if (!tb) {
         return;
@@ -63,38 +65,45 @@
 
 - (void)addname{
     //遍历
+    
+    //1.创建信号量
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+    
     for (EMConversation *conversation in self.conversations) {
+        //2.等待-1
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        
+        NSString *str=[NSString stringWithFormat:@"phonenumber=%@",conversation.chatter];
+        NSLog(@"conversation.chatter=%@",conversation.chatter);
         NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_username.php"];
         NSURLSession *session=[NSURLSession sharedSession];
         NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
         requset.HTTPMethod=@"POST";
-        NSString *str=[NSString stringWithFormat:@"phonenumber=%@",conversation.chatter];
-        NSLog(@"str=%@",str);
+        
         requset.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
-        NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            dispatch_sync(dispatch_get_main_queue(), ^{
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                //3 +1
+                dispatch_semaphore_signal(semaphore);
+                
                 NSString *name=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
                 NSLog(@"addnem=%@",name);
                 [self.usernames addObject:name];
                 [self.tableView reloadData];
-            });
-            
-            
-        }];
-        [task resume];
-        
+            }];
+            [task resume];
+        });
     }
-    [self.tableView reloadData];
-    
-
+   
 }
+
+
 
 - (void)loadConversations{
     //获取历史会话记录
     //1.从内存获取历史会话记录
     NSArray *conversations = [[EaseMob sharedInstance].chatManager conversations];
-    
-    NSLog(@"conversations:%@",conversations);
     //2.如果内存里没有会话记录，从数据库Conversation表
     if (conversations.count == 0) {
         NSLog(@"内存中没有会话记录");
@@ -127,9 +136,7 @@
         if (![self.conversations containsObject:obj]) {
             [self.conversations addObject:obj];
         }
-    }
-    NSLog(@"conversation %@",self.conversations);
-    //刷新表格
+    } //刷新表格
     [self.tableView reloadData];
 
     //显示总的未读数
@@ -144,8 +151,10 @@
     for (EMConversation *conversation in self.conversations) {
         totalUnreadCount += [conversation unreadMessagesCount];
     }
+    if (totalUnreadCount>0) {
+        self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld",totalUnreadCount];
+    }
     
-    self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld",totalUnreadCount];
     
 }
 #pragma mark chatmanager代理方法
