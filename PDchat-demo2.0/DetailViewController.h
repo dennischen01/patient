@@ -10,4 +10,6 @@
 
 @interface DetailViewController : UIViewController
 
+
+@property NSString *phonenumber;
 @end

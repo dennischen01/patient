@@ -28,6 +28,15 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputToolbarConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *recordBtn;
 
+
+@property NSString *friendname;
+@property NSString *friendphonenumber;
+@property NSString *friendage;
+@property NSString *friendhospital;
+@property NSString *friendtype;
+@property NSString *frienddetail;
+
+
 /** 当前添加的时间 */
 @property (nonatomic, copy) NSString *currentTimeStr;
 
@@ -87,6 +96,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(kbWillShow:) name:UIKeyboardWillShowNotification object:nil];
     //2.监听键盘退出，inputToolbar恢复原位
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kbWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
     
     
     
@@ -186,6 +196,7 @@
 -(void)ReceivergestureTapEvent:(UITapGestureRecognizer *)gesture {
     UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DetailViewController *detailVC=[storyboard instantiateViewControllerWithIdentifier:@"frienddetail"];
+    detailVC.phonenumber=self.buddy.username;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

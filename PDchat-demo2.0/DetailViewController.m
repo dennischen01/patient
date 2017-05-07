@@ -7,8 +7,15 @@
 //
 
 #import "DetailViewController.h"
-
+#import "MBProgressHUD.h"
 @interface DetailViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *username;
+@property (weak, nonatomic) IBOutlet UITextField *phonenumber;
+@property (weak, nonatomic) IBOutlet UITextField *age;
+@property (weak, nonatomic) IBOutlet UITextField *hospital;
+@property (weak, nonatomic) IBOutlet UITextField *type;
+@property (weak, nonatomic) IBOutlet UILabel *detail;
+
 
 @end
 
@@ -16,7 +23,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    //获取好友信息
+    //    http://112.74.92.197/server/doctor_detail.php
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    NSURLSession *session=[NSURLSession sharedSession];
+    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_detail.php"];
+    NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
+    requset.HTTPMethod=@"POST";
+    NSString *requestBody=[NSString stringWithFormat:@"phonenumber=%@",self.phonenumber];
+    requset.HTTPBody=[requestBody dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+       id obj=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"正在网络请求");
+        NSLog(@"%@",obj);
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+                      }];
+    [task resume];
 }
 
 - (void)didReceiveMemoryWarning {
