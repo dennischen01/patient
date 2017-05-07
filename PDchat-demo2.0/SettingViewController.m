@@ -8,7 +8,7 @@
 
 #import "SettingViewController.h"
 #import "changeImageViewController.h"
-@interface SettingViewController ()
+@interface SettingViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 - (IBAction)logout:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *logoutBtn;
 - (IBAction)changeImage:(id)sender;
@@ -53,10 +53,22 @@
     
 }
 - (IBAction)changeImage:(id)sender {
-    //跳转
-    UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    changeImageViewController *changeVC=[storyboard instantiateViewControllerWithIdentifier:@"changeimage"];
-    [self.navigationController pushViewController:changeVC animated:YES];
+    //显示图片选择的控制器
+    UIImagePickerController *imgPicker=[[UIImagePickerController alloc]init];
+    //设置元
+    imgPicker.sourceType=UIImagePickerControllerSourceTypePhotoLibrary;
+    imgPicker.delegate=self;
+    [self presentViewController:imgPicker animated:YES completion:nil];
+    
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    //选择图片的回调
+    UIImage *image=info[@"UIImagePickerControllerOriginalImage"];
+    self.avatarImageView.image=image;
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    //上传到七牛云
 }
 /*
 #pragma mark - Navigation

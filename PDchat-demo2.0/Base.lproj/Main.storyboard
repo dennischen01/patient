@@ -765,7 +765,7 @@
                                             <constraint firstAttribute="width" secondItem="NSr-Jt-rqD" secondAttribute="height" multiplier="17:16" id="Sfi-zR-Ytq"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="沙壁" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3p-Rl-4nV">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大帅比" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3p-Rl-4nV">
                                         <rect key="frame" x="8" y="126" width="304" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="ucU-RA-OWn"/>
