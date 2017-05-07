@@ -43,6 +43,7 @@
 		E83E62B51E8FAC99002BDC99 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E62A51E8FAC99002BDC99 /* UIView+WebCacheOperation.m */; };
 		E8520D9E1E90B7AF0052C695 /* TimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8520D9D1E90B7AF0052C695 /* TimeCell.m */; };
 		E8520DA11E90C1080052C695 /* TimeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = E8520DA01E90C1080052C695 /* TimeTool.m */; };
+		E85EE73D1EBF0A8500E3C891 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E85EE73C1EBF0A8500E3C891 /* SettingViewController.m */; };
 		E872E1D11E97CF7C00804D39 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E872E1D01E97CF7C00804D39 /* DetailViewController.m */; };
 		E8DEB3291E9610A300F1DA78 /* MOBFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DEB3261E9610A300F1DA78 /* MOBFoundation.framework */; };
 		E8DEB32A1E9610A300F1DA78 /* MOBFoundationEx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8DEB3271E9610A300F1DA78 /* MOBFoundationEx.framework */; };
@@ -182,6 +183,8 @@
 		E8520D9D1E90B7AF0052C695 /* TimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeCell.m; sourceTree = "<group>"; };
 		E8520D9F1E90C1080052C695 /* TimeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeTool.h; sourceTree = "<group>"; };
 		E8520DA01E90C1080052C695 /* TimeTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeTool.m; sourceTree = "<group>"; };
+		E85EE73B1EBF0A8500E3C891 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		E85EE73C1EBF0A8500E3C891 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		E872E1CF1E97CF7C00804D39 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		E872E1D01E97CF7C00804D39 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E87747951E8BC36100D61064 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -980,6 +983,8 @@
 		E8FA3BEC1E87876A005E8352 /* 设置 */ = {
 			isa = PBXGroup;
 			children = (
+				E85EE73B1EBF0A8500E3C891 /* SettingViewController.h */,
+				E85EE73C1EBF0A8500E3C891 /* SettingViewController.m */,
 				E8FA3C041E8797E5005E8352 /* SettingNavViewController.h */,
 				E8FA3C051E8797E5005E8352 /* SettingNavViewController.m */,
 			);
@@ -1108,6 +1113,7 @@
 				E8EA6DDF1EADFF1700249ED4 /* RegisterDetailViewController.m in Sources */,
 				E827ADB81E8A7B3D00FC9ED2 /* chatCell.m in Sources */,
 				E83E62A81E8FAC99002BDC99 /* SDImageCache.m in Sources */,
+				E85EE73D1EBF0A8500E3C891 /* SettingViewController.m in Sources */,
 				E83E62AD1E8FAC99002BDC99 /* SDWebImageManager.m in Sources */,
 				E8520DA11E90C1080052C695 /* TimeTool.m in Sources */,
 				E8EA6B8E1EADF98200249ED4 /* MBProgressHUD.m in Sources */,
