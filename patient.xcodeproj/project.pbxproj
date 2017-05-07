@@ -89,7 +89,6 @@
 		E8FA3C001E879798005E8352 /* AddressNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3BFF1E879798005E8352 /* AddressNavViewController.m */; };
 		E8FA3C031E8797AB005E8352 /* AddressTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3C021E8797AB005E8352 /* AddressTableViewController.m */; };
 		E8FA3C061E8797E5005E8352 /* SettingNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3C051E8797E5005E8352 /* SettingNavViewController.m */; };
-		E8FA3C091E8797F3005E8352 /* SettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3C081E8797F3005E8352 /* SettingTableViewController.m */; };
 		E8FA3C3F1E87E1AC005E8352 /* Readme in Resources */ = {isa = PBXBuildFile; fileRef = E8FA3C3E1E87E1AC005E8352 /* Readme */; };
 /* End PBXBuildFile section */
 
@@ -341,8 +340,6 @@
 		E8FA3C021E8797AB005E8352 /* AddressTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressTableViewController.m; sourceTree = "<group>"; };
 		E8FA3C041E8797E5005E8352 /* SettingNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingNavViewController.h; sourceTree = "<group>"; };
 		E8FA3C051E8797E5005E8352 /* SettingNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingNavViewController.m; sourceTree = "<group>"; };
-		E8FA3C071E8797F3005E8352 /* SettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTableViewController.h; sourceTree = "<group>"; };
-		E8FA3C081E8797F3005E8352 /* SettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTableViewController.m; sourceTree = "<group>"; };
 		E8FA3C3E1E87E1AC005E8352 /* Readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -985,8 +982,6 @@
 			children = (
 				E8FA3C041E8797E5005E8352 /* SettingNavViewController.h */,
 				E8FA3C051E8797E5005E8352 /* SettingNavViewController.m */,
-				E8FA3C071E8797F3005E8352 /* SettingTableViewController.h */,
-				E8FA3C081E8797F3005E8352 /* SettingTableViewController.m */,
 			);
 			name = "设置";
 			sourceTree = "<group>";
@@ -1130,7 +1125,6 @@
 				E8EA6DDD1EADFF1700249ED4 /* EditViewController.m in Sources */,
 				E83A76E51E8E510B00ED7558 /* EMAudioRecorderUtil.m in Sources */,
 				E8FA3B471E87852A005E8352 /* ViewController.m in Sources */,
-				E8FA3C091E8797F3005E8352 /* SettingTableViewController.m in Sources */,
 				E8EA6DD91EADFF1700249ED4 /* VerificationViewController.m in Sources */,
 				E811392A1E9A1BCF005D5BAF /* AddFriendTableViewController.m in Sources */,
 				E83E62B31E8FAC99002BDC99 /* UIImageView+HighlightedWebCache.m in Sources */,
