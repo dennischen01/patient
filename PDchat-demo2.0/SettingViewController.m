@@ -12,6 +12,7 @@
 - (IBAction)logout:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *logoutBtn;
 - (IBAction)changeImage:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
 @end
 
@@ -19,10 +20,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    _avatarImageView.layer.cornerRadius = _avatarImageView.frame.size.width / 2;
+    _avatarImageView.layer.masksToBounds = YES;
     // 当前登录的用户名
     NSString *loginUsername = [[EaseMob sharedInstance].chatManager loginInfo][@"username"];
-    NSString *title = loginUsername;
+    NSString *title = [NSString stringWithFormat:@"注销登录(%@)", loginUsername];
     
     //1.设置退出按钮的文字
     [self.logoutBtn setTitle:title forState:UIControlStateNormal];
