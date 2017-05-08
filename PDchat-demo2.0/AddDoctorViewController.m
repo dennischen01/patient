@@ -9,6 +9,7 @@
 #import "AddDoctorViewController.h"
 
 @interface AddDoctorViewController ()
+@property (weak, nonatomic) IBOutlet UIButton *addButton;
 
 @end
 
@@ -43,10 +44,18 @@
         [[EaseMob sharedInstance].chatManager addBuddy:phoneNumber message:message error:&emerror];
         if (error) {
             NSLog(@"添加的好友有问题 %@",error);
+            message = @"发生错误，请稍后再试";
         }else{
             NSLog(@"添加的好友没有问题");
+            message = @"请求发送成功，请等待医生的同意";
         }
-        
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"好" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:action];
+            [self presentViewController:alert animated:YES completion:nil];
+        });
         
         
     }];
@@ -56,7 +65,7 @@
 }
 
 - (void)viewDidLoad {
-   
+    _addButton.layer.cornerRadius = 5;
 }
 
 - (void)didReceiveMemoryWarning {

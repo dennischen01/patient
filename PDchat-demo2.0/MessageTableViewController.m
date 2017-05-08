@@ -241,17 +241,34 @@
     return self.conversations.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 80;
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *ID =  @"ConversationCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    cell.imageView.image=[UIImage imageNamed:@"chatListCellHead"];
+    
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
+    imageView.image=[UIImage imageNamed:@"chatListCellHead"];
+    imageView.layer.cornerRadius = 5;
+    imageView.layer.masksToBounds  = YES;
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [cell.contentView addSubview:imageView];
+    
+    UILabel *textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 60)];
+    [textLabel setFont:[UIFont systemFontOfSize:16]];
+    textLabel.backgroundColor = [UIColor clearColor];
+    [cell.contentView addSubview:textLabel];
+
     //获取会话模型
     EMConversation *conversaion = self.conversations[indexPath.row];
     if (self.usernames.count==self.conversations.count) {
-        cell.textLabel.text=self.usernames[indexPath.row];
+        textLabel.text=self.usernames[indexPath.row];
         NSString *imageurl=self.images[indexPath.row];
         NSURL *url=[NSURL URLWithString:imageurl];
-        [cell.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
+        [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
     }
     EMMessage *message=conversaion.latestMessage;
     long long time=message.timestamp;
