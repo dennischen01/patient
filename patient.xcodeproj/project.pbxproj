@@ -45,6 +45,7 @@
 		E8520DA11E90C1080052C695 /* TimeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = E8520DA01E90C1080052C695 /* TimeTool.m */; };
 		E85EE73D1EBF0A8500E3C891 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E85EE73C1EBF0A8500E3C891 /* SettingViewController.m */; };
 		E872E1D11E97CF7C00804D39 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E872E1D01E97CF7C00804D39 /* DetailViewController.m */; };
+		E88B96D61EC09374005B038B /* AFNetworkingTool.m in Sources */ = {isa = PBXBuildFile; fileRef = E88B96D51EC09374005B038B /* AFNetworkingTool.m */; };
 		E8BB00FE1EC03B9A008B3ABE /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BB00FA1EC03B9A008B3ABE /* FLAnimatedImage.m */; };
 		E8BB00FF1EC03B9A008B3ABE /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BB00FC1EC03B9A008B3ABE /* FLAnimatedImageView.m */; };
 		E8BB01001EC03B9A008B3ABE /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8BB00FD1EC03B9A008B3ABE /* Info.plist */; };
@@ -191,6 +192,8 @@
 		E872E1CF1E97CF7C00804D39 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		E872E1D01E97CF7C00804D39 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E87747951E8BC36100D61064 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		E88B96D41EC09374005B038B /* AFNetworkingTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkingTool.h; sourceTree = "<group>"; };
+		E88B96D51EC09374005B038B /* AFNetworkingTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingTool.m; sourceTree = "<group>"; };
 		E8BB00F91EC03B9A008B3ABE /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
 		E8BB00FA1EC03B9A008B3ABE /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
 		E8BB00FB1EC03B9A008B3ABE /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
@@ -553,6 +556,8 @@
 		E88B96D31EC08F78005B038B /* 网络模块 */ = {
 			isa = PBXGroup;
 			children = (
+				E88B96D41EC09374005B038B /* AFNetworkingTool.h */,
+				E88B96D51EC09374005B038B /* AFNetworkingTool.m */,
 			);
 			name = "网络模块";
 			sourceTree = "<group>";
@@ -1197,6 +1202,7 @@
 				E8FA3B441E87852A005E8352 /* AppDelegate.m in Sources */,
 				E83A76E41E8E510B00ED7558 /* EMAudioPlayerUtil.m in Sources */,
 				E83A76E61E8E510B00ED7558 /* EMCDDeviceManager+Media.m in Sources */,
+				E88B96D61EC09374005B038B /* AFNetworkingTool.m in Sources */,
 				E83A76E91E8E510B00ED7558 /* EMCDDeviceManager+Remind.m in Sources */,
 				E872E1D11E97CF7C00804D39 /* DetailViewController.m in Sources */,
 				E8520D9E1E90B7AF0052C695 /* TimeCell.m in Sources */,

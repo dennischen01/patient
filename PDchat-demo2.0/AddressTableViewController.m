@@ -11,11 +11,13 @@
 #import "chatViewController.h"
 #import "AddFriendTableViewController.h"
 #import "MBProgressHUD.h"
+#import "UIImageView+WebCache.h"
 @interface AddressTableViewController ()<EMChatManagerDelegate>
 //好友列表数据源
 @property (nonatomic,strong) NSArray *buddyList;
 @property NSMutableArray *buddyName;
 @property NSMutableArray *usernames;
+@property NSMutableArray *images;
 - (IBAction)addBtn:(id)sender;
 
 
@@ -35,6 +37,13 @@
         _usernames=[NSMutableArray array];
     }
     return _usernames;
+}
+
+- (NSMutableArray *)images{
+    if (!_images) {
+        _images=[NSMutableArray array];
+    }
+    return _images;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -88,7 +97,7 @@
         //2.等待-1
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 
-        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_username.php"];
+        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_usernameAndImage.php"];
         NSURLSession *session=[NSURLSession sharedSession];
         NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
         requset.HTTPMethod=@"POST";
@@ -100,10 +109,14 @@
                 //3 +1
                 dispatch_semaphore_signal(semaphore);
                 
+                NSDictionary *obj=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                 
-                NSString *name=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-                NSLog(@"%@",name);
+                NSLog(@"obj=%@",obj);
+                
+                NSString *name=[obj objectForKey:@"name"];
+                NSString *imageurl=[obj objectForKey:@"image"];
                 [self.usernames addObject:name];
+                [self.images addObject:imageurl];
                 if (![self.buddyName containsObject:name]) {
                     [self.buddyName addObject:name];
                 }
@@ -134,10 +147,12 @@
     //1.获取好友模型
     EMBuddy *buddy=self.buddyList[indexPath.row];
     //2.显示头像和名称
-    cell.imageView.image=[UIImage imageNamed:@"chatListCellHead"];
+
     //3.显示名称
     if (self.usernames.count==self.buddyList.count) {
         cell.textLabel.text=self.usernames[indexPath.row];
+        NSString *imageurl=self.images[indexPath.row];
+        [cell.imageView sd_setImageWithURL:imageurl placeholderImage:[UIImage imageNamed:@"1.jpg"]];
    }
    
     
