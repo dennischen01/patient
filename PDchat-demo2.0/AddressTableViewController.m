@@ -147,21 +147,36 @@
     //1.获取好友模型
     EMBuddy *buddy=self.buddyList[indexPath.row];
     //2.显示头像和名称
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
 
+    imageView.layer.cornerRadius = 5;
+    imageView.layer.masksToBounds  = YES;
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    [cell.contentView addSubview:imageView];
+    
+    UILabel *textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 60)];
+    [textLabel setFont:[UIFont systemFontOfSize:16]];
+    textLabel.backgroundColor = [UIColor clearColor];
+    [cell.contentView addSubview:textLabel];
+    
     //3.显示名称
     if (self.usernames.count==self.buddyList.count) {
-        cell.textLabel.text=self.usernames[indexPath.row];
+        textLabel.text=self.usernames[indexPath.row];
         NSString *imageurl=self.images[indexPath.row];
         NSURL *url=[NSURL URLWithString:imageurl];
-        [cell.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
+        [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
    }
    
-    
     
     
     return cell;
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPathP{
+    return 80;
+}
 #pragma mark chatmanager的代理方法
 #pragma mark 监听自动登录成功
 - (void)didAutoLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error{
