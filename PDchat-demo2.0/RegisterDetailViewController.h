@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^SelectedBlock)(NSString *detail);
 @interface RegisterDetailViewController : UIViewController
 
 @end

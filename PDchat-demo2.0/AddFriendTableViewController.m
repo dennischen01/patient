@@ -10,6 +10,7 @@
 #import "AddDoctorViewController.h"
 #import "doctor.h"
 #import "MBProgressHUD.h"
+#import "UIImageView+WebCache.h"
 @interface AddFriendTableViewController ()<UISearchBarDelegate>{
     // 保存搜索结果数据的NSArray对象。
     NSMutableArray* searchData;
@@ -17,6 +18,7 @@
     bool isSearch;
     NSArray *searchType;
 }
+@property (nonatomic, strong)NSMutableArray *images;
 @property (weak, nonatomic) IBOutlet UISearchBar *searcrBar;
 
 
@@ -62,6 +64,13 @@
     return _datasourse;
 }
 
+- (NSMutableArray *)images{
+    if (!_images) {
+        _images=[NSMutableArray array];
+    }
+    return _images;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.searcrBar.delegate=self;
@@ -97,16 +106,17 @@
             for (id obj in self.dic) {
                 
                 NSString *str=obj[@"username"];
-                NSLog(@"%@",str);
                 [self.allName addObject:str];
-                NSLog(@"%@",self.allName);
             }
             for (id obj in self.dic) {
-                NSLog(@"%@",obj[@"type"]);
                 [self.type addObject:obj[@"type"]];
             }
+            
+            for (id obj in self.dic) {
+                [self.images addObject:obj[@"imageurl"]];
+            }
             for (int i=0; i<self.allName.count; i++) {
-                doctor *d=[[doctor alloc]initWithUserName:[self.allName objectAtIndex:i] andType:[self.type objectAtIndex:i]];
+                doctor *d=[[doctor alloc]initWithUserName:[self.allName objectAtIndex:i] andType:[self.type objectAtIndex:i] andImageurl:[self.images objectAtIndex:i]];
                 [self.datasourse addObject:d];
             }
             
@@ -115,11 +125,6 @@
                     [self.username addObject:d];
                 }
             }
-            NSLog(@"%@",self.username);
-            NSLog(@"self.allname=%@",_allName);
-            NSLog(@"self.doctorlist=%@",self.DoctorList);
-            NSLog(@"self.username=%@",self.username);
-            //            self.username=obj;
             
             [self.tableView reloadData];
             
@@ -158,10 +163,16 @@
          doctor *d=searchData[indexPath.row];
         cell.textLabel.text = d.username;
         cell.detailTextLabel.text=d.type;
+        NSString *imageurl=d.imageurl;
+        NSURL *url=[NSURL URLWithString:imageurl];
+        [cell.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
     }else{
         doctor *d=self.username[indexPath.row];
         cell.textLabel.text=d.username;
         cell.detailTextLabel.text=d.type;
+        NSString *imageurl=d.imageurl;
+        NSURL *url=[NSURL URLWithString:imageurl];
+        [cell.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
     }
     
     

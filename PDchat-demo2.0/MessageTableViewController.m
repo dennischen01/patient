@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSMutableArray *conversations;
 @property (nonatomic, strong) NSMutableArray *usernames;
 @property (nonatomic, strong) NSMutableArray *dates;
+@property (nonatomic, strong) NSMutableArray *images;
 @end
 
 @implementation MessageTableViewController
@@ -38,6 +39,12 @@
         _dates=[NSMutableArray array];
     }
     return _dates;
+}
+- (NSMutableArray *)images{
+    if (!_images) {
+        _images=[NSMutableArray array];
+    }
+    return _images;
 }
 
 - (void)viewDidLoad {
@@ -75,26 +82,33 @@
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         
         NSString *str=[NSString stringWithFormat:@"phonenumber=%@",conversation.chatter];
-        NSLog(@"conversation.chatter=%@",conversation.chatter);
-        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_username.php"];
+        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_usernameAndImage.php"];
         NSURLSession *session=[NSURLSession sharedSession];
         NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
         requset.HTTPMethod=@"POST";
-        
         requset.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
                 //3 +1
                 dispatch_semaphore_signal(semaphore);
                 
-                NSString *name=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-                NSLog(@"addnem=%@",name);
+                NSDictionary *obj=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                
+                NSLog(@"obj=%@",obj);
+                
+                NSString *name=[obj objectForKey:@"name"];
+                NSString *imageurl=[obj objectForKey:@"image"];
                 [self.usernames addObject:name];
+                [self.images addObject:imageurl];
                 [self.tableView reloadData];
-            }];
-            [task resume];
-        });
+                
+            });
+            
+            
+        }];
+        [task resume];
+      
     }
    
 }
@@ -235,6 +249,9 @@
     EMConversation *conversaion = self.conversations[indexPath.row];
     if (self.usernames.count==self.conversations.count) {
         cell.textLabel.text=self.usernames[indexPath.row];
+        NSString *imageurl=self.images[indexPath.row];
+        NSURL *url=[NSURL URLWithString:imageurl];
+        [cell.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
     }
     EMMessage *message=conversaion.latestMessage;
     long long time=message.timestamp;

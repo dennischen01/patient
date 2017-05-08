@@ -152,7 +152,8 @@
     if (self.usernames.count==self.buddyList.count) {
         cell.textLabel.text=self.usernames[indexPath.row];
         NSString *imageurl=self.images[indexPath.row];
-        [cell.imageView sd_setImageWithURL:imageurl placeholderImage:[UIImage imageNamed:@"1.jpg"]];
+        NSURL *url=[NSURL URLWithString:imageurl];
+        [cell.imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
    }
    
     
