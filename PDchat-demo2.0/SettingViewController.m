@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "changeImageViewController.h"
+#import "UIImageView+WebCache.h"
 @interface SettingViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 - (IBAction)logout:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *logoutBtn;

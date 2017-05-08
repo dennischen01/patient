@@ -10,6 +10,7 @@
 #import "EaseMob.h"
 #import "chatViewController.h"
 #import "MBProgressHUD.h"
+#import "UIImageView+WebCache.h"
 @interface MessageTableViewController ()<EMChatManagerDelegate,UIAlertViewDelegate>
 @property(nonatomic,copy)NSString *buddyusername;
 /** 历史会话记录 */
