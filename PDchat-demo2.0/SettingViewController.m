@@ -31,10 +31,15 @@
     //1.设置退出按钮的文字
     [self.logoutBtn setTitle:title forState:UIControlStateNormal];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [[paths objectAtIndex:0]stringByAppendingString:@"1.jpg"];
+    NSString *path = [[paths objectAtIndex:0]stringByAppendingString:@"myImage.jpg"];
+    
+    //如果沙盒有，取沙盒，否则，去服务器取
     UIImage *image=[[UIImage alloc]initWithContentsOfFile:path];
-    NSLog(@"path=%@",path);
-    self.avatarImageView.image=image;
+    if(image!=nil){
+        self.avatarImageView.image=image;
+    }else{
+        self.avatarImageView sd_setImageWithURL:<#(NSURL *)#> placeholderImage:<#(UIImage *)#>
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,7 +79,7 @@
     self.avatarImageView.image=image;
     //写入沙盒
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [[paths objectAtIndex:0]stringByAppendingString:@"1.jpg"];
+    NSString *path = [[paths objectAtIndex:0]stringByAppendingString:@"myImage.jpg"];
     [UIImageJPEGRepresentation(image, 0.5) writeToFile:path atomically:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
     
