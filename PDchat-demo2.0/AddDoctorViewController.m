@@ -65,7 +65,7 @@
 }
 
 - (void)viewDidLoad {
-    _addButton.layer.cornerRadius = 5;
+//    _addButton.layer.cornerRadius = 5;
 }
 
 - (void)didReceiveMemoryWarning {

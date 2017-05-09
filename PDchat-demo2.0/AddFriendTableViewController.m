@@ -198,7 +198,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     AddDoctorViewController *docVC=[[AddDoctorViewController alloc]init];
     UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    docVC=[storyboard instantiateViewControllerWithIdentifier:@"adddoctor"];
+    docVC=[storyboard instantiateViewControllerWithIdentifier:@"addDetail"];
     doctor *d=self.username[indexPath.row];
     docVC.doctorUsername=d.username;
     [self.navigationController pushViewController:docVC animated:YES];
