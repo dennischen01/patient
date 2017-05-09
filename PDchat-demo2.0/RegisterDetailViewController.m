@@ -10,6 +10,7 @@
 
 @interface RegisterDetailViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *textview;
+@property NSString *selectedString;
 
 @end
 

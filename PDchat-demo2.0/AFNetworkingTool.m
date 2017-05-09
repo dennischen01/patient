@@ -10,8 +10,6 @@
 
 @implementation AFNetworkingTool
 
-//- (NSString *)isReigister:(NSURL *)urlAndphonenumer :(NSString *)phonenumber{
-//    
-//}
+
 
 @end

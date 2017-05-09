@@ -5,7 +5,7 @@
 //  Created by 陈希灿 on 2017/5/4.
 //  Copyright © 2017年 hdu. All rights reserved.
 //
-
+#import "AFNetworking.h"
 #import "SettingViewController.h"
 #import "changeImageViewController.h"
 #import "UIImageView+WebCache.h"
@@ -14,7 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *logoutBtn;
 - (IBAction)changeImage:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-
+@property NSString *imagePath;
 @end
 
 @implementation SettingViewController
@@ -30,6 +30,11 @@
     
     //1.设置退出按钮的文字
     [self.logoutBtn setTitle:title forState:UIControlStateNormal];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [[paths objectAtIndex:0]stringByAppendingString:@"1.jpg"];
+    UIImage *image=[[UIImage alloc]initWithContentsOfFile:path];
+    NSLog(@"path=%@",path);
+    self.avatarImageView.image=image;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,9 +72,38 @@
     //选择图片的回调
     UIImage *image=info[@"UIImagePickerControllerOriginalImage"];
     self.avatarImageView.image=image;
+    //写入沙盒
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [[paths objectAtIndex:0]stringByAppendingString:@"1.jpg"];
+    [UIImageJPEGRepresentation(image, 0.5) writeToFile:path atomically:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    //上传到七牛云
+    //上传到服务器
+    
+    AFHTTPSessionManager *session=[AFHTTPSessionManager manager];
+    
+    [session POST:@"http://112.74.92.197/server/uploadHead.php" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        NSURL *url=[NSURL fileURLWithPath:path];
+        
+        [formData appendPartWithFileURL:url name:@"file" fileName:@"5.9.jpg" mimeType:@"image/jpg" error:nil];
+        
+        
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        NSLog(@"%f",uploadProgress.fractionCompleted);
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"%@",responseObject);
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error=%@",error);
+        
+    }];
+    
+    
 }
 /*
 #pragma mark - Navigation
