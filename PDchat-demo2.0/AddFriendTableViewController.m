@@ -19,6 +19,7 @@
     NSArray *searchType;
 }
 @property (nonatomic, strong)NSMutableArray *images;
+@property (nonatomic, strong)NSMutableArray *phonenumbers;
 @property (weak, nonatomic) IBOutlet UISearchBar *searcrBar;
 
 
@@ -71,6 +72,13 @@
     return _images;
 }
 
+- (NSMutableArray *)phonenumbers{
+    if (!_phonenumbers) {
+        _phonenumbers=[NSMutableArray array];
+    }
+    return _phonenumbers;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.searcrBar.delegate=self;
@@ -104,19 +112,15 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             for (id obj in self.dic) {
-                
-                NSString *str=obj[@"username"];
-                [self.allName addObject:str];
-            }
-            for (id obj in self.dic) {
+                [self.allName addObject:obj[@"username"]];
                 [self.type addObject:obj[@"type"]];
+                [self.images addObject:obj[@"imageurl"]];
+                [self.phonenumbers addObject:obj[@"phonenumber"]];
             }
             
-            for (id obj in self.dic) {
-                [self.images addObject:obj[@"imageurl"]];
-            }
             for (int i=0; i<self.allName.count; i++) {
                 doctor *d=[[doctor alloc]initWithUserName:[self.allName objectAtIndex:i] andType:[self.type objectAtIndex:i] andImageurl:[self.images objectAtIndex:i]];
+                d.phonenumber=[self.phonenumbers objectAtIndex:i];
                 [self.datasourse addObject:d];
             }
             
@@ -200,7 +204,8 @@
     UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     docVC=[storyboard instantiateViewControllerWithIdentifier:@"addDetail"];
     doctor *d=self.username[indexPath.row];
-    docVC.doctorUsername=d.username;
+    NSLog(@"d=%@",d);
+    docVC.doctorUsername=d.phonenumber;
     [self.navigationController pushViewController:docVC animated:YES];
 }
 

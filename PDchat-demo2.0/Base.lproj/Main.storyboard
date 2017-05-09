@@ -418,7 +418,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hoT-Vb-9Ru" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3050.625" y="1005"/>
+            <point key="canvasLocation" x="3109" y="1005"/>
         </scene>
         <!--医生详情-->
         <scene sceneID="5Lz-LJ-fhh">
@@ -798,7 +798,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hRm-u6-j9c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1807.5" y="1407.5"/>
+            <point key="canvasLocation" x="1898" y="1408"/>
         </scene>
         <!--我的医生-->
         <scene sceneID="kLH-Nk-EUL">
@@ -1054,6 +1054,12 @@
                     <navigationItem key="navigationItem" title="医生详情" id="CYN-IX-YUu"/>
                     <connections>
                         <outlet property="addButton" destination="9m3-Dr-qPL" id="EcF-VS-mqp"/>
+                        <outlet property="age" destination="KnL-0d-Qu8" id="WO1-dI-ZJS"/>
+                        <outlet property="detail" destination="6Hq-5b-Q1O" id="q3c-oe-65B"/>
+                        <outlet property="hospital" destination="16x-k5-N5S" id="4Rx-aq-mzI"/>
+                        <outlet property="phonenumberInput" destination="NEc-xb-giX" id="PUS-lB-ZPg"/>
+                        <outlet property="type" destination="eAb-A0-SHd" id="Epy-QK-GOn"/>
+                        <outlet property="username" destination="xNW-Ps-RI5" id="zCt-Dd-Za5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h1G-Wx-yPW" userLabel="First Responder" sceneMemberID="firstResponder"/>

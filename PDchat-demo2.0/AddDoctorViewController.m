@@ -7,9 +7,16 @@
 //
 
 #import "AddDoctorViewController.h"
-
+#import "MBProgressHUD.h"
 @interface AddDoctorViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
+
+@property (weak, nonatomic) IBOutlet UITextField *username;
+@property (weak, nonatomic) IBOutlet UITextField *phonenumberInput;
+@property (weak, nonatomic) IBOutlet UITextField *age;
+@property (weak, nonatomic) IBOutlet UITextField *hospital;
+@property (weak, nonatomic) IBOutlet UITextField *type;
+@property (weak, nonatomic) IBOutlet UILabel *detail;
 
 @end
 
@@ -65,7 +72,33 @@
 }
 
 - (void)viewDidLoad {
-//    _addButton.layer.cornerRadius = 5;
+    _addButton.layer.cornerRadius = 5;
+    //获取好友信息
+    //    http://112.74.92.197/server/doctor_detail.php
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    NSURLSession *session=[NSURLSession sharedSession];
+    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_detail.php"];
+    NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
+    requset.HTTPMethod=@"POST";
+    NSString *requestBody=[NSString stringWithFormat:@"phonenumber=%@",self.doctorUsername];
+    NSLog(@"传过来的手机号%@",self.doctorUsername);
+    requset.HTTPBody=[requestBody dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            NSDictionary *dit=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"正在网络请求");
+            NSLog(@"%@",dit);
+            self.username.text=[dit objectForKey:@"username"];
+            self.phonenumberInput.text=[dit objectForKey:@"phonenumber"];
+            self.age.text=[dit objectForKey:@"age"];
+            self.hospital.text=[dit objectForKey:@"hospital"];
+            self.type.text=[dit objectForKey:@"type"];
+            self.detail.text=[dit objectForKey:@"detail"];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+    }];
+    [task resume];
+
 }
 
 - (void)didReceiveMemoryWarning {
