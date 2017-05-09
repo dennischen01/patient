@@ -10,5 +10,5 @@
 
 typedef void(^SelectedBlock)(NSString *detail);
 @interface RegisterDetailViewController : UIViewController
-
+@property (nonatomic,copy)SelectedBlock selectblock;
 @end

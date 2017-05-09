@@ -4,7 +4,7 @@
 //
 //  Created by 陈希灿 on 2017/4/19.
 //  Copyright © 2017年 hdu. All rights reserved.
-//
+//获取验证码界面
 
 #import "GetCodeViewController.h"
 #import <SMS_SDK/SMSSDK.h>

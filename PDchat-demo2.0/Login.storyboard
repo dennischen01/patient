@@ -459,8 +459,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="详情" id="Vck-ac-hhf">
-                        <barButtonItem key="rightBarButtonItem" title="确定" id="pfx-lw-gf3"/>
+                        <barButtonItem key="rightBarButtonItem" title="确定" id="pfx-lw-gf3">
+                            <connections>
+                                <action selector="save:" destination="mh9-li-Gfj" id="ANi-aR-qev"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="textview" destination="wLM-bd-Aum" id="KUw-mZ-y7B"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jCT-XX-kgF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

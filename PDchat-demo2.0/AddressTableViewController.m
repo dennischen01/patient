@@ -66,9 +66,9 @@
         self.buddyList = buddyList;
 //        NSLog(@"从服务器获取的好友列表 %@",buddyList);
 //        NSLog(@"有%d个好友",self.buddyList.count);
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
         [self addUsername];
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+       
         
     }onQueue:nil];
      
@@ -90,6 +90,7 @@
 }
 
 - (void) addUsername{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //1.创建信号量
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
     
@@ -129,6 +130,8 @@
         [task resume];
 
     }
+    
+     [MBProgressHUD hideHUDForView:self.view animated:YES];
     
 
 }

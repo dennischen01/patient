@@ -166,6 +166,10 @@
     {
         UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Login" bundle:nil];
         RegisterDetailViewController *detailVC=[storyboard instantiateViewControllerWithIdentifier:@"RegisterDetail"];
+        detailVC.selectblock = ^(NSString *detail) {
+            self.detail=detail;
+            [self.tableView reloadData];
+        }
         [self.navigationController pushViewController:detailVC animated:YES];
     }
 }

@@ -9,6 +9,7 @@
 #import "RegisterDetailViewController.h"
 
 @interface RegisterDetailViewController ()
+@property (weak, nonatomic) IBOutlet UITextView *textview;
 
 @end
 
@@ -22,11 +23,21 @@
         self.automaticallyAdjustsScrollViewInsets =NO;
         
     }
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)save:(id)sender {
+    self.selectedString=self.textview.text;
+    if(self.selectblock){
+        self.selectblock(self.selectedString);
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+
+    
 }
 
 /*
