@@ -50,7 +50,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+    return 6;
 }
 
 
@@ -69,14 +69,6 @@
         }
     }
     if (indexPath.row==1) {
-        cell.title.text=@"密码";
-        if (!self.password) {
-            cell.detail.text=@"请设置密码";
-        }else{
-        cell.detail.text=@"修改密码";
-        }
-    }
-    if (indexPath.row==2) {
         cell.title.text=@"年龄";
         if (!self.age) {
             cell.detail.text=@"输入年龄";
@@ -84,7 +76,7 @@
             cell.detail.text=self.age;
         }
     }
-    if (indexPath.row==3) {
+    if (indexPath.row==2) {
         cell.title.text=@"性别";
         if (!self.gender) {
             cell.detail.text=@"选择性别";
@@ -92,7 +84,7 @@
             cell.detail.text=self.gender;
         }
     }
-    if (indexPath.row==4) {
+    if (indexPath.row==3) {
         cell.title.text=@"任职医院";
         if (!self.hospital) {
             cell.detail.text=@"请输入任职医院";
@@ -100,7 +92,7 @@
             cell.detail.text=self.hospital;
         }
     }
-    if (indexPath.row==5) {
+    if (indexPath.row==4) {
         cell.title.text=@"所属科室";
         if (!self.type) {
             cell.detail.text=@"请输入所属科室";
@@ -110,7 +102,7 @@
     }
     
     
-    if (indexPath.row==6) {
+    if (indexPath.row==5) {
         cell.title.text=@"详情";
         if (!self.detail) {
             cell.detail.text=@"请设置详情";
@@ -122,7 +114,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row<6&&indexPath.row!=3) {
+    if (indexPath.row<5&&indexPath.row!=2) {
         RegisterTableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
         UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Login" bundle:nil];
         EditViewController *editVC=[storyboard instantiateViewControllerWithIdentifier:@"editVC"];
@@ -137,10 +129,8 @@
             if (indexPath.row==0) {
                 self.username=string;
             }else if (indexPath.row==1){
-                self.password=string;
-            }else if (indexPath.row==2){
                 self.age=string;
-            }else if (indexPath.row==4){
+            }else if (indexPath.row==3){
                 self.hospital=string;
             }else{
                 self.type=string;
@@ -149,7 +139,7 @@
         };
         [self.navigationController pushViewController:editVC animated:YES];
         
-    }else if (indexPath.row==3){
+    }else if (indexPath.row==2){
         RegisterTableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
         UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Login" bundle:nil];
         GenderTableViewController *genderVC=[storyboard instantiateViewControllerWithIdentifier:@"genderVC"];

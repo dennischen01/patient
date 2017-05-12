@@ -32,7 +32,7 @@
     [self.logoutBtn setTitle:title forState:UIControlStateNormal];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [[paths objectAtIndex:0]stringByAppendingString:@"myImage.jpg"];
-    
+    /*
     //如果沙盒有，取沙盒，否则，去服务器取
     UIImage *image=[[UIImage alloc]initWithContentsOfFile:path];
     if(image!=nil){
@@ -40,6 +40,7 @@
     }else{
         self.avatarImageView sd_setImageWithURL:<#(NSURL *)#> placeholderImage:<#(UIImage *)#>
     }
+     */
 }
 
 - (void)didReceiveMemoryWarning {
