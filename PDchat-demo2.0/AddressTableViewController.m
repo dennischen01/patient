@@ -17,6 +17,7 @@
 @property (nonatomic,strong) NSArray *buddyList;
 @property NSMutableArray *buddyName;
 @property NSMutableArray *usernames;
+//保存图片url
 @property NSMutableArray *images;
 - (IBAction)addBtn:(id)sender;
 
@@ -255,6 +256,7 @@
     //2.设置好友属性
     chatVc.buddy = self.buddyList[indexPath.row];
     chatVc.title=self.usernames[indexPath.row];
+    chatVc.imageurl=self.images[indexPath.row];
     //3.展现聊天界面
     [self.navigationController pushViewController:chatVc animated:YES];
     

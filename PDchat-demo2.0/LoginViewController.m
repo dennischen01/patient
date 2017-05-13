@@ -55,14 +55,13 @@
     [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:userName password:password completion:^(NSDictionary *loginInfo, EMError *error) {
         if (!error && loginInfo) {
             NSLog(@"登录成功");
-            [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
+//            [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
             
-            // 来主界面
-            self.view.window.rootViewController = [UIStoryboard storyboardWithName:@"Main" bundle:nil].instantiateInitialViewController;
+            
             
             //获取中文名
             NSURLSession *session=[NSURLSession sharedSession];
-            NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/patient_username.php"];
+            NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/patient_getMyInfo.php"];
             NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
             request.HTTPMethod=@"POST";
             NSString *str=[NSString stringWithFormat:@"phonenumber=%@",userName];
@@ -70,13 +69,23 @@
             request.HTTPBody=body;
             NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    NSString *name=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-                    NSLog(@"name=%@",name);
-                    NSDictionary *dit=[NSDictionary dictionaryWithObject:name forKey:userName];
-                    NSUserDefaults *user =[NSUserDefaults standardUserDefaults];
-                    [user setObject:dit forKey:@"info"];
-                    NSLog(@"%@",dit);
+                    id obj=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                    NSLog(@"obj=%@",obj);
+                    if ([obj isKindOfClass:[NSDictionary class]]) {
+                        NSLog(@"obj= dictionary");
+                    }
+                    //写入NSUserDefaults
+                    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+                    [defaults setObject:obj forKey:@"selfinfo"];
+                    NSLog(@"成功写入NSUserDefaults");
+                    
+                    
+                    // 来主界面
+                    self.view.window.rootViewController = [UIStoryboard storyboardWithName:@"Main" bundle:nil].instantiateInitialViewController;
+                    
                 });
+                
+                
                 
                 
             }];

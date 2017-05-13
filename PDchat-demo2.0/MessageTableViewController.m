@@ -80,6 +80,7 @@
     for (EMConversation *conversation in self.conversations) {
         //2.等待-1
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        NSLog(@"%@",conversation.chatter);
         
         NSString *str=[NSString stringWithFormat:@"phonenumber=%@",conversation.chatter];
         NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_usernameAndImage.php"];
@@ -121,15 +122,10 @@
     NSArray *conversations = [[EaseMob sharedInstance].chatManager conversations];
     //2.如果内存里没有会话记录，从数据库Conversation表
     if (conversations.count == 0) {
-        NSLog(@"内存中没有会话记录");
         conversations =  [[EaseMob sharedInstance].chatManager loadAllConversationsFromDatabaseWithAppend2Chat:YES];
     }
-    
     self.conversations=[NSMutableArray array];
     [self.conversations addObjectsFromArray:conversations];
-    //显示总的未读数
-    [self showTabBarBadge];
-    
 }
 
 #pragma mark 未读消息数改变

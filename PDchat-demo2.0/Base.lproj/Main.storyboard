@@ -225,7 +225,7 @@
                                             <constraint firstAttribute="height" constant="30" id="flJ-B5-MfK"/>
                                             <constraint firstAttribute="width" constant="30" id="p0f-5J-IgP"/>
                                         </constraints>
-                                        <state key="normal" image="chatBar_more"/>
+                                        <state key="normal" image="image-oringin"/>
                                         <connections>
                                             <action selector="showImagePicker:" destination="8oS-f5-Wnd" eventType="touchUpInside" id="R1v-DC-Hag"/>
                                         </connections>
@@ -288,7 +288,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chatListCellHead" translatesAutoresizingMaskIntoConstraints="NO" id="ln8-ur-gGO">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ali" translatesAutoresizingMaskIntoConstraints="NO" id="ln8-ur-gGO">
                                                     <rect key="frame" x="5" y="5" width="35" height="35"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="35" id="F3G-SR-86n"/>
@@ -330,7 +330,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="66"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chatListCellHead" translatesAutoresizingMaskIntoConstraints="NO" id="C1C-JH-J08">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doctor" translatesAutoresizingMaskIntoConstraints="NO" id="C1C-JH-J08">
                                                     <rect key="frame" x="280" y="5" width="35" height="35"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="35" id="9G8-sK-xJy"/>
@@ -1069,13 +1069,14 @@
     </scenes>
     <resources>
         <image name="1.JPG" width="178" height="180"/>
+        <image name="ali" width="300" height="240"/>
         <image name="arrow" width="200" height="200"/>
-        <image name="chatBar_more" width="30" height="30"/>
         <image name="chatBar_record" width="30" height="30"/>
         <image name="chatBar_textBg" width="30" height="30"/>
-        <image name="chatListCellHead" width="50" height="50"/>
         <image name="chat_receiver_bg" width="40" height="40"/>
         <image name="chat_sender_bg" width="40" height="40"/>
+        <image name="doctor" width="833" height="931"/>
+        <image name="image-oringin" width="200" height="200"/>
         <image name="tabbar_chats" width="20" height="18"/>
         <image name="tabbar_contacts" width="20" height="18"/>
         <image name="tabbar_setting" width="20" height="20"/>

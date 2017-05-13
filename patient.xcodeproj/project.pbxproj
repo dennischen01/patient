@@ -45,6 +45,8 @@
 		E8520DA11E90C1080052C695 /* TimeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = E8520DA01E90C1080052C695 /* TimeTool.m */; };
 		E85EE73D1EBF0A8500E3C891 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E85EE73C1EBF0A8500E3C891 /* SettingViewController.m */; };
 		E872E1D11E97CF7C00804D39 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E872E1D01E97CF7C00804D39 /* DetailViewController.m */; };
+		E88482E11EC7208D00428DAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88482E01EC7208D00428DAE /* Assets.xcassets */; };
+		E88482E41EC7250000428DAE /* ScanImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E88482E31EC7250000428DAE /* ScanImage.m */; };
 		E88B96D61EC09374005B038B /* AFNetworkingTool.m in Sources */ = {isa = PBXBuildFile; fileRef = E88B96D51EC09374005B038B /* AFNetworkingTool.m */; };
 		E8B97EB81EC18E2500E5EA43 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B97EAC1EC18E2500E5EA43 /* AFHTTPSessionManager.m */; };
 		E8B97EB91EC18E2500E5EA43 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B97EAF1EC18E2500E5EA43 /* AFNetworkReachabilityManager.m */; };
@@ -82,7 +84,6 @@
 		E8FA3B471E87852A005E8352 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3B461E87852A005E8352 /* ViewController.m */; };
 		E8FA3B4A1E87852A005E8352 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8FA3B481E87852A005E8352 /* Main.storyboard */; };
 		E8FA3B4D1E87852A005E8352 /* PDchat_demo2_0.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3B4B1E87852A005E8352 /* PDchat_demo2_0.xcdatamodeld */; };
-		E8FA3B4F1E87852A005E8352 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E8FA3B4E1E87852A005E8352 /* Assets.xcassets */; };
 		E8FA3B521E87852A005E8352 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8FA3B501E87852A005E8352 /* LaunchScreen.storyboard */; };
 		E8FA3B5D1E87852A005E8352 /* PDchat_demo2_0Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3B5C1E87852A005E8352 /* PDchat_demo2_0Tests.m */; };
 		E8FA3BD71E878556005E8352 /* libEaseMobClientSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FA3BD41E878556005E8352 /* libEaseMobClientSDK.a */; };
@@ -198,6 +199,9 @@
 		E872E1CF1E97CF7C00804D39 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		E872E1D01E97CF7C00804D39 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		E87747951E8BC36100D61064 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		E88482E01EC7208D00428DAE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E88482E21EC7250000428DAE /* ScanImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanImage.h; sourceTree = "<group>"; };
+		E88482E31EC7250000428DAE /* ScanImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanImage.m; sourceTree = "<group>"; };
 		E88B96D41EC09374005B038B /* AFNetworkingTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkingTool.h; sourceTree = "<group>"; };
 		E88B96D51EC09374005B038B /* AFNetworkingTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingTool.m; sourceTree = "<group>"; };
 		E8B97EAB1EC18E2500E5EA43 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
@@ -260,7 +264,6 @@
 		E8FA3B461E87852A005E8352 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		E8FA3B491E87852A005E8352 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E8FA3B4C1E87852A005E8352 /* PDchat_demo2_0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PDchat_demo2_0.xcdatamodel; sourceTree = "<group>"; };
-		E8FA3B4E1E87852A005E8352 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E8FA3B511E87852A005E8352 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E8FA3B531E87852A005E8352 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8FA3B581E87852A005E8352 /* patientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = patientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -415,6 +418,8 @@
 		E81975931E989EBE00C9B447 /* 工具类 */ = {
 			isa = PBXGroup;
 			children = (
+				E88482E21EC7250000428DAE /* ScanImage.h */,
+				E88482E31EC7250000428DAE /* ScanImage.m */,
 				E83A76F01E8E78D500ED7558 /* AudioPlayTool.h */,
 				E83A76F11E8E78D500ED7558 /* AudioPlayTool.m */,
 				E8520D9F1E90C1080052C695 /* TimeTool.h */,
@@ -674,13 +679,13 @@
 				E8FA3BEB1E87874C005E8352 /* 联系人列表 */,
 				E8FA3BEC1E87876A005E8352 /* 设置 */,
 				E8FA3B481E87852A005E8352 /* Main.storyboard */,
+				E88482E01EC7208D00428DAE /* Assets.xcassets */,
 				E8FA3B421E87852A005E8352 /* AppDelegate.h */,
 				E8FA3B431E87852A005E8352 /* AppDelegate.m */,
 				E8FA3B451E87852A005E8352 /* ViewController.h */,
 				E8FA3B461E87852A005E8352 /* ViewController.m */,
 				E8FA3BED1E8787E1005E8352 /* PDTabBarViewController.h */,
 				E8FA3BEE1E8787E1005E8352 /* PDTabBarViewController.m */,
-				E8FA3B4E1E87852A005E8352 /* Assets.xcassets */,
 				E8FA3B501E87852A005E8352 /* LaunchScreen.storyboard */,
 				E8FA3B531E87852A005E8352 /* Info.plist */,
 				E8FA3B4B1E87852A005E8352 /* PDchat_demo2_0.xcdatamodeld */,
@@ -1157,11 +1162,11 @@
 			files = (
 				E8BB01001EC03B9A008B3ABE /* Info.plist in Resources */,
 				E8FA3B521E87852A005E8352 /* LaunchScreen.storyboard in Resources */,
-				E8FA3B4F1E87852A005E8352 /* Assets.xcassets in Resources */,
 				E8EA6DE31EADFF5900249ED4 /* 1.JPG in Resources */,
 				E8EA6DE11EADFF1700249ED4 /* Login.storyboard in Resources */,
 				E8FA3BD81E878556005E8352 /* EaseMob.bundle in Resources */,
 				E8FA3C3F1E87E1AC005E8352 /* Readme in Resources */,
+				E88482E11EC7208D00428DAE /* Assets.xcassets in Resources */,
 				E8FA3B4A1E87852A005E8352 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1216,6 +1221,7 @@
 				E83A76EA1E8E510B00ED7558 /* EMCDDeviceManagerBase.m in Sources */,
 				E8B97EB91EC18E2500E5EA43 /* AFNetworkReachabilityManager.m in Sources */,
 				E8FA3BFD1E87974C005E8352 /* MessageTableViewController.m in Sources */,
+				E88482E41EC7250000428DAE /* ScanImage.m in Sources */,
 				E827ADB51E8A531100FC9ED2 /* chatViewController.m in Sources */,
 				E8B97EB81EC18E2500E5EA43 /* AFHTTPSessionManager.m in Sources */,
 				E83A76ED1E8E510B00ED7558 /* EMVoiceConverter.mm in Sources */,

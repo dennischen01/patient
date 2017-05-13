@@ -15,7 +15,7 @@
 #import "TimeTool.h"
 #import "MessageTableViewController.h"
 #import "DetailViewController.h"
-
+#import "UIImageView+WebCache.h"
 @interface chatViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,EMChatManagerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *receiverImage;
 //输入工具条底部约束
@@ -193,14 +193,14 @@
     return cell;
 }
 
--(void)ReceivergestureTapEvent:(UITapGestureRecognizer *)gesture {
+- (void)ReceivergestureTapEvent:(UITapGestureRecognizer *)gesture {
     UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DetailViewController *detailVC=[storyboard instantiateViewControllerWithIdentifier:@"frienddetail"];
     detailVC.phonenumber=self.buddy.username;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
--(void)SendergestureTapEvent:(UITapGestureRecognizer *)gesture {
+- (void)SendergestureTapEvent:(UITapGestureRecognizer *)gesture {
     
 }
 

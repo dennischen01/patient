@@ -21,6 +21,7 @@ static NSString *senderCell=@"SenderCell";
 /** 好友 */
 @property(nonatomic,strong)EMBuddy *buddy;
 
+@property(nonatomic,copy)NSString *imageurl;
 
 ///1.定义向趋势页面传值的委托变量
 @property (retain,nonatomic) id <PassTrendValueDelegate> trendDelegate;
