@@ -185,9 +185,16 @@
     if ([message.from isEqualToString:self.buddy.username]) {//接收方
         cell = [tableView dequeueReusableCellWithIdentifier:receiverCell];
         [cell.receiverImageView addGestureRecognizer:receiverTapGesture];
+        NSLog(@"传过来的imageurl%@",self.imageurl);
     }else{//发送方
         cell = [tableView dequeueReusableCellWithIdentifier:senderCell];
         [cell.senderImageView addGestureRecognizer:senderTapGesture];
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        NSDictionary *infodit=[defaults objectForKey:@"selfinfo"];
+        
+        NSString *imageurl=[infodit objectForKey:@"imageurl"];
+        NSLog(@"imageurl=%@",imageurl);
+        [cell.senderImageView sd_setImageWithURL:imageurl placeholderImage:[UIImage imageNamed:@"ali"]];
     }
     cell.message=message;
     return cell;
