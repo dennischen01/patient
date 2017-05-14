@@ -9,7 +9,7 @@
 #import "doctor.h"
 
 @implementation doctor
-- (instancetype)initWithUsername:(NSString *)username andAge:(NSString *)Age andType:(NSString *)type andGender:(NSString *)gender andPhonenumber:(NSString *)phonenumber andDetail:(NSString *)detail andImageurl:(NSString *)imageurl{
+- (instancetype)initWithUsername:(NSString *)username andAge:(NSString *)Age andType:(NSString *)type andGender:(NSString *)gender andPhonenumber:(NSString *)phonenumber andDetail:(NSString *)detail andImageurl:(NSString *)imageurl andHospital:(NSString *)hospital{
     if (self=[super init]) {
         self.username=username;
         self.age=Age;
@@ -18,13 +18,14 @@
         self.phonenumber=phonenumber;
         self.detail=detail;
         self.imageurl=imageurl;
+        self.hospital=hospital;
     }
     return self;
     
 }
 
-+ (instancetype)initWithUsername:(NSString *)username andAge:(NSString *)Age andType:(NSString *)type andGender:(NSString *)gender andPhonenumber:(NSString *)phonenumber andDetail:(NSString *)detail andImageurl:(NSString *)imageurl{
-    doctor *doctor1=[doctor1 initWithUsername:username andAge:Age andType:type andGender:gender andPhonenumber:phonenumber andDetail:detail andImageurl:imageurl];
++ (instancetype)doctorWithUsername:(NSString *)username andAge:(NSString *)Age andType:(NSString *)type andGender:(NSString *)gender andPhonenumber:(NSString *)phonenumber andDetail:(NSString *)detail andImageurl:(NSString *)imageurl andHospital:(NSString *)hospital{
+    doctor *doctor1=[[doctor alloc]initWithUsername:username andAge:Age andType:type andGender:gender andPhonenumber:phonenumber andDetail:detail andImageurl:imageurl andHospital:hospital];
     return doctor1;
 }
 

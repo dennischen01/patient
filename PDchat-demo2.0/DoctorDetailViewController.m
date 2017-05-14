@@ -1,14 +1,14 @@
 //
-//  AddDoctorViewController.m
+//  DoctorDetailViewController.m
 //  PDchat-demo2.0
 //
 //  Created by 陈希灿 on 2017/4/10.
 //  Copyright © 2017年 hdu. All rights reserved.
 //
 
-#import "AddDoctorViewController.h"
+#import "DoctorDetailViewController.h"
 #import "MBProgressHUD.h"
-@interface AddDoctorViewController ()
+@interface DoctorDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 
 @property (weak, nonatomic) IBOutlet UITextField *username;
@@ -20,18 +20,15 @@
 
 @end
 
-@implementation AddDoctorViewController
+@implementation DoctorDetailViewController
+/*
 - (IBAction)adddoctorBtn:(id)sender {
-    NSLog(@"%@",self.doctorUsername);
-    
-   
-    
     //取得手机号
     NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_phonenumber.php"];
     NSURLSession *session=[NSURLSession sharedSession];
     NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
     requset.HTTPMethod=@"POST";
-    NSString *str=[NSString stringWithFormat:@"username=%@",self.doctorUsername];
+    NSString *str=[NSString stringWithFormat:@"username=%@",self.doc.phonenumber];
     NSLog(@"patient username:%@",str);
     requset.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
     NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -71,33 +68,16 @@
     
 }
 
+*/
 - (void)viewDidLoad {
     _addButton.layer.cornerRadius = 5;
-    //获取好友信息
-    //    http://112.74.92.197/server/doctor_detail.php
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    NSURLSession *session=[NSURLSession sharedSession];
-    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_detail.php"];
-    NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
-    requset.HTTPMethod=@"POST";
-    NSString *requestBody=[NSString stringWithFormat:@"phonenumber=%@",self.doctorUsername];
-    NSLog(@"传过来的手机号%@",self.doctorUsername);
-    requset.HTTPBody=[requestBody dataUsingEncoding:NSUTF8StringEncoding];
-    NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            NSDictionary *dit=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"正在网络请求");
-            NSLog(@"%@",dit);
-            self.username.text=[dit objectForKey:@"username"];
-            self.phonenumberInput.text=[dit objectForKey:@"phonenumber"];
-            self.age.text=[dit objectForKey:@"age"];
-            self.hospital.text=[dit objectForKey:@"hospital"];
-            self.type.text=[dit objectForKey:@"type"];
-            self.detail.text=[dit objectForKey:@"detail"];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        });
-    }];
-    [task resume];
+    self.username.text=self.doc.username;
+    self.phonenumberInput.text=self.doc.phonenumber;
+    self.age.text=self.doc.age;
+    self.hospital.text=self.doc.hospital;
+    self.type.text=self.doc.type;
+    self.detail.text=self.doc.detail;
+    
 
 }
 

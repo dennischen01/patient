@@ -7,7 +7,7 @@
 //
 
 #import "AddFriendTableViewController.h"
-#import "AddDoctorViewController.h"
+#import "DoctorDetailViewController.h"
 #import "doctor.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
@@ -18,21 +18,39 @@
     bool isSearch;
     NSArray *searchType;
 }
+//图片地址5
 @property (nonatomic, strong)NSMutableArray *images;
+//手机号码6
 @property (nonatomic, strong)NSMutableArray *phonenumbers;
+//搜索栏
 @property (weak, nonatomic) IBOutlet UISearchBar *searcrBar;
-
-
-
+//用户名3
+@property (nonatomic, strong)NSMutableArray *username;
+//数据字典
+@property (nonatomic, strong)NSMutableDictionary *dic;
+//所属科室1
+@property (nonatomic, strong)NSMutableArray *types;
+//所有医生2
+@property (nonatomic, strong)NSMutableArray *allName;
+//对象数组5
+@property (nonatomic, strong)NSMutableArray *datasourse;
+//医院7
+@property (nonatomic, strong)NSMutableArray *hospitals;
+//详情8
+@property (nonatomic, strong)NSMutableArray *details;
+//年龄9
+@property (nonatomic, strong)NSMutableArray *ages;
+//性别10
+@property (nonatomic, strong)NSMutableArray *genders;
 @end
 
 @implementation AddFriendTableViewController
 
-- (NSMutableArray *)type{
-    if (!_type) {
-        _type=[NSMutableArray array];
+- (NSMutableArray *)types{
+    if (!_types) {
+        _types=[NSMutableArray array];
     }
-    return _type;
+    return _types;
 }
 
 - (NSMutableArray *)allName{
@@ -79,6 +97,34 @@
     return _phonenumbers;
 }
 
+- (NSMutableArray *)hospitals{
+    if (!_hospitals) {
+        _hospitals=[NSMutableArray array];
+    }
+    return _hospitals;
+}
+
+- (NSMutableArray *)details{
+    if (!_details) {
+        _details=[NSMutableArray array];
+    }
+    return _details;
+}
+
+- (NSMutableArray *)ages{
+    if (!_ages) {
+        _ages=[NSMutableArray array];
+    }
+    return _ages;
+}
+
+- (NSMutableArray *)genders{
+    if (!_genders) {
+        _genders=[NSMutableArray array];
+    }
+    return _genders;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.searcrBar.delegate=self;
@@ -113,14 +159,16 @@
             self.dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             for (id obj in self.dic) {
                 [self.allName addObject:obj[@"username"]];
-                [self.type addObject:obj[@"type"]];
+                [self.types addObject:obj[@"type"]];
                 [self.images addObject:obj[@"imageurl"]];
                 [self.phonenumbers addObject:obj[@"phonenumber"]];
+                [self.genders addObject:obj[@"gender"]];
+                [self.hospitals addObject:obj[@"hospital"]];
+                [self.details addObject:obj[@"detail"]];
             }
             
-            for (int i=0; i<self.allName.count; i++) {
-                doctor *d=[[doctor alloc]initWithUserName:[self.allName objectAtIndex:i] andType:[self.type objectAtIndex:i] andImageurl:[self.images objectAtIndex:i]];
-                d.phonenumber=[self.phonenumbers objectAtIndex:i];
+            for (int i=0; i<self.dic.count; i++) {
+                doctor *d=[[doctor alloc]initWithUsername:[self.allName objectAtIndex:i] andAge:[self.ages objectAtIndex:i] andType:[self.types objectAtIndex:i] andGender:[self.genders objectAtIndex:i] andPhonenumber:[self.phonenumbers objectAtIndex:i] andDetail:[self.details objectAtIndex:i] andImageurl:[self.images objectAtIndex:i] andHospital:[self.hospitals objectAtIndex:i]];
                 [self.datasourse addObject:d];
             }
             
@@ -184,7 +232,7 @@
         NSString *imageurl=d.imageurl;
         NSURL *url=[NSURL URLWithString:imageurl];
         [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
-    }else{
+    }else if(self.datasourse.count>0){
         doctor *d=self.username[indexPath.row];
         textLabel.text=d.username;
         cell.detailTextLabel.text=d.type;
@@ -200,12 +248,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    AddDoctorViewController *docVC=[[AddDoctorViewController alloc]init];
+    DoctorDetailViewController *docVC=[[DoctorDetailViewController alloc]init];
     UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     docVC=[storyboard instantiateViewControllerWithIdentifier:@"addDetail"];
     doctor *d=self.username[indexPath.row];
-    NSLog(@"d=%@",d);
-    docVC.doctorUsername=d.phonenumber;
+    docVC.doc=d;
     [self.navigationController pushViewController:docVC animated:YES];
 }
 

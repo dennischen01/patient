@@ -9,11 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface AddFriendTableViewController : UITableViewController
-@property (nonatomic, strong)NSMutableArray *username;
-@property (nonatomic, strong)NSMutableDictionary *dic;
+
+//已加医生列表
 @property (nonatomic, strong)NSMutableArray *DoctorList;
-@property (nonatomic, strong)NSMutableArray *type;
-@property (nonatomic, strong)NSMutableArray *allName;
-@property (nonatomic, strong)NSMutableArray *datasourse;
+
 
 @end

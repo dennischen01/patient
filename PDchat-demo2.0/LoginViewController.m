@@ -55,7 +55,7 @@
     [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:userName password:password completion:^(NSDictionary *loginInfo, EMError *error) {
         if (!error && loginInfo) {
             NSLog(@"登录成功");
-//            [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
+            [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
             
             
             

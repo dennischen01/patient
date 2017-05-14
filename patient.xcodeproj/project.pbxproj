@@ -11,7 +11,7 @@
 		E81975961E989F3400C9B447 /* UsernameTool.m in Sources */ = {isa = PBXBuildFile; fileRef = E81975951E989F3400C9B447 /* UsernameTool.m */; };
 		E827ADB51E8A531100FC9ED2 /* chatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E827ADB41E8A531100FC9ED2 /* chatViewController.m */; };
 		E827ADB81E8A7B3D00FC9ED2 /* chatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E827ADB71E8A7B3D00FC9ED2 /* chatCell.m */; };
-		E82F825C1E9B78DE00C8585B /* AddDoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E82F825B1E9B78DE00C8585B /* AddDoctorViewController.m */; };
+		E82F825C1E9B78DE00C8585B /* DoctorDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E82F825B1E9B78DE00C8585B /* DoctorDetailViewController.m */; };
 		E83A76E41E8E510B00ED7558 /* EMAudioPlayerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E83A76C61E8E510B00ED7558 /* EMAudioPlayerUtil.m */; };
 		E83A76E51E8E510B00ED7558 /* EMAudioRecorderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E83A76C81E8E510B00ED7558 /* EMAudioRecorderUtil.m */; };
 		E83A76E61E8E510B00ED7558 /* EMCDDeviceManager+Media.m in Sources */ = {isa = PBXBuildFile; fileRef = E83A76CA1E8E510B00ED7558 /* EMCDDeviceManager+Media.m */; };
@@ -123,8 +123,8 @@
 		E827ADB41E8A531100FC9ED2 /* chatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = chatViewController.m; sourceTree = "<group>"; };
 		E827ADB61E8A7B3D00FC9ED2 /* chatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chatCell.h; sourceTree = "<group>"; };
 		E827ADB71E8A7B3D00FC9ED2 /* chatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = chatCell.m; sourceTree = "<group>"; };
-		E82F825A1E9B78DE00C8585B /* AddDoctorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddDoctorViewController.h; sourceTree = "<group>"; };
-		E82F825B1E9B78DE00C8585B /* AddDoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddDoctorViewController.m; sourceTree = "<group>"; };
+		E82F825A1E9B78DE00C8585B /* DoctorDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoctorDetailViewController.h; sourceTree = "<group>"; };
+		E82F825B1E9B78DE00C8585B /* DoctorDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorDetailViewController.m; sourceTree = "<group>"; };
 		E83A76C11E8E510B00ED7558 /* EMCDDeviceManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCDDeviceManagerDelegate.h; sourceTree = "<group>"; };
 		E83A76C21E8E510B00ED7558 /* EMCDDeviceManagerProximitySensorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCDDeviceManagerProximitySensorDelegate.h; sourceTree = "<group>"; };
 		E83A76C41E8E510B00ED7558 /* DemoErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoErrorCode.h; sourceTree = "<group>"; };
@@ -1054,8 +1054,8 @@
 				E8FA3C021E8797AB005E8352 /* AddressTableViewController.m */,
 				E81139281E9A1BCF005D5BAF /* AddFriendTableViewController.h */,
 				E81139291E9A1BCF005D5BAF /* AddFriendTableViewController.m */,
-				E82F825A1E9B78DE00C8585B /* AddDoctorViewController.h */,
-				E82F825B1E9B78DE00C8585B /* AddDoctorViewController.m */,
+				E82F825A1E9B78DE00C8585B /* DoctorDetailViewController.h */,
+				E82F825B1E9B78DE00C8585B /* DoctorDetailViewController.m */,
 			);
 			name = "联系人列表";
 			sourceTree = "<group>";
@@ -1233,7 +1233,7 @@
 				E83A76E81E8E510B00ED7558 /* EMCDDeviceManager+ProximitySensor.m in Sources */,
 				E8B97EBC1EC18E2500E5EA43 /* AFURLResponseSerialization.m in Sources */,
 				E83E62A61E8FAC99002BDC99 /* MKAnnotationView+WebCache.m in Sources */,
-				E82F825C1E9B78DE00C8585B /* AddDoctorViewController.m in Sources */,
+				E82F825C1E9B78DE00C8585B /* DoctorDetailViewController.m in Sources */,
 				E83E62A71E8FAC99002BDC99 /* NSData+ImageContentType.m in Sources */,
 				E83E62AF1E8FAC99002BDC99 /* UIButton+WebCache.m in Sources */,
 				E83E62B41E8FAC99002BDC99 /* UIImageView+WebCache.m in Sources */,
