@@ -81,6 +81,10 @@
 
 }
 
+- (void)setDoc:(doctor *)doc{
+    _doc = doc;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
