@@ -158,13 +158,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             for (id obj in self.dic) {
-//                [self.allName addObject:obj[@"username"]];
-//                [self.types addObject:obj[@"type"]];
-//                [self.images addObject:obj[@"imageurl"]];
-//                [self.phonenumbers addObject:obj[@"phonenumber"]];
-//                [self.genders addObject:obj[@"gender"]];
-//                [self.hospitals addObject:obj[@"hospital"]];
-//                [self.details addObject:obj[@"detail"]];
+
                 doctor *d=[[doctor alloc]initWithUsername:obj[@"username"]
                                                    andAge:obj[@"age"]
                                                   andType:obj[@"type"]
@@ -172,14 +166,10 @@
                                            andPhonenumber:obj[@"phonenumber"]
                                                 andDetail:obj[@"detail"]
                                               andImageurl:obj[@"imageurl"]
-                                              andHospital:obj[@"detail"]];
+                                              andHospital:obj[@"hospital"]];
                 [self.datasourse addObject:d];
             }
             
-//            for (int i=0; i<self.dic.count; i++) {
-//                doctor *d=[[doctor alloc]initWithUsername:[self.allName objectAtIndex:i] andAge:[self.ages objectAtIndex:i] andType:[self.types objectAtIndex:i] andGender:[self.genders objectAtIndex:i] andPhonenumber:[self.phonenumbers objectAtIndex:i] andDetail:[self.details objectAtIndex:i] andImageurl:[self.images objectAtIndex:i] andHospital:[self.hospitals objectAtIndex:i]];
-//                [self.datasourse addObject:d];
-//            }
             
             for (doctor *d in self.datasourse) {
                 if (![self.DoctorList containsObject:d.username]) {
