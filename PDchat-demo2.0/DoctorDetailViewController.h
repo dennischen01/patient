@@ -12,6 +12,6 @@
 //@property NSString *doctorUsername;
 //@property NSString *infoname;
 
-@property doctor *doc;
+@property (strong,nonatomic) doctor *doc;
 
 @end

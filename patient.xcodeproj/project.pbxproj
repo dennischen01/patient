@@ -41,6 +41,7 @@
 		E83E62B31E8FAC99002BDC99 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E62A11E8FAC99002BDC99 /* UIImageView+HighlightedWebCache.m */; };
 		E83E62B41E8FAC99002BDC99 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E62A31E8FAC99002BDC99 /* UIImageView+WebCache.m */; };
 		E83E62B51E8FAC99002BDC99 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E83E62A51E8FAC99002BDC99 /* UIView+WebCacheOperation.m */; };
+		E851708D1EC863A10075D290 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8FA3B481E87852A005E8352 /* Main.storyboard */; };
 		E8520D9E1E90B7AF0052C695 /* TimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8520D9D1E90B7AF0052C695 /* TimeCell.m */; };
 		E8520DA11E90C1080052C695 /* TimeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = E8520DA01E90C1080052C695 /* TimeTool.m */; };
 		E85EE73D1EBF0A8500E3C891 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E85EE73C1EBF0A8500E3C891 /* SettingViewController.m */; };
@@ -82,7 +83,6 @@
 		E8FA3B411E87852A005E8352 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3B401E87852A005E8352 /* main.m */; };
 		E8FA3B441E87852A005E8352 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3B431E87852A005E8352 /* AppDelegate.m */; };
 		E8FA3B471E87852A005E8352 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3B461E87852A005E8352 /* ViewController.m */; };
-		E8FA3B4A1E87852A005E8352 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8FA3B481E87852A005E8352 /* Main.storyboard */; };
 		E8FA3B4D1E87852A005E8352 /* PDchat_demo2_0.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3B4B1E87852A005E8352 /* PDchat_demo2_0.xcdatamodeld */; };
 		E8FA3B521E87852A005E8352 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8FA3B501E87852A005E8352 /* LaunchScreen.storyboard */; };
 		E8FA3B5D1E87852A005E8352 /* PDchat_demo2_0Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = E8FA3B5C1E87852A005E8352 /* PDchat_demo2_0Tests.m */; };
@@ -1160,6 +1160,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E851708D1EC863A10075D290 /* Main.storyboard in Resources */,
 				E8BB01001EC03B9A008B3ABE /* Info.plist in Resources */,
 				E8FA3B521E87852A005E8352 /* LaunchScreen.storyboard in Resources */,
 				E8EA6DE31EADFF5900249ED4 /* 1.JPG in Resources */,
@@ -1167,7 +1168,6 @@
 				E8FA3BD81E878556005E8352 /* EaseMob.bundle in Resources */,
 				E8FA3C3F1E87E1AC005E8352 /* Readme in Resources */,
 				E88482E11EC7208D00428DAE /* Assets.xcassets in Resources */,
-				E8FA3B4A1E87852A005E8352 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
