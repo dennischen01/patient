@@ -11,5 +11,6 @@
 @interface GetCodeViewController : UIViewController
 @property(nonatomic,retain) NSString *phoneNumber;
 @property (weak, nonatomic) IBOutlet UITextField *VerificationCode;
+@property (weak, nonatomic) IBOutlet UITextField *password;
 
 @end

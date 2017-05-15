@@ -10,4 +10,5 @@
 
 @interface RegisterTableViewController : UITableViewController
 @property(nonatomic,copy) NSString *phonenumber;
+@property(nonatomic,copy) NSString *password;
 @end

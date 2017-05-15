@@ -8,7 +8,9 @@
 
 #import "DoctorDetailViewController.h"
 #import "MBProgressHUD.h"
+#import "UIImageView+WebCache.h"
 @interface DoctorDetailViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 
 @property (weak, nonatomic) IBOutlet UITextField *username;
@@ -21,7 +23,7 @@
 @end
 
 @implementation DoctorDetailViewController
-/*
+
 - (IBAction)adddoctorBtn:(id)sender {
     //取得手机号
     NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_phonenumber.php"];
@@ -36,8 +38,8 @@
         //2.向服务器发送请求 message:请求添加好友的额外信息
         NSString *loginUserName=[[EaseMob sharedInstance].chatManager loginInfo][@"username"];
         NSLog(@"loginusername:%@",loginUserName);
-        self.infoname=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"infoname:%@",self.infoname);
+        NSString *infoname=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"infoname:%@",infoname);
         NSUserDefaults *def=[NSUserDefaults standardUserDefaults];
         NSDictionary *info=[def objectForKey:@"info"];
         NSString *name=[info objectForKey:loginUserName];
@@ -68,7 +70,8 @@
     
 }
 
-*/
+
+
 - (void)viewDidLoad {
     _addButton.layer.cornerRadius = 5;
     self.username.text=self.doc.username;
@@ -77,7 +80,7 @@
     self.hospital.text=self.doc.hospital;
     self.type.text=self.doc.type;
     self.detail.text=self.doc.detail;
-    
+    [self.image sd_setImageWithURL:self.doc.imageurl placeholderImage:[UIImage imageNamed:@"ali"]];
 
 }
 

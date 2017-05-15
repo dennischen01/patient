@@ -146,9 +146,9 @@
 }
 
 - (void)addname{
-    //网络请求获取用户名 patient_getInfo.php get请求
+    //网络请求获取用户名 doctor_getInfo.php get请求
     NSURLSession *session=[NSURLSession sharedSession];
-    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_getInfo.php"];
+    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/getAllInfo.php"];
     NSURLRequest *request=[NSURLRequest requestWithURL:url];
     NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         //        NSLog(@"%@",self.username);

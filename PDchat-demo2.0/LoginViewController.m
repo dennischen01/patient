@@ -9,11 +9,14 @@
 #import "LoginViewController.h"
 #import "EaseMob.h"
 #import "VerificationViewController.h"
+#import "MBProgressHUD.h"
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userName;
+- (IBAction)touchview:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *passWord;
 - (IBAction)Login:(id)sender;
 - (IBAction)Register:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *loginbutton;
 
 @end
 
@@ -21,7 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self addTargetMethod];
+
 }
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:YES animated:animated];
@@ -52,6 +56,11 @@
     // 让环信sdk在登录完成之后，自动从服务器获取好友列表
     NSString *userName=self.userName.text;
     NSString *password=self.passWord.text;
+    
+    MBProgressHUD *hud=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText=@"正在登陆";
+    
+    
     [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:userName password:password completion:^(NSDictionary *loginInfo, EMError *error) {
         if (!error && loginInfo) {
             NSLog(@"登录成功");
@@ -61,7 +70,7 @@
             
             //获取中文名
             NSURLSession *session=[NSURLSession sharedSession];
-            NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/patient_getMyInfo.php"];
+            NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/patient/MyselfInfo.php"];
             NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
             request.HTTPMethod=@"POST";
             NSString *str=[NSString stringWithFormat:@"phonenumber=%@",userName];
@@ -82,6 +91,7 @@
                     
                     // 来主界面
                     self.view.window.rootViewController = [UIStoryboard storyboardWithName:@"Main" bundle:nil].instantiateInitialViewController;
+                    [MBProgressHUD HUDForView:self.view];
                     
                 });
                 
@@ -94,6 +104,7 @@
 
         }else{
             NSLog(@"登录失败:%@",error);
+            [MBProgressHUD HUDForView:self.view];
         }
     } onQueue:nil];
     
@@ -116,5 +127,38 @@
     VerificationViewController *veriVC=[storyboard instantiateViewControllerWithIdentifier:@"veriVC"];
     [self.navigationController pushViewController:veriVC animated:YES];
     
+}
+
+
+
+
+- (IBAction)touchview:(id)sender {
+    if ([self.userName isFirstResponder]) {
+        [self.userName resignFirstResponder];
+    }else if ([self.passWord isFirstResponder]){
+        [self.passWord resignFirstResponder];
+    }
+}
+
+
+- (void)addTargetMethod{
+    [self.userName addTarget:self action:@selector(textField1TextChange:) forControlEvents:UIControlEventEditingChanged];
+    [self.passWord addTarget:self action:@selector(textField2TextChange:) forControlEvents:UIControlEventEditingChanged];
+    
+}
+- (void)textField1TextChange:(UITextField *)textField{
+    if (textField.text.length>0&&self.passWord.text.length>0) {
+        self.loginbutton.enabled=YES;
+    }else{
+        self.loginbutton.enabled=NO;
+    }
+}
+
+- (void)textField2TextChange:(UITextField *)textField{
+    if (textField.text.length>0&&self.userName.text.length>0) {
+        self.loginbutton.enabled=YES;
+    }else{
+        self.loginbutton.enabled=NO;
+    }
 }
 @end

@@ -14,7 +14,7 @@
 #import "EaseMob.h"
 @interface RegisterTableViewController ()
 @property(nonatomic,copy) NSString *username;
-@property(nonatomic,copy) NSString *password;
+
 @property(nonatomic,copy) NSString *age;
 @property(nonatomic,copy) NSString *gender;
 @property(nonatomic,copy) NSString *detail;
@@ -163,41 +163,12 @@
         [self.navigationController pushViewController:detailVC animated:YES];
     }
 }
-/*
-- (IBAction)submit:(id)sender {
-    NSURLSession *session=[NSURLSession sharedSession];
-    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_submit.php"];
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
-    request.HTTPMethod=@"POST";
-    NSLog(@"self.detail=%@",self.detail);
-    NSString *str=[NSString stringWithFormat:@"username=%@&&age=%@&&gender=%@&&hospital=%@&&type=%@&&phonenumber=%@&&detail=%@",self.username,self.age,self.gender,self.hospital,self.type,self.phonenumber,self.detail];
-    request.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
-    NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSString *res=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"%@",res);
-        if ([res isEqualToString:@"success"]) {
-            NSLog(@"注册成功");
-            //环信注册
-            [[EaseMob sharedInstance].chatManager asyncRegisterNewAccount:self.phonenumber password:self.password withCompletion:^(NSString *username, NSString *password, EMError *error) {
-                NSLog(@"环信注册成功");
-                //来主界面
-                self.view.window.rootViewController = [UIStoryboard storyboardWithName:@"Main" bundle:nil].instantiateInitialViewController;
-            } onQueue:nil];
-        }else{
-            NSLog(@"注册失败:%@",error);
-        }
-        
-    }];
-    [task resume];
-    
-}
- */
 
 
-//将信息提交到服务器 地址  http://112.74.92.197/server/doctor_submit.php
+//将信息提交到服务器 地址  http://112.74.92.197/patient/submit.php
 - (IBAction)submit:(id)sender {
     NSURLSession *session=[NSURLSession sharedSession];
-    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_submit.php"];
+    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/patient/submit.php"];
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod=@"POST";
     NSLog(@"self.detail=%@",self.detail);

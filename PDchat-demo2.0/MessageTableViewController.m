@@ -83,7 +83,8 @@
         NSLog(@"%@",conversation.chatter);
         
         NSString *str=[NSString stringWithFormat:@"phonenumber=%@",conversation.chatter];
-        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_usernameAndImage.php"];
+        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/usernameAndImage.php"];
+//        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_usernameAndImage.php"];
         NSURLSession *session=[NSURLSession sharedSession];
         NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
         requset.HTTPMethod=@"POST";
@@ -147,9 +148,8 @@
         if (![self.conversations containsObject:obj]) {
             [self.conversations addObject:obj];
         }
-    } //刷新表格
+    }
     [self.tableView reloadData];
-
     //显示总的未读数
     [self showTabBarBadge];
 
@@ -257,13 +257,23 @@
     [textLabel setFont:[UIFont systemFontOfSize:16]];
     textLabel.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:textLabel];
-
+    
+    
+    
     //获取会话模型
     EMConversation *conversaion = self.conversations[indexPath.row];
+    
+    id body = conversaion.latestMessage.messageBodies[0];
+    EMTextMessageBody *textBody = body;
+    cell.detailTextLabel.text = textBody.text;
+
+    //获取会话模型
+//    EMConversation *conversaion = self.conversations[indexPath.row];
     if (self.usernames.count==self.conversations.count) {
         textLabel.text=self.usernames[indexPath.row];
         NSString *imageurl=self.images[indexPath.row];
         NSURL *url=[NSURL URLWithString:imageurl];
+        NSLog(@"imageurl=%@",imageurl);
         [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
     }
     EMMessage *message=conversaion.latestMessage;
@@ -286,10 +296,16 @@
     //会话
     EMConversation *conversation = self.conversations[indexPath.row];
     EMBuddy *buddy = [EMBuddy buddyWithUsername:conversation.chatter];
+    
+    NSString *imageurl=self.images[indexPath.row];
+    
     //2.设置好友属性
     chatVc.buddy = buddy;
     chatVc.title=self.usernames[indexPath.row];
+    chatVc.imageurl=imageurl;
     //3.展现聊天界面
+    
+    
     [self.navigationController pushViewController:chatVc animated:YES];
     
     

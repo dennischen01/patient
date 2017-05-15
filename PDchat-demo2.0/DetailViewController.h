@@ -12,4 +12,5 @@
 
 
 @property NSString *phonenumber;
+@property NSString *imageurl;
 @end

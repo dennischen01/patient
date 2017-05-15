@@ -8,7 +8,9 @@
 
 #import "DetailViewController.h"
 #import "MBProgressHUD.h"
+#import "UIImageView+WebCache.h"
 @interface DetailViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *imageview;
 @property (weak, nonatomic) IBOutlet UITextField *username;
 @property (weak, nonatomic) IBOutlet UITextField *phonenumberInput;
 @property (weak, nonatomic) IBOutlet UITextField *age;
@@ -44,6 +46,7 @@
             self.hospital.text=[dit objectForKey:@"hospital"];
             self.type.text=[dit objectForKey:@"type"];
             self.detail.text=[dit objectForKey:@"detail"];
+            [self.imageview sd_setImageWithURL:[dit objectForKey:@"imageurl"] placeholderImage:[UIImage imageNamed:@"ali"]];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
                       }];

@@ -18,7 +18,7 @@
                         <viewControllerLayoutGuide type="top" id="4NQ-lA-E8c"/>
                         <viewControllerLayoutGuide type="bottom" id="Tch-c0-LSB"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="zLV-4v-vNU">
+                    <view key="view" contentMode="scaleToFill" id="zLV-4v-vNU" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -42,7 +42,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUL-Vs-jeh">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUL-Vs-jeh">
                                 <rect key="frame" x="16" y="302" width="288" height="40"/>
                                 <color key="backgroundColor" red="0.0030095134861767292" green="0.67414474487304688" blue="0.92802494764328003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -60,7 +60,7 @@
                                     <action selector="Login:" destination="fCv-Qf-pec" eventType="touchUpInside" id="YRz-vJ-PRs"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1.JPG" translatesAutoresizingMaskIntoConstraints="NO" id="Zbj-cI-GrU">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chatListCellHead" translatesAutoresizingMaskIntoConstraints="NO" id="Zbj-cI-GrU">
                                 <rect key="frame" x="120" y="89" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="CU2-1N-dTR"/>
@@ -116,9 +116,13 @@
                             <constraint firstItem="Ltx-cy-fEi" firstAttribute="top" secondItem="3GK-s9-WLN" secondAttribute="bottom" id="y0X-8E-AJe"/>
                             <constraint firstItem="Zbj-cI-GrU" firstAttribute="centerX" secondItem="zLV-4v-vNU" secondAttribute="centerX" id="zVx-m3-xB8"/>
                         </constraints>
+                        <connections>
+                            <action selector="touchview:" destination="fCv-Qf-pec" eventType="touchUpInside" id="8hP-0A-6PU"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="eMC-Dp-oY2"/>
                     <connections>
+                        <outlet property="loginbutton" destination="hUL-Vs-jeh" id="XGI-wo-6b1"/>
                         <outlet property="passWord" destination="8QU-Mu-5l9" id="B9K-bR-Lp9"/>
                         <outlet property="userName" destination="3GK-s9-WLN" id="oWO-kg-4AY"/>
                     </connections>
@@ -439,7 +443,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="done"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="imz-He-MKR">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="imz-He-MKR">
                                 <rect key="frame" x="26" y="191" width="268" height="40"/>
                                 <color key="backgroundColor" red="0.0023683998730000002" green="0.65862602000000003" blue="0.90420418979999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -480,6 +484,7 @@
                     <navigationItem key="navigationItem" title="输入验证码" id="u77-ef-lxS"/>
                     <connections>
                         <outlet property="VerificationCode" destination="KbW-uc-T4r" id="Mgc-UI-gnL"/>
+                        <outlet property="password" destination="uBw-az-fmG" id="8Oh-y8-6e6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f6G-uK-ieB" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -488,7 +493,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1.JPG" width="178" height="180"/>
+        <image name="chatListCellHead" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="uW0-pS-L1S"/>

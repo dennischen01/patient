@@ -16,7 +16,7 @@
 #import "MessageTableViewController.h"
 #import "DetailViewController.h"
 #import "UIImageView+WebCache.h"
-@interface chatViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,EMChatManagerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface chatViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,EMChatManagerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *receiverImage;
 //输入工具条底部约束
 @property (weak, nonatomic) IBOutlet UIImageView *sendImage;
@@ -63,24 +63,7 @@
     [super viewDidLoad];
     //设置背景颜色
     self.tablevIew.backgroundColor=[UIColor colorWithRed:246/255.0 green:246/255.0  blue:246/255.0  alpha:0];
-//    self.title=@"           ";
-//    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_username.php"];
-//    NSURLSession *session=[NSURLSession sharedSession];
-//    NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
-//    requset.HTTPMethod=@"POST";
-//    NSString *str=[NSString stringWithFormat:@"phonenumber=%@",self.buddy.username];
-//    requset.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
-//    NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-//        dispatch_sync(dispatch_get_main_queue(), ^{
-//            NSString *name=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//            self.title=name;
-////            [_tablevIew reloadData];
-//        });
-//        
-//        
-//    }];
-//    [task resume];
-
+    self.tablevIew.frame=CGRectMake(0, 66, self.view.frame.size.width, self.view.frame.size.width-66);
     
     //给计算高度的cell对象赋值
     self.chatCellTool=[self.tablevIew dequeueReusableCellWithIdentifier:receiverCell];
@@ -88,6 +71,7 @@
     //加载本地数据库的聊天记录
     [self locdLoadLocalChatRecord];
     [self scrollToBottom];
+    NSLog(@"%d",self.dataSourse.count);
     
     //设置聊天管理器的daili
     [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
@@ -106,17 +90,34 @@
 
 #pragma mark 键盘显示是调用的方法
 - (void)kbWillShow:(NSNotification *)noti{
+    
+    //滑动效果（动画）
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@ "ResizeForKeyboard"  context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    //将视图的Y坐标向上移动，以使下面腾出地方用于软键盘的显示
+    self.view.frame = CGRectMake(0.0f, -260.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
+    
+    [UIView commitAnimations];
+    
+    
     //1.获取键盘高度
     CGRect kbEndFram=[noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
     CGFloat kbHeight=kbEndFram.size.height;
     
+ 
     //2.更改约束
-    self.inputViewBottomConstrain.constant=kbHeight;
+    self.inputViewBottomConstrain.constant=kbHeight-260;
     
     //添加动画
     [UIView animateWithDuration:0.25 animations:^{
         [self.view layoutIfNeeded];
     }];
+    
+    
+    
+
     
 }
 
@@ -124,6 +125,17 @@
 -(void)kbWillHide:(NSNotification *)noti{
     //inputToolbar恢复原位
     self.inputViewBottomConstrain.constant = 0;
+    
+    
+    //滑动效果
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@ "ResizeForKeyboard"  context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    //恢复屏幕
+    self.view.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
+    
+    [UIView commitAnimations];
 }
 
 
@@ -186,6 +198,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:receiverCell];
         [cell.receiverImageView addGestureRecognizer:receiverTapGesture];
         NSLog(@"传过来的imageurl%@",self.imageurl);
+        [cell.receiverImageView sd_setImageWithURL:self.imageurl placeholderImage:[UIImage imageNamed:@"ali"]];
     }else{//发送方
         cell = [tableView dequeueReusableCellWithIdentifier:senderCell];
         [cell.senderImageView addGestureRecognizer:senderTapGesture];
@@ -193,7 +206,7 @@
         NSDictionary *infodit=[defaults objectForKey:@"selfinfo"];
         
         NSString *imageurl=[infodit objectForKey:@"imageurl"];
-        NSLog(@"imageurl=%@",imageurl);
+        NSLog(@"发送方imageurl=%@",imageurl);
         [cell.senderImageView sd_setImageWithURL:imageurl placeholderImage:[UIImage imageNamed:@"ali"]];
     }
     cell.message=message;
@@ -304,13 +317,14 @@
     [self scrollToBottom];
 }
 
--(void)scrollToBottom{
+- (void)scrollToBottom{
+    NSLog(@"num=%d",self.dataSourse.count);
     //1.获取最后一行
     if (self.dataSourse.count == 0) {
         return;
     }
     
-    NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:self.dataSourse.count - 1 inSection:0];
+    NSIndexPath *lastIndex = [NSIndexPath indexPathForRow:self.dataSourse.count-1 inSection:0];
     
     [self.tablevIew scrollToRowAtIndexPath:lastIndex atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
@@ -438,6 +452,37 @@
     [self.conversation markMessageWithId:msg.messageId asRead:YES];
     
     
+}
+
+
+#pragma mark - 屏幕上弹
+-( void )textFieldDidBeginEditing:(UITextField *)textField
+{
+    //键盘高度216
+    
+    //滑动效果（动画）
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@ "ResizeForKeyboard"  context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    //将视图的Y坐标向上移动，以使下面腾出地方用于软键盘的显示
+    self.view.frame = CGRectMake(0.0f, -100.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
+    
+    [UIView commitAnimations];
+}
+
+#pragma mark -屏幕恢复
+-( void )textFieldDidEndEditing:(UITextField *)textField
+{
+    //滑动效果
+    NSTimeInterval animationDuration = 0.30f;
+    [UIView beginAnimations:@ "ResizeForKeyboard"  context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    
+    //恢复屏幕
+    self.view.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
+    
+    [UIView commitAnimations];
 }
 
 

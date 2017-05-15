@@ -62,6 +62,9 @@
      1》要从服务器获取好友列表记录
      2》用户第一次登录后，自动从服务器获取好友列表
      */
+    
+    MBProgressHUD *hud=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText=@"正在加载好友列表";
     [[EaseMob sharedInstance].chatManager asyncFetchBuddyListWithCompletion:^(NSArray *buddyList, EMError *error) {
         // 赋值数据源
         self.buddyList = buddyList;
@@ -69,7 +72,7 @@
 //        NSLog(@"有%d个好友",self.buddyList.count);
         
         [self addUsername];
-       
+        
         
     }onQueue:nil];
      
@@ -77,6 +80,7 @@
 #warning 强调buddyList没有值的情况 1.第一次登录 2.自动登录还没有完成
     
     [self setTableFooterView:self.tableView];
+    [self performSelector:@selector(delayMethod) withObject:nil afterDelay:2.0f];
     
 }
 
@@ -91,7 +95,6 @@
 }
 
 - (void) addUsername{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //1.创建信号量
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
     
@@ -99,7 +102,7 @@
         //2.等待-1
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 
-        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_usernameAndImage.php"];
+        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/usernameAndImage.php"];
         NSURLSession *session=[NSURLSession sharedSession];
         NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
         requset.HTTPMethod=@"POST";
@@ -132,9 +135,7 @@
 
     }
     
-     [MBProgressHUD hideHUDForView:self.view animated:YES];
-    
-
+  
 }
 
 
@@ -285,5 +286,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)delayMethod {
+     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 @end

@@ -11,8 +11,7 @@
 #import "RegisterTableViewController.h"
 
 
-@interface GetCodeViewController ()<UIAlertViewDelegate>
-- (IBAction)submit:(id)sender;
+@interface GetCodeViewController ()<UIAlertViewDelegate,UITextFieldDelegate>
 
 
 @end
@@ -22,6 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.VerificationCode.delegate=self;
+    self.password.delegate=self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,6 +40,13 @@
 }
 */
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    if ([self.VerificationCode isFirstResponder]) {
+        [self.VerificationCode resignFirstResponder];
+    }else if ([self.password isFirstResponder]){
+        [self.password resignFirstResponder];
+    }
+}
 
 - (IBAction)submit:(id)sender {
     [SMSSDK commitVerificationCode:self.VerificationCode.text phoneNumber:self.phoneNumber zone:@"86" result:^(SMSSDKUserInfo *userInfo, NSError *error) {
@@ -78,6 +86,7 @@
                             RegisterTableViewController *registerVC=[storybord instantiateViewControllerWithIdentifier:@"RegistertableVC"];
                             [self.navigationController pushViewController:registerVC animated:YES];
                             registerVC.phonenumber=self.phoneNumber;
+                            registerVC.password=self.password.text;
                             
                         });
                         
