@@ -145,6 +145,13 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static const int imgTag = 111;
+    static const int labelTag = 222;
+    UIImageView *imageView = nil;
+    UILabel *textLabel = nil;
+    
+    
     static NSString *id=@"BuddyCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id forIndexPath:indexPath];
     
@@ -153,17 +160,31 @@
     EMBuddy *buddy=self.buddyList[indexPath.row];
     //2.显示头像和名称
     
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
-
-    imageView.layer.cornerRadius = 5;
-    imageView.layer.masksToBounds  = YES;
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [cell.contentView addSubview:imageView];
+    for (UIView *v in cell.contentView.subviews) {
+        switch (v.tag) {
+            case imgTag:imageView = v;break;
+            case labelTag:textLabel = v;break;
+            default:break;
+        }
+    }
     
-    UILabel *textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 60)];
-    [textLabel setFont:[UIFont systemFontOfSize:16]];
-    textLabel.backgroundColor = [UIColor clearColor];
-    [cell.contentView addSubview:textLabel];
+    if (imageView == nil) {
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
+        imageView.image=[UIImage imageNamed:@"chatListCellHead"];
+        imageView.layer.cornerRadius = 5;
+        imageView.layer.masksToBounds  = YES;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.tag = imgTag;
+        [cell.contentView addSubview:imageView];
+    }
+    
+    if (textLabel == nil) {
+        textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 20, 200, cell.contentView.frame.size.height - 40)];
+        [textLabel setFont:[UIFont systemFontOfSize:22]];
+        textLabel.backgroundColor = [UIColor clearColor];
+        textLabel.tag = labelTag;
+        [cell.contentView addSubview:textLabel];
+    }
     
     //3.显示名称
     if (self.usernames.count==self.buddyList.count) {
@@ -250,6 +271,9 @@
 //    }
 //}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (_buddyList.count == 0 || _usernames.count == 0 || _images.count == 0) {
+        return;
+    }
     //进入到聊天控制器
     //1.从storybaord加载聊天控制器
     chatViewController *chatVc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ChatPage"];
