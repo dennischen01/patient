@@ -247,12 +247,17 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (_username.count == 0) {
+        return;
+    }
+    
     UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DoctorDetailViewController *docVC=(DoctorDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"addDetail"];
     doctor *d=self.username[indexPath.row];
     docVC.doc=d;
     [self.navigationController pushViewController:docVC animated:YES];
 }
+
 
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

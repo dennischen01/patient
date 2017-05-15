@@ -242,23 +242,53 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static const int imgTag = 111;
+    static const int labelTag = 222;
+    static const int messageTag = 333;
+    UIImageView *imageView = nil;
+    UILabel *textLabel = nil;
+    UILabel *messageLabel = nil;
     static NSString *ID =  @"ConversationCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     
+    for (UIView *v in cell.contentView.subviews) {
+        switch (v.tag) {
+            case imgTag:imageView = v;break;
+            case labelTag:textLabel = v;break;
+            case messageTag:messageLabel = v;break;
+            default:break;
+        }
+    }
     
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
-    imageView.image=[UIImage imageNamed:@"chatListCellHead"];
-    imageView.layer.cornerRadius = 5;
-    imageView.layer.masksToBounds  = YES;
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [cell.contentView addSubview:imageView];
+    if (imageView == nil) {
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
+        imageView.image=[UIImage imageNamed:@"chatListCellHead"];
+        imageView.layer.cornerRadius = 5;
+        imageView.layer.masksToBounds  = YES;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.tag = imgTag;
+        [cell.contentView addSubview:imageView];
+    }
     
-    UILabel *textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 60)];
-    [textLabel setFont:[UIFont systemFontOfSize:16]];
-    textLabel.backgroundColor = [UIColor clearColor];
-    [cell.contentView addSubview:textLabel];
+    if (textLabel == nil) {
+        textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 30)];
+        [textLabel setFont:[UIFont systemFontOfSize:22]];
+        textLabel.backgroundColor = [UIColor clearColor];
+        textLabel.tag = labelTag;
+        [cell.contentView addSubview:textLabel];
+    }
     
-    
+    if (messageLabel == nil) {
+        CGFloat messageWidth = [UIScreen mainScreen].bounds.size.width - 130;
+        messageLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 45, messageWidth, 20)];
+        [messageLabel  setFont:[UIFont systemFontOfSize:16]];
+        messageLabel.backgroundColor = [UIColor clearColor];
+        messageLabel.textColor = [UIColor lightGrayColor];
+        messageLabel.text = @"作为医生我觉得你没必要抢救了";
+        messageLabel.tag = messageTag;
+        [cell.contentView addSubview:messageLabel];
+    }
     
     //获取会话模型
     EMConversation *conversaion = self.conversations[indexPath.row];
@@ -290,6 +320,9 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (_conversations.count == 0) {
+        return;
+    }
     //进入到聊天控制器
     //1.从storybaord加载聊天控制器
     chatViewController *chatVc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ChatPage"];

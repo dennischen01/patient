@@ -1125,7 +1125,7 @@
 				TargetAttributes = {
 					E8FA3B3B1E87852A005E8352 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 76YMBR7RAE;
+						DevelopmentTeam = 7Y9SMQXB8W;
 						ProvisioningStyle = Automatic;
 					};
 					E8FA3B571E87852A005E8352 = {
@@ -1385,7 +1385,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 76YMBR7RAE;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 7Y9SMQXB8W;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1406,7 +1407,7 @@
 					"$(PROJECT_DIR)/PDchat-demo2.0/PDchat-demo2.0/EaseMobSDK/VoiceConvert/opencore-amrwb",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cn.950322.p;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.950322.abc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1415,7 +1416,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 76YMBR7RAE;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 7Y9SMQXB8W;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1436,7 +1438,7 @@
 					"$(PROJECT_DIR)/PDchat-demo2.0/PDchat-demo2.0/EaseMobSDK/VoiceConvert/opencore-amrwb",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = cn.950322.p;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.950322.abc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
