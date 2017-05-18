@@ -11,7 +11,8 @@
 #import "RegisterTableViewController.h"
 
 
-@interface GetCodeViewController ()<UIAlertViewDelegate,UITextFieldDelegate>
+@interface GetCodeViewController ()<UIAlertViewDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 
 
 @end
@@ -20,9 +21,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.VerificationCode.delegate=self;
-    self.password.delegate=self;
+    [self.VerificationCode addTarget:self action:@selector(TextChange:) forControlEvents:UIControlEventEditingChanged];
+     [self.password addTarget:self action:@selector(TextChange:) forControlEvents:UIControlEventEditingChanged];
+  
+}
+
+
+-(void)TextChange:(UITextField *)textField{
+    if(textField.text.length>0){
+        self.nextBtn.enabled=YES;
+    }else{
+        self.nextBtn.enabled=NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,13 +50,7 @@
 }
 */
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    if ([self.VerificationCode isFirstResponder]) {
-        [self.VerificationCode resignFirstResponder];
-    }else if ([self.password isFirstResponder]){
-        [self.password resignFirstResponder];
-    }
-}
+
 
 - (IBAction)submit:(id)sender {
     [SMSSDK commitVerificationCode:self.VerificationCode.text phoneNumber:self.phoneNumber zone:@"86" result:^(SMSSDKUserInfo *userInfo, NSError *error) {

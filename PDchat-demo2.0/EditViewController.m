@@ -11,12 +11,6 @@
 @end
 
 @implementation EditViewController
-- (BOOL)isPassword{
-    if (!_isPassword) {
-        _isPassword=NO;
-    }
-    return _isPassword;
-}
 - (IBAction)save:(id)sender {
     self.selectedString=self.EditTextField.text;
     if(self.selectblock){
@@ -27,10 +21,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.EditTextField.secureTextEntry=self.isPassword;
-    NSLog(@"self.ispassword=%d",self.isPassword);
-    self.EditTextField.text=self.text;
-    NSLog(@"self.secureentry=%d",self.EditTextField.secureTextEntry);
 }
 
 - (void)didReceiveMemoryWarning {

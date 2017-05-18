@@ -674,7 +674,6 @@
 				E81975931E989EBE00C9B447 /* 工具类 */,
 				E827ADB21E8A530100FC9ED2 /* 聊天界面 */,
 				E8FA3B671E87853E005E8352 /* sdk */,
-				E8FA3BF01E8787FE005E8352 /* 登陆 */,
 				E8FA3BEA1E878735005E8352 /* 消息列表 */,
 				E8FA3BEB1E87874C005E8352 /* 联系人列表 */,
 				E8FA3BEC1E87876A005E8352 /* 设置 */,
@@ -1067,13 +1066,6 @@
 				E85EE73C1EBF0A8500E3C891 /* SettingViewController.m */,
 			);
 			name = "设置";
-			sourceTree = "<group>";
-		};
-		E8FA3BF01E8787FE005E8352 /* 登陆 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "登陆";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

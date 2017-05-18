@@ -206,7 +206,7 @@
                         <segue destination="uvW-4W-42n" kind="show" id="ZXp-ng-Yod"/>
                         <segue destination="W7f-iq-tvO" kind="show" id="zU6-mF-CRI"/>
                         <segue destination="mh9-li-Gfj" kind="show" id="aSv-Qf-OGz"/>
-                        <segue destination="fCv-Qf-pec" kind="relationship" relationship="rootViewController" id="rP1-qc-rqK"/>
+                        <segue destination="xVN-27-Bw6" kind="relationship" relationship="rootViewController" id="Jfl-jr-aYp"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLx-J2-9OM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -484,6 +484,7 @@
                     <navigationItem key="navigationItem" title="输入验证码" id="u77-ef-lxS"/>
                     <connections>
                         <outlet property="VerificationCode" destination="KbW-uc-T4r" id="Mgc-UI-gnL"/>
+                        <outlet property="nextBtn" destination="imz-He-MKR" id="HSH-wg-MNG"/>
                         <outlet property="password" destination="uBw-az-fmG" id="8Oh-y8-6e6"/>
                     </connections>
                 </viewController>
@@ -496,6 +497,6 @@
         <image name="chatListCellHead" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uW0-pS-L1S"/>
+        <segue reference="ghX-AD-P6F"/>
     </inferredMetricsTieBreakers>
 </document>

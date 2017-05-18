@@ -18,7 +18,6 @@
 @property(nonatomic,copy) NSString *age;
 @property(nonatomic,copy) NSString *gender;
 @property(nonatomic,copy) NSString *detail;
-@property(nonatomic,copy) NSString *hospital;
 @property(nonatomic,copy) NSString *type;
 - (IBAction)submit:(id)sender;
 @end
@@ -31,6 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -50,7 +50,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 6;
+    return 5;
 }
 
 
@@ -84,25 +84,18 @@
             cell.detail.text=self.gender;
         }
     }
+
     if (indexPath.row==3) {
-        cell.title.text=@"任职医院";
-        if (!self.hospital) {
-            cell.detail.text=@"请输入任职医院";
-        }else{
-            cell.detail.text=self.hospital;
-        }
-    }
-    if (indexPath.row==4) {
-        cell.title.text=@"所属科室";
+        cell.title.text=@"病状";
         if (!self.type) {
-            cell.detail.text=@"请输入所属科室";
+            cell.detail.text=@"请输入病状";
         }else{
             cell.detail.text=self.type;
         }
     }
     
     
-    if (indexPath.row==5) {
+    if (indexPath.row==4) {
         cell.title.text=@"详情";
         if (!self.detail) {
             cell.detail.text=@"请设置详情";
@@ -114,7 +107,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row<5&&indexPath.row!=2) {
+    if (indexPath.row<4&&indexPath.row!=2) {
         RegisterTableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
         UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Login" bundle:nil];
         EditViewController *editVC=[storyboard instantiateViewControllerWithIdentifier:@"editVC"];
@@ -131,8 +124,6 @@
             }else if (indexPath.row==1){
                 self.age=string;
             }else if (indexPath.row==3){
-                self.hospital=string;
-            }else{
                 self.type=string;
             }
             [self.tableView reloadData];
@@ -172,7 +163,7 @@
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod=@"POST";
     NSLog(@"self.detail=%@",self.detail);
-    NSString *str=[NSString stringWithFormat:@"username=%@&&age=%@&&gender=%@&&hospital=%@&&type=%@&&phonenumber=%@&&detail=%@",self.username,self.age,self.gender,self.hospital,self.type,self.phonenumber,self.detail];
+    NSString *str=[NSString stringWithFormat:@"username=%@&&age=%@&&gender=%@&&type=%@&&phonenumber=%@&&detail=%@",self.username,self.age,self.gender,self.type,self.phonenumber,self.detail];
     request.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
     NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSString *res=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
@@ -180,11 +171,18 @@
         if ([res isEqualToString:@"success"]) {
             NSLog(@"注册成功");
             //环信注册
+            
             [[EaseMob sharedInstance].chatManager asyncRegisterNewAccount:self.phonenumber password:self.password withCompletion:^(NSString *username, NSString *password, EMError *error) {
                 NSLog(@"环信注册成功");
+                
+                
+                [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:self.phonenumber password:self.password];
+                
                 //来主界面
                 self.view.window.rootViewController = [UIStoryboard storyboardWithName:@"Main" bundle:nil].instantiateInitialViewController;
+                
             } onQueue:nil];
+            
         }else{
             NSLog(@"注册失败:%@",error);
         }
