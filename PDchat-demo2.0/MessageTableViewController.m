@@ -133,6 +133,13 @@
 - (void)didUnreadMessagesCountChanged{
     //更新表格
     NSLog(@"更新表格");
+    NSArray *conversationlist =  [[EaseMob sharedInstance].chatManager loadAllConversationsFromDatabaseWithAppend2Chat:YES];
+    for (id obj in conversationlist) {
+        if (![self.conversations containsObject:obj]) {
+            [self.conversations addObject:obj];
+        }
+    }
+
     [self.tableView reloadData];
     //显示总的未读数
     [self showTabBarBadge];
@@ -143,12 +150,16 @@
 #pragma mark 历史会话列表更新
 -(void)didUpdateConversationList:(NSArray *)conversationList{
 
+    NSLog(@"历史会话列表更新");
     //给数据源重新赋值
     for (id obj in conversationList) {
         if (![self.conversations containsObject:obj]) {
             [self.conversations addObject:obj];
         }
+        
+        //添加该聊天到数组
     }
+   
     [self.tableView reloadData];
     //显示总的未读数
     [self showTabBarBadge];
@@ -290,21 +301,33 @@
         [cell.contentView addSubview:messageLabel];
     }
     
-    //获取会话模型
+    //1.获取会话模型
     EMConversation *conversaion = self.conversations[indexPath.row];
-    
-    id body = conversaion.latestMessage.messageBodies[0];
-    EMTextMessageBody *textBody = body;
-    cell.detailTextLabel.text = textBody.text;
-
-    //获取会话模型
-//    EMConversation *conversaion = self.conversations[indexPath.row];
     if (self.usernames.count==self.conversations.count) {
         textLabel.text=self.usernames[indexPath.row];
         NSString *imageurl=self.images[indexPath.row];
         NSURL *url=[NSURL URLWithString:imageurl];
         NSLog(@"imageurl=%@",imageurl);
         [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
+        
+        // 2.显示最新的一条记录
+        // 获取消息体
+        id body = conversaion.latestMessage.messageBodies[0];
+        //文字消息
+        if ([body isKindOfClass:[EMTextMessageBody class]]) {
+            EMTextMessageBody *textBody = body;
+            messageLabel.text = textBody.text;
+        //语音消息
+        }else if ([body isKindOfClass:[EMVoiceMessageBody class]]){
+            EMVoiceMessageBody *voiceBody = body;
+            messageLabel.text = [voiceBody displayName];
+        //图片消息
+        }else if([body isKindOfClass:[EMImageMessageBody class]]){
+            EMImageMessageBody *imgBody = body;
+            messageLabel.text = @"[图片]";
+        }else{
+            messageLabel.text = @"未知消息类型";
+        }
     }
     EMMessage *message=conversaion.latestMessage;
     long long time=message.timestamp;
@@ -315,11 +338,15 @@
     formatter.dateFormat=@"HH:mm";
     NSString *timeStr=[formatter stringFromDate:msgDate];
     cell.detailTextLabel.text =timeStr;
+    
+    
     return cell;
 }
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
     if (_conversations.count == 0) {
         return;
     }
@@ -340,6 +367,7 @@
     
     
     [self.navigationController pushViewController:chatVc animated:YES];
+  
     
     
 }
@@ -368,6 +396,7 @@
          [[EaseMob sharedInstance].chatManager removeConversationByChatter:chatter deleteMessages:NO append2Chat:YES];
           [self.conversations removeObjectAtIndex:indexPath.row];
      }
+
     
 }
 

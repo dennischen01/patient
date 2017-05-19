@@ -324,7 +324,6 @@
             [searchData addObject:d];
         }
     }];
-    
     //刷新表格
     [self.tableView reloadData];
 }
