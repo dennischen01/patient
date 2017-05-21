@@ -30,7 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.phonenumber=@"01705212039";
+    self.password=@"123456";
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -174,9 +175,12 @@
             
             [[EaseMob sharedInstance].chatManager asyncRegisterNewAccount:self.phonenumber password:self.password withCompletion:^(NSString *username, NSString *password, EMError *error) {
                 NSLog(@"环信注册成功");
+                UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"提示" message:@"注册成功，已为您登陆" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
+                [alert show];
                 
-                
-                [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:self.phonenumber password:self.password];
+                [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:self.phonenumber password:self.phonenumber completion:^(NSDictionary *loginInfo, EMError *error) {
+                    NSLog(@"登录中");
+                } onQueue:nil];
                 
                 //来主界面
                 self.view.window.rootViewController = [UIStoryboard storyboardWithName:@"Main" bundle:nil].instantiateInitialViewController;
