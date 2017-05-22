@@ -11,6 +11,10 @@
 #import "doctor.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
+
+#define imgTag 100
+#define labelTag 101
+
 @interface AddFriendTableViewController ()<UISearchBarDelegate>{
     // 保存搜索结果数据的NSArray对象。
     NSMutableArray* searchData;
@@ -211,17 +215,34 @@
     static NSString *id=@"addID";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id forIndexPath:indexPath];
     
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
+    UIImageView *imageView;
+    UILabel *textLabel;
     
-    imageView.layer.cornerRadius = 5;
-    imageView.layer.masksToBounds  = YES;
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    [cell.contentView addSubview:imageView];
+    for (UIView *v in cell.contentView.subviews) {
+        if (v.tag == imgTag) {
+            imageView = v;
+        }
+        
+        if (v.tag == labelTag) {
+            textLabel = v;
+        }
+    }
     
-    UILabel *textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 60)];
-    [textLabel setFont:[UIFont systemFontOfSize:16]];
-    textLabel.backgroundColor = [UIColor clearColor];
-    [cell.contentView addSubview:textLabel];
+    if (!imageView) {
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
+        imageView.layer.cornerRadius = 5;
+        imageView.layer.masksToBounds  = YES;
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        [cell.contentView addSubview:imageView];
+    }
+
+    if (!textLabel) {
+        textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 60)];
+        [textLabel setFont:[UIFont systemFontOfSize:16]];
+        textLabel.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:textLabel];
+    }
+    
     if(isSearch)
     {
         // 使用searchData作为表格显示的数据
