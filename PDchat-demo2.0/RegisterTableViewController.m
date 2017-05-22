@@ -30,7 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.phonenumber=@"01705212039";
+    self.phonenumber=@"01705222039";
     self.password=@"123456";
     
     // Uncomment the following line to preserve selection between presentations.
@@ -163,7 +163,9 @@
     NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/patient/submit.php"];
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod=@"POST";
-    NSLog(@"self.detail=%@",self.detail);
+    if(!self.detail){
+        self.detail=@"暂未填写";
+    }
     NSString *str=[NSString stringWithFormat:@"username=%@&&age=%@&&gender=%@&&type=%@&&phonenumber=%@&&detail=%@",self.username,self.age,self.gender,self.type,self.phonenumber,self.detail];
     request.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
     NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {

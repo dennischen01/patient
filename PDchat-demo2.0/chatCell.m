@@ -10,6 +10,7 @@
 #import "EMCDDeviceManager.h"
 #import "AudioPlayTool.h"
 #import "UIImageView+WebCache.h"
+#import "ScanImage.h"
 
 @interface chatCell()
 @property (nonatomic,strong)UIImageView *chatImageView;
@@ -48,7 +49,11 @@
         BOOL receiver=[self.reuseIdentifier isEqualToString:@"ReceiverCell"];
         NSLog(@"%d",receiver);
         [AudioPlayTool playwithMessage:self.message msgLabel:self.messageLabel receiver:receiver];
+    }else if([body isKindOfClass:[EMImageMessageBody class]]){
+        EMImageMessageBody *message=body;
+        [ScanImage scanBigImageWithImageView:self.chatImageView];
     }
+    
     
 }
 

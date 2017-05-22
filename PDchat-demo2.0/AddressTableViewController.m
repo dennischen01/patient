@@ -71,8 +71,7 @@
 //        NSLog(@"从服务器获取的好友列表 %@",buddyList);
 //        NSLog(@"有%d个好友",self.buddyList.count);
         
-        [self addUsername];
-        
+      
         
     }onQueue:nil];
      
@@ -246,6 +245,7 @@
 //    NSLog(@"好友列表数据被更新 %@",buddyList);
     //重新赋值数据源
     self.buddyList=buddyList;
+    [self addUsername];
     [self.tableView reloadData];
 }
 

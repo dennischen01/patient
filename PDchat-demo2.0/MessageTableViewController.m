@@ -53,10 +53,8 @@
     [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
     //获取历史绘画记录
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self loadConversations];
-    [self addname];
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [self setTableFooterView:self.tableView];
+    [self performSelector:@selector(delayMethod) withObject:nil afterDelay:3.0f];
 }
 
 
@@ -103,11 +101,10 @@
                 NSString *imageurl=[obj objectForKey:@"image"];
                 [self.usernames addObject:name];
                 [self.images addObject:imageurl];
-                [self.tableView reloadData];
                 
             });
             
-            
+            [self.tableView reloadData];
         }];
         [task resume];
       
@@ -133,13 +130,7 @@
 - (void)didUnreadMessagesCountChanged{
     //更新表格
     NSLog(@"更新表格");
-    NSArray *conversationlist =  [[EaseMob sharedInstance].chatManager loadAllConversationsFromDatabaseWithAppend2Chat:YES];
-    for (id obj in conversationlist) {
-        if (![self.conversations containsObject:obj]) {
-            [self.conversations addObject:obj];
-        }
-    }
-
+    
     [self.tableView reloadData];
     //显示总的未读数
     [self showTabBarBadge];
@@ -159,6 +150,8 @@
         
         //添加该聊天到数组
     }
+    [self loadConversations];
+    [self addname];
    
     [self.tableView reloadData];
     //显示总的未读数
@@ -296,7 +289,7 @@
         [messageLabel  setFont:[UIFont systemFontOfSize:16]];
         messageLabel.backgroundColor = [UIColor clearColor];
         messageLabel.textColor = [UIColor lightGrayColor];
-        messageLabel.text = @"作为医生我觉得你没必要抢救了";
+        messageLabel.text = @" ";
         messageLabel.tag = messageTag;
         [cell.contentView addSubview:messageLabel];
     }
@@ -398,6 +391,11 @@
      }
 
     
+}
+
+- (void)delayMethod {
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self.tableView reloadData];
 }
 
 
