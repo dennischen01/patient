@@ -557,6 +557,7 @@
                     <connections>
                         <outlet property="avatarImageView" destination="NSr-Jt-rqD" id="Fku-xf-0w4"/>
                         <outlet property="logoutBtn" destination="l6g-Ay-ooQ" id="Ixa-UJ-h5k"/>
+                        <outlet property="nameLabel" destination="w3p-Rl-4nV" id="7XT-8h-Hb1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hRm-u6-j9c" userLabel="First Responder" sceneMemberID="firstResponder"/>

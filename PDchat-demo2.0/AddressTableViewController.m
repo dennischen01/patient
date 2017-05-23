@@ -106,6 +106,7 @@
         NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
         requset.HTTPMethod=@"POST";
         NSString *str=[NSString stringWithFormat:@"phonenumber=%@",buddy.username];
+        NSLog(@"buddy.username=%@",buddy.username);
         requset.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
         NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

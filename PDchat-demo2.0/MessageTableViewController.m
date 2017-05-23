@@ -140,8 +140,6 @@
 
 #pragma mark 历史会话列表更新
 -(void)didUpdateConversationList:(NSArray *)conversationList{
-
-    NSLog(@"历史会话列表更新");
     //给数据源重新赋值
     for (id obj in conversationList) {
         if (![self.conversations containsObject:obj]) {
@@ -150,7 +148,6 @@
         
         //添加该聊天到数组
     }
-    [self loadConversations];
     [self addname];
    
     [self.tableView reloadData];

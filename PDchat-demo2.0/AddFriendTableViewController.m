@@ -12,8 +12,6 @@
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
 
-#define imgTag 100
-#define labelTag 101
 
 @interface AddFriendTableViewController ()<UISearchBarDelegate>{
     // 保存搜索结果数据的NSArray对象。
@@ -213,12 +211,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *id=@"addID";
+    static const int imgTag = 111;
+    static const int labelTag = 222;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id forIndexPath:indexPath];
     
     UIImageView *imageView;
     UILabel *textLabel;
     
     for (UIView *v in cell.contentView.subviews) {
+        
         if (v.tag == imgTag) {
             imageView = v;
         }
@@ -233,6 +234,7 @@
         imageView.layer.cornerRadius = 5;
         imageView.layer.masksToBounds  = YES;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.tag=imgTag;
         [cell.contentView addSubview:imageView];
     }
 
@@ -240,6 +242,7 @@
         textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 60)];
         [textLabel setFont:[UIFont systemFontOfSize:16]];
         textLabel.backgroundColor = [UIColor clearColor];
+        textLabel.tag=labelTag;
         [cell.contentView addSubview:textLabel];
     }
     
