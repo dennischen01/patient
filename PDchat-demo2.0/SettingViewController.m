@@ -9,6 +9,7 @@
 #import "SettingViewController.h"
 #import "changeImageViewController.h"
 #import "UIImageView+WebCache.h"
+#import "AlterTableViewController.h"
 @interface SettingViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 - (IBAction)logout:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *logoutBtn;
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property NSString *imagePath;
+- (IBAction)alter:(id)sender;
 @end
 
 @implementation SettingViewController
@@ -95,31 +97,58 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
     //上传到服务器
-    
-    AFHTTPSessionManager *session=[AFHTTPSessionManager manager];
-    
-    [session POST:@"http://112.74.92.197/server/uploadHead.php" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        
-        NSURL *url=[NSURL fileURLWithPath:path];
-        
-        [formData appendPartWithFileURL:url name:@"file" fileName:@"5.9.jpg" mimeType:@"image/jpg" error:nil];
-        
-        
-    } progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        NSLog(@"%f",uploadProgress.fractionCompleted);
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSLog(@"%@",responseObject);
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"error=%@",error);
-        
-    }];
+    dispatch_queue_t queue=dispatch_queue_create("cn.950322", DISPATCH_QUEUE_CONCURRENT);
     
     
+    dispatch_async(queue, ^{
+        AFHTTPSessionManager *session=[AFHTTPSessionManager manager];
+        
+        [session POST:@"http://112.74.92.197/doctor/uploadHead.php" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+            
+            NSURL *url=[NSURL fileURLWithPath:path];
+            NSString *loginUsername = [[EaseMob sharedInstance].chatManager loginInfo][@"username"];
+            NSString *filename=[loginUsername stringByAppendingString:@".jpg"];
+            [formData appendPartWithFileURL:url name:@"file" fileName:filename mimeType:@"image/jpg" error:nil];
+            
+            
+        } progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+            NSLog(@"%f",uploadProgress.fractionCompleted);
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSLog(@"%@",responseObject);
+            
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"error=%@",error);
+            
+        }];
+        
+    });
+    
+    
+    //修改数据库存的url
+    dispatch_async(queue, ^{
+        NSString *loginUsername = [[EaseMob sharedInstance].chatManager loginInfo][@"username"];
+        NSString *filename=[loginUsername stringByAppendingString:@".jpg"];
+        NSString *imageurl=[@"http://112.74.92.197/server/head" stringByAppendingPathComponent:filename];
+        NSLog(@"%@",imageurl);
+        NSString *str=[NSString stringWithFormat:@"phonenumber=%@&&imageurl=%@",loginUsername,imageurl];
+        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/alterHead.php"];
+        NSURLSession *session=[NSURLSession sharedSession];
+        NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
+        requset.HTTPMethod=@"POST";
+        requset.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
+        NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSString *res=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"res=%@",res);
+            
+            
+        }];
+        [task resume];
+        
+    });
 }
 /*
 #pragma mark - Navigation
@@ -131,4 +160,30 @@
 }
 */
 
+- (IBAction)alter:(id)sender {
+    
+    UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    AlterTableViewController *alterVC=[storyboard instantiateViewControllerWithIdentifier:@"alter"];
+    alterVC.phonenumber= [[EaseMob sharedInstance].chatManager loginInfo][@"username"];
+    
+    NSUserDefaults *def=[NSUserDefaults standardUserDefaults];
+    NSDictionary *dit=[def objectForKey:@"selfinfo"];
+    NSString *username=[dit objectForKey:@"username"];
+    
+    NSString *age=[dit objectForKey:@"age"];
+    NSString *gender=[dit objectForKey:@"gender"];
+    NSString *detail=[dit objectForKey:@"detail"];
+    NSString *type=[dit objectForKey:@"type"];
+    
+    alterVC.username=username;
+    alterVC.age=age;
+    alterVC.gender=gender;
+    alterVC.detail=detail;
+    alterVC.type=type;
+    
+    [self.navigationController pushViewController:alterVC animated:YES];
+
+    
+    
+}
 @end

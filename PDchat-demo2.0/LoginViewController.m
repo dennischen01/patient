@@ -10,8 +10,12 @@
 #import "EaseMob.h"
 #import "VerificationViewController.h"
 #import "MBProgressHUD.h"
+#import "doctor.h"
+
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *userName;
+@property NSMutableArray *datasourse;
+@property NSDictionary *dic;
 - (IBAction)touchview:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *passWord;
 - (IBAction)Login:(id)sender;
@@ -22,8 +26,43 @@
 
 @implementation LoginViewController
 
+- (NSMutableArray *)datasourse{
+    if (!_datasourse) {
+        _datasourse=[NSMutableArray array];
+    }
+    return _datasourse;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //网络请求获取用户名 patient_getInfo.php get请求
+    NSURLSession *session=[NSURLSession sharedSession];
+    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/getAllInfo.php"];
+    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+    NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        //如果不是好友，就加入到显示列表中
+        
+        
+        self.dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        for (id obj in self.dic) {
+            
+            doctor *d=[[doctor alloc]initWithUsername:obj[@"username"]
+                                                 andAge:obj[@"age"]
+                                                andType:obj[@"type"]
+                                              andGender:obj[@"gender"]
+                                         andPhonenumber:obj[@"phonenumber"]
+                                              andDetail:obj[@"detail"]
+                                            andImageurl:obj[@"imageurl"]
+                                            andHospital:obj[@"hospital"]
+                        ];
+            [self.datasourse addObject:d];
+        }
+    }];
+    
+    [task resume];
+
+    
     [self addTargetMethod];
 
 }
@@ -53,6 +92,18 @@
 */
 #pragma mark 登陆
 - (IBAction)Login:(id)sender {
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    NSMutableArray *dataArray=[NSMutableArray array];
+    for (doctor *d in self.datasourse) {
+        NSData *data=[NSKeyedArchiver archivedDataWithRootObject:d];
+        [dataArray addObject:data];
+    }
+    NSArray *arr=[NSArray arrayWithArray:dataArray];
+    [defaults setObject:arr forKey:@"total"];
+    
+    
+    
+    
     // 让环信sdk在登录完成之后，自动从服务器获取好友列表
     NSString *userName=self.userName.text;
     NSString *password=self.passWord.text;

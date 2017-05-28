@@ -59,6 +59,7 @@
 		E8BB00FF1EC03B9A008B3ABE /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8BB00FC1EC03B9A008B3ABE /* FLAnimatedImageView.m */; };
 		E8BB01001EC03B9A008B3ABE /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8BB00FD1EC03B9A008B3ABE /* Info.plist */; };
 		E8BB01021EC03BEF008B3ABE /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8BB01011EC03BEF008B3ABE /* ImageIO.framework */; };
+		E8C5C4B01EDAB66000BCE520 /* AlterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E8C5C4AF1EDAB66000BCE520 /* AlterTableViewController.m */; };
 		E8DCB1741ECEF89B004A5B44 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DCB1481ECEF89B004A5B44 /* MJRefreshAutoFooter.m */; };
 		E8DCB1751ECEF89B004A5B44 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DCB14A1ECEF89B004A5B44 /* MJRefreshBackFooter.m */; };
 		E8DCB1761ECEF89B004A5B44 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = E8DCB14C1ECEF89B004A5B44 /* MJRefreshComponent.m */; };
@@ -243,6 +244,8 @@
 		E8BB00FC1EC03B9A008B3ABE /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
 		E8BB00FD1EC03B9A008B3ABE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E8BB01011EC03BEF008B3ABE /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		E8C5C4AE1EDAB66000BCE520 /* AlterTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlterTableViewController.h; sourceTree = "<group>"; };
+		E8C5C4AF1EDAB66000BCE520 /* AlterTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlterTableViewController.m; sourceTree = "<group>"; };
 		E8DCB1471ECEF89B004A5B44 /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
 		E8DCB1481ECEF89B004A5B44 /* MJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshAutoFooter.m; sourceTree = "<group>"; };
 		E8DCB1491ECEF89B004A5B44 /* MJRefreshBackFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBackFooter.h; sourceTree = "<group>"; };
@@ -1220,6 +1223,8 @@
 			children = (
 				E85EE73B1EBF0A8500E3C891 /* SettingViewController.h */,
 				E85EE73C1EBF0A8500E3C891 /* SettingViewController.m */,
+				E8C5C4AE1EDAB66000BCE520 /* AlterTableViewController.h */,
+				E8C5C4AF1EDAB66000BCE520 /* AlterTableViewController.m */,
 			);
 			name = "设置";
 			sourceTree = "<group>";
@@ -1372,6 +1377,7 @@
 				E811392A1E9A1BCF005D5BAF /* AddFriendTableViewController.m in Sources */,
 				E8B97EBA1EC18E2500E5EA43 /* AFSecurityPolicy.m in Sources */,
 				E8DCB17F1ECEF89B004A5B44 /* MJRefreshGifHeader.m in Sources */,
+				E8C5C4B01EDAB66000BCE520 /* AlterTableViewController.m in Sources */,
 				E83E62B31E8FAC99002BDC99 /* UIImageView+HighlightedWebCache.m in Sources */,
 				E8DCB1761ECEF89B004A5B44 /* MJRefreshComponent.m in Sources */,
 				E8DCB17D1ECEF89B004A5B44 /* MJRefreshBackNormalFooter.m in Sources */,

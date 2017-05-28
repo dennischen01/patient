@@ -11,13 +11,17 @@
 #import "chatViewController.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
+#import "doctor.h"
 @interface MessageTableViewController ()<EMChatManagerDelegate,UIAlertViewDelegate>
 @property(nonatomic,copy)NSString *buddyusername;
 /** 历史会话记录 */
 @property (nonatomic, strong) NSMutableArray *conversations;
-@property (nonatomic, strong) NSMutableArray *usernames;
 @property (nonatomic, strong) NSMutableArray *dates;
-@property (nonatomic, strong) NSMutableArray *images;
+//所有患者
+@property (nonatomic, strong) NSMutableArray *doctor;
+@property (nonatomic, strong) NSArray *arr;
+//会话列表的患者数据源
+@property (nonatomic, strong) NSMutableArray *datasourses;
 @end
 
 @implementation MessageTableViewController
@@ -27,24 +31,25 @@
     }
     return _conversations;
 }
-- (NSMutableArray *)usernames{
-    if (!_usernames) {
-        _usernames=[NSMutableArray array];
-    }
-    return _usernames;
-}
-
 - (NSMutableArray *)dates{
     if (!_dates) {
         _dates=[NSMutableArray array];
     }
     return _dates;
 }
-- (NSMutableArray *)images{
-    if (!_images) {
-        _images=[NSMutableArray array];
+
+- (NSMutableArray *)doctor{
+    if (!_doctor) {
+        _doctor=[NSMutableArray array];
     }
-    return _images;
+    
+    return _doctor;
+}
+- (NSMutableArray *)datasourses{
+    if (!_datasourses) {
+        _datasourses=[NSMutableArray array];
+    }
+    return _datasourses;
 }
 
 - (void)viewDidLoad {
@@ -53,8 +58,21 @@
     [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
     //获取历史绘画记录
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    //    [self addname];
     [self setTableFooterView:self.tableView];
-    [self performSelector:@selector(delayMethod) withObject:nil afterDelay:3.0f];
+    [self performSelector:@selector(delayMethod) withObject:nil afterDelay:1.0f];
+    
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    self.arr=[defaults objectForKey:@"total"];
+    for (NSData *data in self.arr) {
+        doctor *d=[NSKeyedUnarchiver unarchiveObjectWithData:data];
+        [self.doctor addObject:d];
+    }
+    
+    
+    [self loadConversations];
+    [self addNameFromLocal];
 }
 
 
@@ -69,6 +87,31 @@
     [tb setTableFooterView:view];
 }
 
+
+- (void)addNameFromLocal{
+    for (EMConversation *conversation in self.conversations) {
+        NSString *phonenumber=conversation.chatter;
+        for (doctor *d in self.doctor) {
+            NSString *phone=d.phonenumber;
+            if ([phone isEqualToString:phonenumber]) {
+                [self.datasourses addObject:d];
+            }
+        }
+    }
+    
+}
+
+- (void)addNameFromConversation:(EMConversation *)conversation{
+    NSString *phonenumber=conversation.chatter;
+    for (doctor *d in self.doctor) {
+        NSString *phone=d.phonenumber;
+        if ([phone isEqualToString:phonenumber]) {
+            [self.datasourses addObject:d];
+        }
+        
+    }
+}
+
 - (void)addname{
     //遍历
     
@@ -81,8 +124,8 @@
         NSLog(@"%@",conversation.chatter);
         
         NSString *str=[NSString stringWithFormat:@"phonenumber=%@",conversation.chatter];
-        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/usernameAndImage.php"];
-//        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_usernameAndImage.php"];
+        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/patient/usernameAndImage.php"];
+        //        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_usernameAndImage.php"];
         NSURLSession *session=[NSURLSession sharedSession];
         NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
         requset.HTTPMethod=@"POST";
@@ -99,17 +142,18 @@
                 
                 NSString *name=[obj objectForKey:@"name"];
                 NSString *imageurl=[obj objectForKey:@"image"];
-                [self.usernames addObject:name];
-                [self.images addObject:imageurl];
+                //                [self.usernames addObject:name];
+                //                [self.images addObject:imageurl];
+                [self.tableView reloadData];
                 
             });
             
-            [self.tableView reloadData];
+            
         }];
         [task resume];
-      
+        
     }
-   
+    
 }
 
 
@@ -130,7 +174,6 @@
 - (void)didUnreadMessagesCountChanged{
     //更新表格
     NSLog(@"更新表格");
-    
     [self.tableView reloadData];
     //显示总的未读数
     [self showTabBarBadge];
@@ -139,22 +182,26 @@
 
 
 #pragma mark 历史会话列表更新
--(void)didUpdateConversationList:(NSArray *)conversationList{
+
+- (void)didUpdateConversationList:(NSArray *)conversationList{
+    
+    NSLog(@"历史会话列表更新");
     //给数据源重新赋值
-    for (id obj in conversationList) {
+    for (EMConversation *obj in conversationList) {
         if (![self.conversations containsObject:obj]) {
             [self.conversations addObject:obj];
+            [self addNameFromConversation:obj];
+            
         }
         
-        //添加该聊天到数组
     }
-    [self addname];
-   
+    
     [self.tableView reloadData];
     //显示总的未读数
     [self showTabBarBadge];
-
+    
 }
+
 
 -(void)showTabBarBadge{
     //遍历所有的会话记录，将未读取的消息数进行累
@@ -165,6 +212,8 @@
     }
     if (totalUnreadCount>0) {
         self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld",totalUnreadCount];
+    }else{
+        self.navigationController.tabBarItem.badgeValue=@"0";
     }
     
     
@@ -212,7 +261,7 @@
 #pragma mark 接收好友的添加请求
 -(void)didReceiveBuddyRequest:(NSString *)username message:(NSString *)message{
     self.buddyusername=username;
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"好友添加请求" message:message delegate:self cancelButtonTitle:@"拒绝" otherButtonTitles:@"同意", nil];
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"患者添加请求" message:message delegate:self cancelButtonTitle:@"拒绝" otherButtonTitles:@"同意", nil];
     [alert show];
 }
 
@@ -262,6 +311,7 @@
         }
     }
     
+    
     if (imageView == nil) {
         imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
         imageView.image=[UIImage imageNamed:@"chatListCellHead"];
@@ -286,16 +336,18 @@
         [messageLabel  setFont:[UIFont systemFontOfSize:16]];
         messageLabel.backgroundColor = [UIColor clearColor];
         messageLabel.textColor = [UIColor lightGrayColor];
-        messageLabel.text = @" ";
+        messageLabel.text = @"作为医生我觉得你没必要抢救了";
         messageLabel.tag = messageTag;
         [cell.contentView addSubview:messageLabel];
     }
     
     //1.获取会话模型
+    
     EMConversation *conversaion = self.conversations[indexPath.row];
-    if (self.usernames.count==self.conversations.count) {
-        textLabel.text=self.usernames[indexPath.row];
-        NSString *imageurl=self.images[indexPath.row];
+    if (self.datasourses.count==self.conversations.count) {
+        doctor *d=self.datasourses[indexPath.row];
+        textLabel.text=d.username;
+        NSString *imageurl=d.imageurl;
         NSURL *url=[NSURL URLWithString:imageurl];
         NSLog(@"imageurl=%@",imageurl);
         [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
@@ -307,14 +359,14 @@
         if ([body isKindOfClass:[EMTextMessageBody class]]) {
             EMTextMessageBody *textBody = body;
             messageLabel.text = textBody.text;
-        //语音消息
+            //语音消息
         }else if ([body isKindOfClass:[EMVoiceMessageBody class]]){
             EMVoiceMessageBody *voiceBody = body;
             messageLabel.text = [voiceBody displayName];
-        //图片消息
+            //图片消息
         }else if([body isKindOfClass:[EMImageMessageBody class]]){
             EMImageMessageBody *imgBody = body;
-            messageLabel.text = @"[图片]";
+            messageLabel.text = [imgBody displayName];
         }else{
             messageLabel.text = @"未知消息类型";
         }
@@ -328,8 +380,6 @@
     formatter.dateFormat=@"HH:mm";
     NSString *timeStr=[formatter stringFromDate:msgDate];
     cell.detailTextLabel.text =timeStr;
-    
-    
     return cell;
 }
 
@@ -346,49 +396,73 @@
     //会话
     EMConversation *conversation = self.conversations[indexPath.row];
     EMBuddy *buddy = [EMBuddy buddyWithUsername:conversation.chatter];
+    doctor *d=self.datasourses[indexPath.row];
     
-    NSString *imageurl=self.images[indexPath.row];
+    NSString *imageurl=d.imageurl;
     
     //2.设置好友属性
     chatVc.buddy = buddy;
-    chatVc.title=self.usernames[indexPath.row];
+    chatVc.title=d.username;
     chatVc.imageurl=imageurl;
     //3.展现聊天界面
     
     
     [self.navigationController pushViewController:chatVc animated:YES];
-  
+    
     
     
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-     if (editingStyle==UITableViewCellEditingStyleDelete) {
+    if (editingStyle==UITableViewCellEditingStyleDelete) {
         
-         
-         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-         NSLog(@"successfully delete");
-         
-         /*!
-          @method
-          @brief 删除某个会话对象
-          @param chatter 这个会话对象所对应的用户名
-          @param aDeleteMessages 是否删除这个会话对象所关联的聊天记录
-          @discussion
-          直接从数据库中删除,并不会返回相关回调方法;
-          若希望返回相关回调方法,请使用removeConversationByChatters:deleteMessages:append2Chat:
-          @result 删除成功或失败
-          */
-         //会话
-         EMConversation *conversation = self.conversations[indexPath.row];
-         EMBuddy *buddy = [EMBuddy buddyWithUsername:conversation.chatter];
-         NSString *chatter=buddy.username;
-         [[EaseMob sharedInstance].chatManager removeConversationByChatter:chatter deleteMessages:NO append2Chat:YES];
-          [self.conversations removeObjectAtIndex:indexPath.row];
-     }
-
+        
+        
+        
+        /*!
+         @method
+         @brief 删除某个会话对象
+         @param chatter 这个会话对象所对应的用户名
+         @param aDeleteMessages 是否删除这个会话对象所关联的聊天记录
+         @discussion
+         直接从数据库中删除,并不会返回相关回调方法;
+         若希望返回相关回调方法,请使用removeConversationByChatters:deleteMessages:append2Chat:
+         @result 删除成功或失败
+         */
+        //会话
+        EMConversation *conversation = self.conversations[indexPath.row];
+        EMBuddy *buddy = [EMBuddy buddyWithUsername:conversation.chatter];
+        NSString *chatter=buddy.username;
+        NSLog(@"选择的chatter=%@",chatter);
+        [[EaseMob sharedInstance].chatManager removeConversationByChatter:chatter deleteMessages:YES append2Chat:YES];
+        
+        [self.conversations removeObjectAtIndex:indexPath.row];
+        [self.datasourses removeObjectAtIndex:indexPath.row];
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self.tableView reloadData];
+        NSLog(@"successfully delete");
+    }
+    
     
 }
+
+
+//- (void)didRemovedByBuddy:(NSString *)username{
+//    [[EaseMob sharedInstance].chatManager removeConversationByChatter:username deleteMessages:NO append2Chat:YES];
+//
+//    for (EMConversation *conversation in self.conversations) {
+//        if (conversation.chatter==username) {
+//            [self.conversations removeObject:conversation];
+//        }
+//    }
+//    for (patient *p in self.datasourses) {
+//        if (p.username==username) {
+//            [self.datasourses removeObject:p];
+//        }
+//    }
+//
+//}
 
 - (void)delayMethod {
     [MBProgressHUD hideHUDForView:self.view animated:YES];

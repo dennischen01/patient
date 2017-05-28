@@ -37,4 +37,31 @@
     }
     return self;
 }
+
+
+- (void)encodeWithCoder:(NSCoder *)aCoder{
+    [aCoder encodeObject:self.username forKey:@"username"];
+    [aCoder encodeObject:self.age forKey:@"age"];
+    [aCoder encodeObject:self.type forKey:@"type"];
+    [aCoder encodeObject:self.gender forKey:@"gender"];
+    [aCoder encodeObject:self.phonenumber forKey:@"phonenumber"];
+    [aCoder encodeObject:self.detail forKey:@"detail"];
+    [aCoder encodeObject:self.imageurl forKey:@"imageurl"];
+    [aCoder encodeObject:self.hospital forKey:@"hospital"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder{
+    if (self=[super init]) {
+        self.username=[aDecoder decodeObjectForKey:@"username"];
+        self.age=[aDecoder decodeObjectForKey:@"age"];
+        self.type=[aDecoder decodeObjectForKey:@"type"];
+        self.gender=[aDecoder decodeObjectForKey:@"gender"];
+        self.phonenumber=[aDecoder decodeObjectForKey:@"phonenumber"];
+        self.detail=[aDecoder decodeObjectForKey:@"detail"];
+        self.imageurl=[aDecoder decodeObjectForKey:@"imageurl"];
+        self.hospital=[aDecoder decodeObjectForKey:@"hospital"];
+    }
+    return self;
+}
+
 @end

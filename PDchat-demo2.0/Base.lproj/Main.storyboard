@@ -431,6 +431,7 @@
                     </navigationBar>
                     <connections>
                         <segue destination="J1H-vX-iZV" kind="relationship" relationship="rootViewController" id="ulp-tm-f5J"/>
+                        <segue destination="vgO-AF-9iX" kind="show" id="1UR-Oq-NYM"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uv4-ZJ-x9S" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -517,6 +518,9 @@
                                 <state key="normal" title="  修改个人信息">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="alter:" destination="J1H-vX-iZV" eventType="touchUpInside" id="6tU-DD-lFj"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow" translatesAutoresizingMaskIntoConstraints="NO" id="Rmy-Pf-hWL">
                                 <rect key="frame" x="379" y="236" width="30" height="30"/>
@@ -839,6 +843,7 @@
                         <outlet property="age" destination="KnL-0d-Qu8" id="WO1-dI-ZJS"/>
                         <outlet property="detail" destination="6Hq-5b-Q1O" id="q3c-oe-65B"/>
                         <outlet property="hospital" destination="16x-k5-N5S" id="4Rx-aq-mzI"/>
+                        <outlet property="hospitalTextField" destination="16x-k5-N5S" id="2og-YM-rNP"/>
                         <outlet property="image" destination="mNJ-Au-jtn" id="3yO-Pf-el8"/>
                         <outlet property="phonenumberInput" destination="NEc-xb-giX" id="PUS-lB-ZPg"/>
                         <outlet property="type" destination="eAb-A0-SHd" id="Epy-QK-GOn"/>
@@ -1095,6 +1100,50 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o8C-eP-Yet" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4542" y="1004"/>
+        </scene>
+        <!--Alter Table View Controller-->
+        <scene sceneID="hgy-4T-ynZ">
+            <objects>
+                <tableViewController storyboardIdentifier="alter" id="vgO-AF-9iX" customClass="AlterTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="9qW-wl-ooR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="kVk-tO-Lql" detailTextLabel="Syi-23-wJg" style="IBUITableViewCellStyleValue1" id="Rzx-hx-UuJ" customClass="RegisterTableViewCell">
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rzx-hx-UuJ" id="Aed-hK-Yja">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kVk-tO-Lql">
+                                            <rect key="frame" x="15" y="11.999999999999998" width="33.333333333333336" height="20.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Syi-23-wJg">
+                                            <rect key="frame" x="355" y="11.999999999999998" width="44" height="20.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="vgO-AF-9iX" id="gm8-XS-uha"/>
+                            <outlet property="delegate" destination="vgO-AF-9iX" id="cB8-x8-fEh"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0kk-ex-qkj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3109" y="1754"/>
         </scene>
     </scenes>
     <resources>

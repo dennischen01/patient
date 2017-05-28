@@ -83,37 +83,41 @@
     
     
     
-    
 }
 
 
 
 #pragma mark 键盘显示是调用的方法
 - (void)kbWillShow:(NSNotification *)noti{
+  
     
-    //滑动效果（动画）
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@ "ResizeForKeyboard"  context:nil];
-    [UIView setAnimationDuration:animationDuration];
+        //滑动效果（动画）
+        NSTimeInterval animationDuration = 0.30f;
+        [UIView beginAnimations:@ "ResizeForKeyboard"  context:nil];
+        [UIView setAnimationDuration:animationDuration];
+        
+        //将视图的Y坐标向上移动，以使下面腾出地方用于软键盘的显示
+        
+        self.view.frame = CGRectMake(0.0f, -152.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
+        
+        [UIView commitAnimations];
+        
+        
+        //1.获取键盘高度
+        CGRect kbEndFram=[noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
+        CGFloat kbHeight=kbEndFram.size.height;
+        
+        
+        //2.更改约束
+        self.inputViewBottomConstrain.constant=kbHeight-152;
+        
+        //添加动画
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+
     
-    //将视图的Y坐标向上移动，以使下面腾出地方用于软键盘的显示
-    self.view.frame = CGRectMake(0.0f, -260.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
     
-    [UIView commitAnimations];
-    
-    
-    //1.获取键盘高度
-    CGRect kbEndFram=[noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
-    CGFloat kbHeight=kbEndFram.size.height;
-    
- 
-    //2.更改约束
-    self.inputViewBottomConstrain.constant=kbHeight-260;
-    
-    //添加动画
-    [UIView animateWithDuration:0.25 animations:^{
-        [self.view layoutIfNeeded];
-    }];
     
     
     
