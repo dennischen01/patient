@@ -135,7 +135,7 @@
         NSString *imageurl=[@"http://112.74.92.197/server/head" stringByAppendingPathComponent:filename];
         NSLog(@"%@",imageurl);
         NSString *str=[NSString stringWithFormat:@"phonenumber=%@&&imageurl=%@",loginUsername,imageurl];
-        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/alterHead.php"];
+        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/patient/alterHead.php"];
         NSURLSession *session=[NSURLSession sharedSession];
         NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
         requset.HTTPMethod=@"POST";
@@ -164,22 +164,7 @@
     
     UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     AlterTableViewController *alterVC=[storyboard instantiateViewControllerWithIdentifier:@"alter"];
-    alterVC.phonenumber= [[EaseMob sharedInstance].chatManager loginInfo][@"username"];
     
-    NSUserDefaults *def=[NSUserDefaults standardUserDefaults];
-    NSDictionary *dit=[def objectForKey:@"selfinfo"];
-    NSString *username=[dit objectForKey:@"username"];
-    
-    NSString *age=[dit objectForKey:@"age"];
-    NSString *gender=[dit objectForKey:@"gender"];
-    NSString *detail=[dit objectForKey:@"detail"];
-    NSString *type=[dit objectForKey:@"type"];
-    
-    alterVC.username=username;
-    alterVC.age=age;
-    alterVC.gender=gender;
-    alterVC.detail=detail;
-    alterVC.type=type;
     
     [self.navigationController pushViewController:alterVC animated:YES];
 

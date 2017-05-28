@@ -14,6 +14,15 @@
 #import "EaseMob.h"
 @interface AlterTableViewController ()
 
+@property(nonatomic,copy) NSString *phonenumber;
+@property(nonatomic,copy) NSString *username;
+
+@property(nonatomic,copy) NSString *age;
+@property(nonatomic,copy) NSString *gender;
+@property(nonatomic,copy) NSString *detail;
+@property(nonatomic,copy) NSString *type;
+- (IBAction)save:(id)sender;
+
 @end
 
 @implementation AlterTableViewController
@@ -21,11 +30,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.phonenumber= [[EaseMob sharedInstance].chatManager loginInfo][@"username"];
+    
+    NSUserDefaults *def=[NSUserDefaults standardUserDefaults];
+    NSDictionary *dit=[def objectForKey:@"selfinfo"];
+    self.username=[dit objectForKey:@"username"];
+    
+    self.age=[dit objectForKey:@"age"];
+    self.gender=[dit objectForKey:@"gender"];
+    self.detail=[dit objectForKey:@"detail"];
+    self.type=[dit objectForKey:@"type"];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -137,5 +154,38 @@
         };
         [self.navigationController pushViewController:detailVC animated:YES];
     }
+}
+- (IBAction)save:(id)sender {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURLSession *session=[NSURLSession sharedSession];
+        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/patient/updateInfo.php"];
+        NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
+        NSString *str=[NSString stringWithFormat:@"username=%@&&age=%@&&gender=%@&&type=%@&&detail=%@&&phonenumber=%@",self.username,self.age,self.gender,self.type,self.detail,self.phonenumber];
+        
+        NSLog(@"请求体：%@",str);
+        request.HTTPMethod=@"POST";
+        request.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
+        NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSString *res=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"res=%@",res);
+            if (res) {
+                NSLog(@"修改成功");
+                NSDictionary *dit=[NSDictionary dictionaryWithObjectsAndKeys:
+                                   @"username",self.username,
+                                   @"age",self.age,
+                                   @"gender",self.gender,
+                                   @"type",self.type,
+                                   @"detail",self.detail
+                                   , nil];
+                
+                
+                NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+                [defaults setObject:dit forKey:@"selfinfo"];
+            }
+            
+        }];
+        [task resume];
+    });
 }
 @end

@@ -1101,7 +1101,7 @@
             </objects>
             <point key="canvasLocation" x="4542" y="1004"/>
         </scene>
-        <!--Alter Table View Controller-->
+        <!--Title-->
         <scene sceneID="hgy-4T-ynZ">
             <objects>
                 <tableViewController storyboardIdentifier="alter" id="vgO-AF-9iX" customClass="AlterTableViewController" sceneMemberID="viewController">
@@ -1140,6 +1140,13 @@
                             <outlet property="delegate" destination="vgO-AF-9iX" id="cB8-x8-fEh"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Title" id="qDc-ya-nZh">
+                        <barButtonItem key="rightBarButtonItem" title="保存" id="Yrh-wY-TVe">
+                            <connections>
+                                <action selector="save:" destination="vgO-AF-9iX" id="sBg-Ft-4Ug"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0kk-ex-qkj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

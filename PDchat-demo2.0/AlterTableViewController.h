@@ -10,12 +10,5 @@
 
 @interface AlterTableViewController : UITableViewController
 
-@property(nonatomic,copy) NSString *phonenumber;
-@property(nonatomic,copy) NSString *username;
-
-@property(nonatomic,copy) NSString *age;
-@property(nonatomic,copy) NSString *gender;
-@property(nonatomic,copy) NSString *detail;
-@property(nonatomic,copy) NSString *type;
 
 @end
