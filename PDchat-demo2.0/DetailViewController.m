@@ -9,6 +9,7 @@
 #import "DetailViewController.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
+#import "FullDetailViewController.h"
 @interface DetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageview;
 @property (weak, nonatomic) IBOutlet UITextField *username;
@@ -52,6 +53,19 @@
                       }];
     [task resume];
     
+    
+    UITapGestureRecognizer *tag=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(detailLabelTap:)];
+    [self.detail addGestureRecognizer:tag];
+    
+    
+}
+
+
+- (void)detailLabelTap:(UITapGestureRecognizer*)recongnizer{
+    UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    FullDetailViewController *fullDet=[storyboard instantiateViewControllerWithIdentifier:@"fulldetail"];
+    fullDet.detail=self.detail.text;
+    [self.navigationController pushViewController:fullDet animated:YES];
     
 }
 

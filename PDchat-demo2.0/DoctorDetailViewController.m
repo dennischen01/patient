@@ -9,6 +9,7 @@
 #import "DoctorDetailViewController.h"
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
+#import "FullDetailViewController.h"
 @interface DoctorDetailViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
@@ -19,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *phonenumberInput;
 @property (weak, nonatomic) IBOutlet UITextField *age;
 @property (weak, nonatomic) IBOutlet UITextField *type;
-@property (weak, nonatomic) IBOutlet UITextField *detail;
+@property (weak, nonatomic) IBOutlet UILabel *detail;
 
 @end
 
@@ -63,6 +64,17 @@
     self.detail.text=self.doc.detail;
     [self.image sd_setImageWithURL:self.doc.imageurl placeholderImage:[UIImage imageNamed:@"ali"]];
     self.hospitalTextField.text=self.doc.hospital;
+    
+    UITapGestureRecognizer *tag=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(detailLabelTap:)];
+    [self.detail addGestureRecognizer:tag];
+    
+}
+
+- (void)detailLabelTap:(UITapGestureRecognizer*)recongnizer{
+    UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    FullDetailViewController *fullDet=[storyboard instantiateViewControllerWithIdentifier:@"fulldetail"];
+    fullDet.detail=self.detail.text;
+    [self.navigationController pushViewController:fullDet animated:YES];
     
 }
 

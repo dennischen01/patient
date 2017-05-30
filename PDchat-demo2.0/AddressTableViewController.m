@@ -169,12 +169,16 @@
             NSString *phone=d.phonenumber;
 
             if ([phone isEqualToString:phonenumber]) {
+                if (![self.datasourses containsObject:d]) {
+                    [self.datasourses addObject:d];
+                    NSLog(@"d.username=%@",d.username);
+                }
                 
-                [self.datasourses addObject:d];
-                NSLog(@"d.username=%@",d.username);
             }
         }
     }
+    NSLog(@"self.datasourse.count=%d",self.datasourses.count);
+    NSLog(@"self.buddlist.count=%d",self.buddyList.count);
     [self.tableView reloadData];
     [self.tableView.mj_header endRefreshing];
     

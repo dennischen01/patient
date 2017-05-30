@@ -44,6 +44,7 @@
 		E851708D1EC863A10075D290 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E8FA3B481E87852A005E8352 /* Main.storyboard */; };
 		E8520D9E1E90B7AF0052C695 /* TimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8520D9D1E90B7AF0052C695 /* TimeCell.m */; };
 		E8520DA11E90C1080052C695 /* TimeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = E8520DA01E90C1080052C695 /* TimeTool.m */; };
+		E85C15061EDDBA9A00710FE7 /* FullDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E85C15051EDDBA9A00710FE7 /* FullDetailViewController.m */; };
 		E85EE73D1EBF0A8500E3C891 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E85EE73C1EBF0A8500E3C891 /* SettingViewController.m */; };
 		E872E1D11E97CF7C00804D39 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E872E1D01E97CF7C00804D39 /* DetailViewController.m */; };
 		E88482E11EC7208D00428DAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88482E01EC7208D00428DAE /* Assets.xcassets */; };
@@ -215,6 +216,8 @@
 		E8520D9D1E90B7AF0052C695 /* TimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeCell.m; sourceTree = "<group>"; };
 		E8520D9F1E90C1080052C695 /* TimeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeTool.h; sourceTree = "<group>"; };
 		E8520DA01E90C1080052C695 /* TimeTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeTool.m; sourceTree = "<group>"; };
+		E85C15041EDDBA9A00710FE7 /* FullDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullDetailViewController.h; sourceTree = "<group>"; };
+		E85C15051EDDBA9A00710FE7 /* FullDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullDetailViewController.m; sourceTree = "<group>"; };
 		E85EE73B1EBF0A8500E3C891 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		E85EE73C1EBF0A8500E3C891 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		E872E1CF1E97CF7C00804D39 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
@@ -1214,6 +1217,8 @@
 				E81139291E9A1BCF005D5BAF /* AddFriendTableViewController.m */,
 				E82F825A1E9B78DE00C8585B /* DoctorDetailViewController.h */,
 				E82F825B1E9B78DE00C8585B /* DoctorDetailViewController.m */,
+				E85C15041EDDBA9A00710FE7 /* FullDetailViewController.h */,
+				E85C15051EDDBA9A00710FE7 /* FullDetailViewController.m */,
 			);
 			name = "联系人列表";
 			sourceTree = "<group>";
@@ -1349,6 +1354,7 @@
 				E827ADB81E8A7B3D00FC9ED2 /* chatCell.m in Sources */,
 				E83E62A81E8FAC99002BDC99 /* SDImageCache.m in Sources */,
 				E85EE73D1EBF0A8500E3C891 /* SettingViewController.m in Sources */,
+				E85C15061EDDBA9A00710FE7 /* FullDetailViewController.m in Sources */,
 				E83E62AD1E8FAC99002BDC99 /* SDWebImageManager.m in Sources */,
 				E8520DA11E90C1080052C695 /* TimeTool.m in Sources */,
 				E8DCB17C1ECEF89B004A5B44 /* MJRefreshBackGifFooter.m in Sources */,

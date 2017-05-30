@@ -581,6 +581,7 @@
                         <segue destination="8iP-HV-jF9" kind="relationship" relationship="rootViewController" id="p0L-Pz-Mdj"/>
                         <segue destination="MRD-Uf-kMM" kind="show" id="ULS-k5-gQ2"/>
                         <segue destination="cou-qY-SWB" kind="show" id="dB4-YI-g0G"/>
+                        <segue destination="tQr-AN-nCM" kind="show" id="TXx-RB-aE8"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iT8-ah-2lL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -704,7 +705,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Hq-5b-Q1O">
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Hq-5b-Q1O">
                                         <rect key="frame" x="66" y="10" width="332" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
@@ -854,6 +855,41 @@
             </objects>
             <point key="canvasLocation" x="4311.594202898551" y="200.54347826086959"/>
         </scene>
+        <!--Full Detail View Controller-->
+        <scene sceneID="KPR-Sg-DyR">
+            <objects>
+                <viewController storyboardIdentifier="fulldetail" id="tQr-AN-nCM" customClass="FullDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JHb-Iz-CZ0"/>
+                        <viewControllerLayoutGuide type="bottom" id="gxo-0l-yn6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="D4M-KV-Ve8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="111" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mXq-f0-rWl">
+                                <rect key="frame" x="0.0" y="64" width="414" height="623"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gxo-0l-yn6" firstAttribute="top" secondItem="mXq-f0-rWl" secondAttribute="bottom" id="cUf-mf-oIz"/>
+                            <constraint firstAttribute="trailing" secondItem="mXq-f0-rWl" secondAttribute="trailing" id="dIs-rD-v1R"/>
+                            <constraint firstItem="mXq-f0-rWl" firstAttribute="top" secondItem="JHb-Iz-CZ0" secondAttribute="bottom" id="oGr-mG-elB"/>
+                            <constraint firstItem="mXq-f0-rWl" firstAttribute="leading" secondItem="D4M-KV-Ve8" secondAttribute="leading" id="tJi-R3-afH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="mXq-f0-rWl" id="0Ss-nl-I2q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zRA-uG-Sk1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5424.6376811594209" y="199.72826086956522"/>
+        </scene>
         <!--医生详情-->
         <scene sceneID="8a5-lA-LMu">
             <objects>
@@ -971,7 +1007,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M49-DK-svo">
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M49-DK-svo">
                                         <rect key="frame" x="66" y="10" width="332" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
