@@ -79,9 +79,6 @@
         [self.doctor addObject:d];
     }
     
-    
-    MBProgressHUD *hud=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText=@"正在加载好友列表";
     [[EaseMob sharedInstance].chatManager asyncFetchBuddyListWithCompletion:^(NSArray *buddyList, EMError *error) {
         // 赋值数据源
         self.buddyList = buddyList;
@@ -90,15 +87,18 @@
         
         [self addNameFromLocal];
         
+        NSLog(@"当前线程=%@",[NSThread currentThread]);
         
     }onQueue:nil];
+    
     
 #warning 好友列表BuddyList需要在自动登录后才有值
 #warning 强调buddyList没有值的情况 1.第一次登录 2.自动登录还没有完成
     __weak typeof(self) weakSelf = self;
     
     [self setTableFooterView:self.tableView];
-    [self performSelector:@selector(delayMethod) withObject:nil afterDelay:1.0f];
+    self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(addNameFromLocal)];
+  
     
     
 }
@@ -164,15 +164,19 @@
 - (void)addNameFromLocal{
     for (EMBuddy *buddy in self.buddyList) {
         NSString *phonenumber=buddy.username;
+       
         for (doctor *d in self.doctor) {
             NSString *phone=d.phonenumber;
+
             if ([phone isEqualToString:phonenumber]) {
+                
                 [self.datasourses addObject:d];
                 NSLog(@"d.username=%@",d.username);
             }
         }
     }
     [self.tableView reloadData];
+    [self.tableView.mj_header endRefreshing];
     
 }
 
@@ -277,7 +281,6 @@
 - (void)didUpdateBuddyList:(NSArray *)buddyList changedBuddies:(NSArray *)changedBuddies isAdd:(BOOL)isAdd{
     //重新赋值数据源
     NSLog(@"self.datasourses.count=%d",self.datasourses.count);
-    NSLog(@"self.datasourses=%@",self.datasourses);
     NSLog(@"self.buddlist.count=%d",self.buddyList.count);
     self.buddyList=buddyList;
     for (EMBuddy *buddy in self.buddyList) {
@@ -358,7 +361,4 @@
 }
 
 
-- (void)delayMethod {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-}
 @end

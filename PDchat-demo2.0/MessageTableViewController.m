@@ -12,6 +12,7 @@
 #import "MBProgressHUD.h"
 #import "UIImageView+WebCache.h"
 #import "doctor.h"
+#import "MJRefresh.h"
 @interface MessageTableViewController ()<EMChatManagerDelegate,UIAlertViewDelegate>
 @property(nonatomic,copy)NSString *buddyusername;
 /** 历史会话记录 */
@@ -22,6 +23,8 @@
 @property (nonatomic, strong) NSArray *arr;
 //会话列表的患者数据源
 @property (nonatomic, strong) NSMutableArray *datasourses;
+@property NSDictionary *dic;
+
 @end
 
 @implementation MessageTableViewController
@@ -65,14 +68,23 @@
     
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     self.arr=[defaults objectForKey:@"total"];
+    /*
     for (NSData *data in self.arr) {
         doctor *d=[NSKeyedUnarchiver unarchiveObjectWithData:data];
         [self.doctor addObject:d];
     }
+    */
     
+//    [self addNameFromLocal];
+    self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(addname)];
+    [self.tableView.mj_header beginRefreshing];
     
-    [self loadConversations];
-    [self addNameFromLocal];
+     
+}
+
+- (void)myrelaodmethod{
+    [self.tableView reloadData];
+    [self.tableView.mj_header endRefreshing];
 }
 
 
@@ -115,45 +127,38 @@
 - (void)addname{
     //遍历
     
-    //1.创建信号量
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
-    
-    for (EMConversation *conversation in self.conversations) {
-        //2.等待-1
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-        NSLog(@"%@",conversation.chatter);
+    //网络请求获取用户名 patient_getInfo.php get请求
+    NSURLSession *session=[NSURLSession sharedSession];
+    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/getAllInfo.php"];
+    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+    NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        NSString *str=[NSString stringWithFormat:@"phonenumber=%@",conversation.chatter];
-        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/patient/usernameAndImage.php"];
-        //        NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/server/doctor_usernameAndImage.php"];
-        NSURLSession *session=[NSURLSession sharedSession];
-        NSMutableURLRequest *requset=[NSMutableURLRequest requestWithURL:url];
-        requset.HTTPMethod=@"POST";
-        requset.HTTPBody=[str dataUsingEncoding:NSUTF8StringEncoding];
-        NSURLSessionTask *task=[session dataTaskWithRequest:requset completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                
-                //3 +1
-                dispatch_semaphore_signal(semaphore);
-                
-                NSDictionary *obj=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                
-                NSLog(@"obj=%@",obj);
-                
-                NSString *name=[obj objectForKey:@"name"];
-                NSString *imageurl=[obj objectForKey:@"image"];
-                //                [self.usernames addObject:name];
-                //                [self.images addObject:imageurl];
-                [self.tableView reloadData];
-                
-            });
-            
-            
-        }];
-        [task resume];
+        //如果不是好友，就加入到显示列表中
         
-    }
+        
+        self.dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        for (id obj in self.dic) {
+            
+            doctor *d=[[doctor alloc]initWithUsername:obj[@"username"]
+                                               andAge:obj[@"age"]
+                                              andType:obj[@"type"]
+                                            andGender:obj[@"gender"]
+                                       andPhonenumber:obj[@"phonenumber"]
+                                            andDetail:obj[@"detail"]
+                                          andImageurl:obj[@"imageurl"]
+                                          andHospital:obj[@"hospital"]
+                       ];
+            [self.doctor addObject:d];
+            NSLog(@"线程=%@",[NSThread currentThread]);
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self addNameFromLocal];
+            [self.tableView reloadData];
+            [self.tableView.mj_header endRefreshing];
+        });
+    }];
     
+    [task resume];
 }
 
 
@@ -174,9 +179,11 @@
 - (void)didUnreadMessagesCountChanged{
     //更新表格
     NSLog(@"更新表格");
+    self.conversations=  [[EaseMob sharedInstance].chatManager loadAllConversationsFromDatabaseWithAppend2Chat:YES];
     [self.tableView reloadData];
     //显示总的未读数
     [self showTabBarBadge];
+    
     
 }
 
@@ -213,7 +220,7 @@
     if (totalUnreadCount>0) {
         self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%ld",totalUnreadCount];
     }else{
-        self.navigationController.tabBarItem.badgeValue=@"0";
+        self.navigationController.tabBarItem.badgeValue=nil;
     }
     
     
@@ -342,7 +349,7 @@
     }
     
     //1.获取会话模型
-    
+    NSLog(@"datasouces=%d conversatin=%d",self.datasourses.count,self.conversations.count);
     EMConversation *conversaion = self.conversations[indexPath.row];
     if (self.datasourses.count==self.conversations.count) {
         doctor *d=self.datasourses[indexPath.row];
@@ -372,6 +379,7 @@
         }
     }
     EMMessage *message=conversaion.latestMessage;
+    NSLog(@"message=%@",message);
     long long time=message.timestamp;
     
     NSDate *msgDate = [NSDate dateWithTimeIntervalSince1970:time/1000.0];
@@ -379,6 +387,7 @@
     NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
     formatter.dateFormat=@"HH:mm";
     NSString *timeStr=[formatter stringFromDate:msgDate];
+    NSLog(@"timestr=%@",timeStr);
     cell.detailTextLabel.text =timeStr;
     return cell;
 }

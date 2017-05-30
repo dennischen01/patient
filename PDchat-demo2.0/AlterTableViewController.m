@@ -29,7 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.title=@"修改个人信息";
     
     self.phonenumber= [[EaseMob sharedInstance].chatManager loginInfo][@"username"];
     

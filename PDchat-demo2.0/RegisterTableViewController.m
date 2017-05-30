@@ -12,7 +12,7 @@
 #import "RegisterTableViewCell.h"
 #import "RegisterDetailViewController.h"
 #import "EaseMob.h"
-@interface RegisterTableViewController ()
+@interface RegisterTableViewController ()<UIAlertViewDelegate>
 @property(nonatomic,copy) NSString *username;
 
 @property(nonatomic,copy) NSString *age;
@@ -30,7 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.phonenumber=@"01705222039";
+    self.phonenumber=@"18069966619";
     self.password=@"123456";
     
     // Uncomment the following line to preserve selection between presentations.
@@ -179,13 +179,11 @@
                 NSLog(@"环信注册成功");
                 UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"提示" message:@"注册成功，已为您登陆" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil];
                 [alert show];
+                alert.delegate=self;
                 
-                [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:self.phonenumber password:self.phonenumber completion:^(NSDictionary *loginInfo, EMError *error) {
-                    NSLog(@"登录中");
-                } onQueue:nil];
+               
                 
-                //来主界面
-                self.view.window.rootViewController = [UIStoryboard storyboardWithName:@"Main" bundle:nil].instantiateInitialViewController;
+            
                 
             } onQueue:nil];
             
@@ -196,6 +194,55 @@
     }];
     [task resume];
     
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==0) {
+        [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:self.phonenumber password:self.password completion:^(NSDictionary *loginInfo, EMError *error) {
+            if (!error && loginInfo) {
+                NSLog(@"登录成功");
+                [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:YES];
+                
+                
+                
+                //获取中文名
+                NSURLSession *session=[NSURLSession sharedSession];
+                NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/patient/MyselfInfo.php"];
+                NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
+                request.HTTPMethod=@"POST";
+                NSString *str=[NSString stringWithFormat:@"phonenumber=%@",self.phonenumber];
+                NSData *body=[str dataUsingEncoding:NSUTF8StringEncoding];
+                request.HTTPBody=body;
+                NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        id obj=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                        NSLog(@"obj=%@",obj);
+                        if ([obj isKindOfClass:[NSDictionary class]]) {
+                            NSLog(@"obj= dictionary");
+                        }
+                        //写入NSUserDefaults
+                        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+                        [defaults setObject:obj forKey:@"selfinfo"];
+                        NSLog(@"成功写入NSUserDefaults");
+                        
+                        
+                        // 来主界面
+                        self.view.window.rootViewController = [UIStoryboard storyboardWithName:@"Main" bundle:nil].instantiateInitialViewController;
+                        
+                    });
+                    
+                    
+                    
+                    
+                }];
+                [task resume];
+                
+                
+            }
+            
+        } onQueue:nil];
+    }
+   
 }
 
 @end
