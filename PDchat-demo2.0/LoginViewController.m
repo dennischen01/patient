@@ -21,7 +21,7 @@
 - (IBAction)Login:(id)sender;
 - (IBAction)Register:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *loginbutton;
-
+@property (nonatomic,strong) MBProgressHUD *hud;
 @end
 
 @implementation LoginViewController
@@ -108,8 +108,8 @@
     NSString *userName=self.userName.text;
     NSString *password=self.passWord.text;
     
-    MBProgressHUD *hud=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText=@"正在登陆";
+    self.hud=[MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.labelText=@"正在登陆";
     
     
     [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:userName password:password completion:^(NSDictionary *loginInfo, EMError *error) {
@@ -154,8 +154,9 @@
 
 
         }else{
-            NSLog(@"登录失败:%@",error);
-            [MBProgressHUD HUDForView:self.view];
+            self.hud.labelText=@"登陆失败";
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
         }
     } onQueue:nil];
     

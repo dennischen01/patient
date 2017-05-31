@@ -10,6 +10,7 @@
 #import "DoctorDetailViewController.h"
 #import "doctor.h"
 #import "MBProgressHUD.h"
+#import "MJRefresh.h"
 #import "UIImageView+WebCache.h"
 @interface AddFriendTableViewController ()<UISearchBarDelegate>{
     // 保存搜索结果数据的NSArray对象。
@@ -52,17 +53,10 @@
     [super viewDidLoad];
     self.searcrBar.delegate=self;
     self.searcrBar.showsCancelButton=YES;
-    NSLog(@"doctor list=%@",self.doctors);
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(addDoctorFromServer)];
     
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    self.arr=[defaults objectForKey:@"total"];
-    for (NSData *data in self.arr) {
-        doctor *d=[NSKeyedUnarchiver unarchiveObjectWithData:data];
-        [self.doctors addObject:d];
-    }
-    [self addnameFromLoacl];
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self.tableView.mj_header beginRefreshing];
+ 
     [self setTableFooterView:self.tableView];
 }
 - (void)setTableFooterView:(UITableView *)tb {
@@ -74,49 +68,45 @@
     view.backgroundColor = [UIColor whiteColor];
     [tb setTableFooterView:view];
 }
-/*
- - (void)addname{
- //网络请求获取用户名 patient_getInfo.php get请求
- NSURLSession *session=[NSURLSession sharedSession];
- NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/patient/getAllInfo.php"];
- NSURLRequest *request=[NSURLRequest requestWithURL:url];
- NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
- //        NSLog(@"%@",self.username);
- 
- //如果不是好友，就加入到显示列表中
- 
- dispatch_async(dispatch_get_main_queue(), ^{
- self.dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
- for (id obj in self.dic) {
- 
- doctor *d=[[doctor alloc]initWithUsername:obj[@"username"]
- andAge:obj[@"age"]
- andType:obj[@"type"]
- andGender:obj[@"gender"]
- andPhonenumber:obj[@"phonenumber"]
- andDetail:obj[@"detail"]
- andImageurl:obj[@"imageurl"]
- andHospital:obj[@"hospital"]];
- [self.datasourse addObject:d];
- }
- 
- 
- for (doctor *d in self.datasourse) {
- if (![self.patientList containsObject:d.username]) {
- [self.username addObject:d];
- }
- }
- 
- [self.tableView reloadData];
- 
- });
- 
- 
- }];
- [task resume];
- 
- }
- */
+
+- (void)addDoctorFromServer{
+    //网络请求获取用户名 patient_getInfo.php get请求
+    [self.doctors removeAllObjects];
+    NSURLSession *session=[NSURLSession sharedSession];
+    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/getAllInfo.php"];
+    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+    NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        //如果不是好友，就加入到显示列表中
+        
+        NSLog(@"线程=%@",[NSThread currentThread]);
+        self.dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        for (id obj in self.dic) {
+            
+            doctor *d=[[doctor alloc]initWithUsername:obj[@"username"]
+                                               andAge:obj[@"age"]
+                                              andType:obj[@"type"]
+                                            andGender:obj[@"gender"]
+                                       andPhonenumber:obj[@"phonenumber"]
+                                            andDetail:obj[@"detail"]
+                                          andImageurl:obj[@"imageurl"]
+                                          andHospital:obj[@"hospital"]
+                       ];
+            
+            [self.doctors addObject:d];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self addnameFromLoacl];
+            [self.tableView.header endRefreshing];
+            [self.tableView reloadData];
+            
+        });
+    }];
+    
+    [task resume];
+    
+}
+
 
 - (void)addnameFromLoacl{
     for (doctor *already in self.DoctorList) {

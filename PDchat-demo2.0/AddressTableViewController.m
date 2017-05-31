@@ -22,6 +22,7 @@
 @property NSMutableArray *doctor;
 @property NSMutableArray *datasourses;
 @property NSArray *arr;
+@property NSDictionary *dic;
 
 //保存图片url
 @property NSMutableArray *images;
@@ -97,9 +98,50 @@
     __weak typeof(self) weakSelf = self;
     
     [self setTableFooterView:self.tableView];
-    self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(addNameFromLocal)];
-  
+    self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(addDoctorFromServer)];
     
+    [self.tableView.mj_header beginRefreshing];
+    
+    
+}
+
+
+
+- (void)addDoctorFromServer{
+    //网络请求获取用户名 patient_getInfo.php get请求
+    [self.doctor removeAllObjects];
+    NSURLSession *session=[NSURLSession sharedSession];
+    NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/getAllInfo.php"];
+    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+    NSURLSessionTask *task=[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        //如果不是好友，就加入到显示列表中
+        
+        NSLog(@"线程=%@",[NSThread currentThread]);
+        self.dic=[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        for (id obj in self.dic) {
+            
+            doctor *d=[[doctor alloc]initWithUsername:obj[@"username"]
+                                                 andAge:obj[@"age"]
+                                                andType:obj[@"type"]
+                                              andGender:obj[@"gender"]
+                                         andPhonenumber:obj[@"phonenumber"]
+                                              andDetail:obj[@"detail"]
+                                            andImageurl:obj[@"imageurl"]
+                                            andHospital:obj[@"hospital"]
+                        ];
+            
+            [self.doctor addObject:d];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self loadBuddyListFromServer];
+            [self.tableView.header endRefreshing];
+            [self.tableView reloadData];
+            
+        });
+    }];
+    
+    [task resume];
     
 }
 
@@ -162,6 +204,7 @@
  */
 
 - (void)addNameFromLocal{
+    [self.datasourses removeAllObjects];
     for (EMBuddy *buddy in self.buddyList) {
         NSString *phonenumber=buddy.username;
        
@@ -171,7 +214,6 @@
             if ([phone isEqualToString:phonenumber]) {
                 if (![self.datasourses containsObject:d]) {
                     [self.datasourses addObject:d];
-                    NSLog(@"d.username=%@",d.username);
                 }
                 
             }
@@ -180,7 +222,6 @@
     NSLog(@"self.datasourse.count=%d",self.datasourses.count);
     NSLog(@"self.buddlist.count=%d",self.buddyList.count);
     [self.tableView reloadData];
-    [self.tableView.mj_header endRefreshing];
     
 }
 
@@ -272,7 +313,7 @@
         
         // 赋值数据源
         self.buddyList = buddyList;
-        
+        [self addNameFromLocal];
         // 刷新
         [self.tableView reloadData];
         
