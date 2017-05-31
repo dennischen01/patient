@@ -59,23 +59,9 @@
     [super viewDidLoad];
     //设置代理
     [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
-    //获取历史绘画记录
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    //    [self addname];
     [self setTableFooterView:self.tableView];
-    [self performSelector:@selector(delayMethod) withObject:nil afterDelay:1.0f];
-    
-    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-    self.arr=[defaults objectForKey:@"total"];
-    /*
-    for (NSData *data in self.arr) {
-        doctor *d=[NSKeyedUnarchiver unarchiveObjectWithData:data];
-        [self.doctor addObject:d];
-    }
-    */
-    
-//    [self addNameFromLocal];
+ 
+   
     self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(addname)];
     [self.tableView.mj_header beginRefreshing];
     
@@ -195,7 +181,9 @@
     NSLog(@"历史会话列表更新");
     //给数据源重新赋值
     for (EMConversation *obj in conversationList) {
-        if (![self.conversations containsObject:obj]) {
+        NSLog(@"obj.lastmessage=%@",obj.latestMessage);
+        
+        if (![self.conversations containsObject:obj]&&obj.latestMessage!=nil) {
             [self.conversations addObject:obj];
             [self addNameFromConversation:obj];
             
@@ -473,10 +461,7 @@
 //
 //}
 
-- (void)delayMethod {
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-    [self.tableView reloadData];
-}
+
 
 
 @end
