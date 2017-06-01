@@ -12,6 +12,8 @@
 #import "MBProgressHUD.h"
 #import "MJRefresh.h"
 #import "UIImageView+WebCache.h"
+#import "pinyin.h"
+#import "ChineseString.h"
 @interface AddFriendTableViewController ()<UISearchBarDelegate>{
     // 保存搜索结果数据的NSArray对象。
     NSMutableArray* searchData;
@@ -22,7 +24,7 @@
 
 //搜索栏
 @property (weak, nonatomic) IBOutlet UISearchBar *searcrBar;
-
+@property NSMutableArray *sortedDoctor;
 //数据字典
 @property (nonatomic, strong)NSMutableDictionary *dic;
 
@@ -68,6 +70,69 @@
     view.backgroundColor = [UIColor whiteColor];
     [tb setTableFooterView:view];
 }
+
+- (void)sortdoctor:(NSMutableArray *)doc{
+    //step1：初始化 读入数组
+    //step2: 获取字符串中文字的拼音首字母并与字符串共同存放
+    NSMutableArray *chineseStringsArray=[NSMutableArray array];
+    for (int i=0; i<doc.count; i++) {
+        ChineseString*chineseString=[[ChineseString alloc]init];
+        doctor *d=[doc objectAtIndex:i];
+        chineseString.string=[NSString stringWithString:d.username];
+        if(chineseString.string==nil){
+            chineseString.string=@"";
+        }
+        
+        if(![chineseString.string isEqualToString:@""]){
+            NSString *pinYinResult=[NSString string];
+            for(int j=0;j<chineseString.string.length;j++){
+                NSString *singlePinyinLetter=[[NSString stringWithFormat:@"%c",pinyinFirstLetter([chineseString.string characterAtIndex:j])]uppercaseString];
+                
+                pinYinResult=[pinYinResult stringByAppendingString:singlePinyinLetter];
+            }
+            chineseString.pinYin=pinYinResult;
+        }else{
+            chineseString.pinYin=@"";
+        }
+        [chineseStringsArray addObject:chineseString];
+    }
+    //Step3:按照拼音首字母对这些Strings进行排序
+    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"pinYin" ascending:YES]];
+    [chineseStringsArray sortUsingDescriptors:sortDescriptors];
+    
+    //Step3输出
+    NSLog(@"\n\n\n按照拼音首字母后的NSString数组");
+    for(int i=0;i<[chineseStringsArray count];i++){
+        ChineseString *chineseString=[chineseStringsArray objectAtIndex:i];
+        NSLog(@"原String:%@----拼音首字母String:%@",chineseString.string,chineseString.pinYin);
+    }
+    // Step4:如果有需要，再把排序好的内容从ChineseString类中提取出来
+    NSMutableArray *result=[NSMutableArray array];
+    for(int i=0;i<[chineseStringsArray count];i++){
+        [result addObject:((ChineseString*)[chineseStringsArray objectAtIndex:i]).string];
+    }
+    
+    //Step4输出
+    NSLog(@"\n\n\n最终结果:");
+    for(int i=0;i<[result count];i++){
+        NSLog(@"%@",[result objectAtIndex:i]);
+    }
+    
+    //程序结束
+    self.sortedDoctor=[NSMutableArray array];
+    for (NSString *sortedname in result) {
+        for (doctor *d in doc) {
+            if (d.username==sortedname) {
+                [self.sortedDoctor addObject:d];
+            }
+        }
+    }
+    
+    
+    
+}
+
+
 
 - (void)addDoctorFromServer{
     //网络请求获取用户名 patient_getInfo.php get请求
@@ -127,6 +192,7 @@
             [self.doctors removeObject:d];
         }
     }
+    [self sortdoctor:self.doctors];
     
 }
 
@@ -154,10 +220,13 @@
     static NSString *id=@"addID";
     static const int imgTag = 111;
     static const int labelTag = 222;
+    static const int messageTag = 333;
+    UIImageView *imageView = nil;
+    UILabel *textLabel = nil;
+    UILabel *messageLabel=nil;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id forIndexPath:indexPath];
     
-    UIImageView *imageView;
-    UILabel *textLabel;
+    
     
     for (UIView *v in cell.contentView.subviews) {
         
@@ -168,23 +237,38 @@
         if (v.tag == labelTag) {
             textLabel = v;
         }
+        if (v.tag==messageTag) {
+            messageLabel=v;
+        }
     }
     
-    if (!imageView) {
+    if (imageView == nil) {
         imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 60, 60)];
+        imageView.image=[UIImage imageNamed:@"chatListCellHead"];
         imageView.layer.cornerRadius = 5;
         imageView.layer.masksToBounds  = YES;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
-        imageView.tag=imgTag;
+        imageView.tag = imgTag;
         [cell.contentView addSubview:imageView];
     }
     
-    if (!textLabel) {
-        textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 60)];
-        [textLabel setFont:[UIFont systemFontOfSize:16]];
+    if (textLabel == nil) {
+        textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 30)];
+        [textLabel setFont:[UIFont systemFontOfSize:22]];
         textLabel.backgroundColor = [UIColor clearColor];
-        textLabel.tag=labelTag;
+        textLabel.tag = labelTag;
         [cell.contentView addSubview:textLabel];
+    }
+    
+    if (messageLabel == nil) {
+        CGFloat messageWidth = [UIScreen mainScreen].bounds.size.width - 130;
+        messageLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 45, messageWidth, 20)];
+        [messageLabel  setFont:[UIFont systemFontOfSize:16]];
+        messageLabel.backgroundColor = [UIColor clearColor];
+        messageLabel.textColor = [UIColor lightGrayColor];
+        messageLabel.text = @"作为医生我觉得你没必要抢救了";
+        messageLabel.tag = messageTag;
+        [cell.contentView addSubview:messageLabel];
     }
 
     
@@ -205,13 +289,15 @@
         NSString *imageurl=p.imageurl;
         NSURL *url=[NSURL URLWithString:imageurl];
         [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
+        messageLabel.text=p.hospital;
     }else if(self.doctors.count>0){
-        doctor *p=self.doctors[indexPath.row];
+        doctor *p=self.sortedDoctor[indexPath.row];
         textLabel.text=p.username;
         cell.detailTextLabel.text=p.type;
         NSString *imageurl=p.imageurl;
         NSURL *url=[NSURL URLWithString:imageurl];
         [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
+        messageLabel.text=p.hospital;
     }
     
     
@@ -292,12 +378,13 @@
 -(void)searchDataWithKeyWord:(NSString *)keyWord{
     isSearch=YES;
     searchData=[NSMutableArray array];
-    [self.doctors enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [self.sortedDoctor enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         doctor *p=obj;
         if ([p.username.uppercaseString containsString:keyWord.uppercaseString]||[p.type containsString:keyWord]) {
             [searchData addObject:p];
         }
     }];
+//    [self sortdoctor:searchData];
     //刷新表格
     [self.tableView reloadData];
 }

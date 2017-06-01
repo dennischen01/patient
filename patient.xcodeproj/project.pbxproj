@@ -50,6 +50,9 @@
 		E88482E11EC7208D00428DAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E88482E01EC7208D00428DAE /* Assets.xcassets */; };
 		E88482E41EC7250000428DAE /* ScanImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E88482E31EC7250000428DAE /* ScanImage.m */; };
 		E88B96D61EC09374005B038B /* AFNetworkingTool.m in Sources */ = {isa = PBXBuildFile; fileRef = E88B96D51EC09374005B038B /* AFNetworkingTool.m */; };
+		E898A34D1EDFF17B0052804F /* ChineseString.m in Sources */ = {isa = PBXBuildFile; fileRef = E898A34A1EDFF17B0052804F /* ChineseString.m */; };
+		E898A34E1EDFF17B0052804F /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = E898A34B1EDFF17B0052804F /* pinyin.c */; };
+		E898A3511EE0012C0052804F /* PrepareForChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E898A3501EE0012C0052804F /* PrepareForChatViewController.m */; };
 		E8B97EB81EC18E2500E5EA43 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B97EAC1EC18E2500E5EA43 /* AFHTTPSessionManager.m */; };
 		E8B97EB91EC18E2500E5EA43 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B97EAF1EC18E2500E5EA43 /* AFNetworkReachabilityManager.m */; };
 		E8B97EBA1EC18E2500E5EA43 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B97EB11EC18E2500E5EA43 /* AFSecurityPolicy.m */; };
@@ -228,6 +231,12 @@
 		E88482E31EC7250000428DAE /* ScanImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanImage.m; sourceTree = "<group>"; };
 		E88B96D41EC09374005B038B /* AFNetworkingTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkingTool.h; sourceTree = "<group>"; };
 		E88B96D51EC09374005B038B /* AFNetworkingTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingTool.m; sourceTree = "<group>"; };
+		E898A3491EDFF17B0052804F /* ChineseString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseString.h; sourceTree = "<group>"; };
+		E898A34A1EDFF17B0052804F /* ChineseString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseString.m; sourceTree = "<group>"; };
+		E898A34B1EDFF17B0052804F /* pinyin.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = pinyin.c; sourceTree = "<group>"; };
+		E898A34C1EDFF17B0052804F /* pinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pinyin.h; sourceTree = "<group>"; };
+		E898A34F1EE0012C0052804F /* PrepareForChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrepareForChatViewController.h; sourceTree = "<group>"; };
+		E898A3501EE0012C0052804F /* PrepareForChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrepareForChatViewController.m; sourceTree = "<group>"; };
 		E8B97EAB1EC18E2500E5EA43 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		E8B97EAC1EC18E2500E5EA43 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
 		E8B97EAD1EC18E2500E5EA43 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
@@ -492,6 +501,10 @@
 				E8520DA01E90C1080052C695 /* TimeTool.m */,
 				E81975941E989F3400C9B447 /* UsernameTool.h */,
 				E81975951E989F3400C9B447 /* UsernameTool.m */,
+				E898A3491EDFF17B0052804F /* ChineseString.h */,
+				E898A34A1EDFF17B0052804F /* ChineseString.m */,
+				E898A34B1EDFF17B0052804F /* pinyin.c */,
+				E898A34C1EDFF17B0052804F /* pinyin.h */,
 			);
 			name = "工具类";
 			sourceTree = "<group>";
@@ -1219,6 +1232,8 @@
 				E82F825B1E9B78DE00C8585B /* DoctorDetailViewController.m */,
 				E85C15041EDDBA9A00710FE7 /* FullDetailViewController.h */,
 				E85C15051EDDBA9A00710FE7 /* FullDetailViewController.m */,
+				E898A34F1EE0012C0052804F /* PrepareForChatViewController.h */,
+				E898A3501EE0012C0052804F /* PrepareForChatViewController.m */,
 			);
 			name = "联系人列表";
 			sourceTree = "<group>";
@@ -1366,6 +1381,7 @@
 				E8FA3C031E8797AB005E8352 /* AddressTableViewController.m in Sources */,
 				E8B97EBD1EC18E2500E5EA43 /* AFURLSessionManager.m in Sources */,
 				E8F3CF481E9CBA24008DD0C1 /* doctor.m in Sources */,
+				E898A3511EE0012C0052804F /* PrepareForChatViewController.m in Sources */,
 				E8FA3B4D1E87852A005E8352 /* PDchat_demo2_0.xcdatamodeld in Sources */,
 				E8DCB1811ECEF89B004A5B44 /* MJRefreshStateHeader.m in Sources */,
 				E83E62B51E8FAC99002BDC99 /* UIView+WebCacheOperation.m in Sources */,
@@ -1404,6 +1420,7 @@
 				E8EA6DDB1EADFF1700249ED4 /* RegisterTableViewCell.m in Sources */,
 				E83A76E81E8E510B00ED7558 /* EMCDDeviceManager+ProximitySensor.m in Sources */,
 				E8DCB1871ECEF89B004A5B44 /* UIView+MJExtension.m in Sources */,
+				E898A34E1EDFF17B0052804F /* pinyin.c in Sources */,
 				E8B97EBC1EC18E2500E5EA43 /* AFURLResponseSerialization.m in Sources */,
 				E8DCB17A1ECEF89B004A5B44 /* MJRefreshAutoNormalFooter.m in Sources */,
 				E83E62A61E8FAC99002BDC99 /* MKAnnotationView+WebCache.m in Sources */,
@@ -1419,6 +1436,7 @@
 				E83E62AB1E8FAC99002BDC99 /* SDWebImageDownloader.m in Sources */,
 				E8DCB17B1ECEF89B004A5B44 /* MJRefreshAutoStateFooter.m in Sources */,
 				E83A76EB1E8E510B00ED7558 /* amrFileCodec.mm in Sources */,
+				E898A34D1EDFF17B0052804F /* ChineseString.m in Sources */,
 				E8DCB1851ECEF89B004A5B44 /* UIScrollView+MJExtension.m in Sources */,
 				E8FA3B441E87852A005E8352 /* AppDelegate.m in Sources */,
 				E8B97EBB1EC18E2500E5EA43 /* AFURLRequestSerialization.m in Sources */,

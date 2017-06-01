@@ -89,6 +89,9 @@
 
 #pragma mark 键盘显示是调用的方法
 - (void)kbWillShow:(NSNotification *)noti{
+    if (self.dataSourse.count<10) {
+        return;
+    }else{
   
     
         //滑动效果（动画）
@@ -112,9 +115,9 @@
         self.inputViewBottomConstrain.constant=kbHeight-152;
         
         //添加动画
-        [UIView animateWithDuration:0.25 animations:^{
+        [UIView animateWithDuration:0.1 animations:^{
             [self.view layoutIfNeeded];
-        }];
+        }];}
 
     
     
@@ -309,7 +312,7 @@
     //1.构造图片消息体
     //第一个参数:原始大小的图片对象
     //第二个参数:缩略图的图片对象
-    EMChatImage *originalChatImg=[[EMChatImage alloc]initWithUIImage:image displayName:@"【图片】"];
+    EMChatImage *originalChatImg=[[EMChatImage alloc]initWithUIImage:image displayName:@"[图片]"];
     EMImageMessageBody *imgBody=[[EMImageMessageBody alloc]initWithImage:originalChatImg thumbnailImage:nil];
     //2.构造消息对象
     EMMessage *msgObj=[[EMMessage alloc]initWithReceiver:self.buddy.username bodies:@[imgBody]];

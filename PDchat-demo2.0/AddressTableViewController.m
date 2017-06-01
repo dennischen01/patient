@@ -14,6 +14,9 @@
 #import "UIImageView+WebCache.h"
 #import "MJRefresh.h"
 #import "doctor.h"
+#import "pinyin.h"
+#import "ChineseString.h"
+#import "PrepareForChatViewController.h"
 @interface AddressTableViewController ()<EMChatManagerDelegate>
 //好友列表数据源
 /** 历史会话记录 */
@@ -23,6 +26,8 @@
 @property NSMutableArray *datasourses;
 @property NSArray *arr;
 @property NSDictionary *dic;
+
+@property NSMutableArray *sortedDoctor;
 
 //保存图片url
 @property NSMutableArray *images;
@@ -145,7 +150,66 @@
     
 }
 
+- (void)sortdoctor:(NSMutableArray *)doc{
+    //step1：初始化 读入数组
+    //step2: 获取字符串中文字的拼音首字母并与字符串共同存放
+    NSMutableArray *chineseStringsArray=[NSMutableArray array];
+    for (int i=0; i<doc.count; i++) {
+        ChineseString*chineseString=[[ChineseString alloc]init];
+        doctor *d=[doc objectAtIndex:i];
+        chineseString.string=[NSString stringWithString:d.username];
+        if(chineseString.string==nil){
+            chineseString.string=@"";
+        }
+        
+        if(![chineseString.string isEqualToString:@""]){
+            NSString *pinYinResult=[NSString string];
+            for(int j=0;j<chineseString.string.length;j++){
+                NSString *singlePinyinLetter=[[NSString stringWithFormat:@"%c",pinyinFirstLetter([chineseString.string characterAtIndex:j])]uppercaseString];
+                
+                pinYinResult=[pinYinResult stringByAppendingString:singlePinyinLetter];
+            }
+            chineseString.pinYin=pinYinResult;
+        }else{
+            chineseString.pinYin=@"";
+        }
+        [chineseStringsArray addObject:chineseString];
+    }
+    //Step3:按照拼音首字母对这些Strings进行排序
+    NSArray *sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"pinYin" ascending:YES]];
+    [chineseStringsArray sortUsingDescriptors:sortDescriptors];
+    
+    //Step3输出
+    NSLog(@"\n\n\n按照拼音首字母后的NSString数组");
+    for(int i=0;i<[chineseStringsArray count];i++){
+        ChineseString *chineseString=[chineseStringsArray objectAtIndex:i];
+        NSLog(@"原String:%@----拼音首字母String:%@",chineseString.string,chineseString.pinYin);
+    }
+    // Step4:如果有需要，再把排序好的内容从ChineseString类中提取出来
+    NSMutableArray *result=[NSMutableArray array];
+    for(int i=0;i<[chineseStringsArray count];i++){
+        [result addObject:((ChineseString*)[chineseStringsArray objectAtIndex:i]).string];
+    }
+    
+    //Step4输出
+    NSLog(@"\n\n\n最终结果:");
+    for(int i=0;i<[result count];i++){
+        NSLog(@"%@",[result objectAtIndex:i]);
+    }
+    
+    //程序结束
+    self.sortedDoctor=[NSMutableArray array];
+    for (NSString *sortedname in result) {
+        for (doctor *d in doc) {
+            if (d.username==sortedname) {
+                [self.sortedDoctor addObject:d];
+            }
+        }
+    }
 
+    
+
+}
 
 
 
@@ -219,6 +283,7 @@
             }
         }
     }
+    [self sortdoctor:self.datasourses];
     NSLog(@"self.datasourse.count=%d",self.datasourses.count);
     NSLog(@"self.buddlist.count=%d",self.buddyList.count);
     [self.tableView reloadData];
@@ -232,10 +297,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    
     static const int imgTag = 111;
     static const int labelTag = 222;
+    static const int messageTag = 333;
     UIImageView *imageView = nil;
     UILabel *textLabel = nil;
+    UILabel *messageLabel=nil;
     
     
     static NSString *id=@"BuddyCell";
@@ -250,6 +318,7 @@
         switch (v.tag) {
             case imgTag:imageView = v;break;
             case labelTag:textLabel = v;break;
+            case messageTag:messageLabel = v;break;
             default:break;
         }
     }
@@ -265,20 +334,33 @@
     }
     
     if (textLabel == nil) {
-        textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 20, 200, cell.contentView.frame.size.height - 40)];
+        textLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 10, 200, 30)];
         [textLabel setFont:[UIFont systemFontOfSize:22]];
         textLabel.backgroundColor = [UIColor clearColor];
         textLabel.tag = labelTag;
         [cell.contentView addSubview:textLabel];
     }
     
+    if (messageLabel == nil) {
+        CGFloat messageWidth = [UIScreen mainScreen].bounds.size.width - 130;
+        messageLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 45, messageWidth, 20)];
+        [messageLabel  setFont:[UIFont systemFontOfSize:16]];
+        messageLabel.backgroundColor = [UIColor clearColor];
+        messageLabel.textColor = [UIColor lightGrayColor];
+        messageLabel.text = @"作为医生我觉得你没必要抢救了";
+        messageLabel.tag = messageTag;
+        [cell.contentView addSubview:messageLabel];
+    }
+    
     //3.显示名称
     if (self.datasourses.count==self.buddyList.count) {
-        doctor *d=self.datasourses[indexPath.row];
+        doctor *d=self.sortedDoctor[indexPath.row];
         textLabel.text=d.username;
         NSString *imageurl=d.imageurl;
         NSURL *url=[NSURL URLWithString:imageurl];
         [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
+        cell.detailTextLabel.text=d.type;
+        messageLabel.text=d.hospital;
     }
     
     
@@ -370,6 +452,8 @@
     if (_buddyList.count == 0 || _doctor.count == 0 ) {
         return;
     }
+    
+    /*
     //进入到聊天控制器
     //1.从storybaord加载聊天控制器
     chatViewController *chatVc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ChatPage"];
@@ -381,6 +465,12 @@
     chatVc.imageurl=d.imageurl;
     //3.展现聊天界面
     [self.navigationController pushViewController:chatVc animated:YES];
+    */
+    
+    PrepareForChatViewController *pre=[[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"pre"];
+    pre.doc=self.sortedDoctor[indexPath.row];
+    pre.buddy=self.buddyList[indexPath.row];
+    [self.navigationController pushViewController:pre animated:YES];
     
     
 }

@@ -5,7 +5,7 @@
 //  Created by 陈希灿 on 2017/3/26.
 //  Copyright © 2017年 hdu. All rights reserved.
 //
-
+#import "TimeTool.h"
 #import "MessageTableViewController.h"
 #import "EaseMob.h"
 #import "chatViewController.h"
@@ -61,7 +61,7 @@
     [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
     [self setTableFooterView:self.tableView];
  
-   
+    [self loadConversations];
     self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(addname)];
     [self.tableView.mj_header beginRefreshing];
     
@@ -87,11 +87,13 @@
 
 
 - (void)addNameFromLocal{
+    [self.datasourses removeAllObjects];
+    NSLog(@"self.datasourse.count=%@",self.datasourses.count);
     for (EMConversation *conversation in self.conversations) {
         NSString *phonenumber=conversation.chatter;
         for (doctor *d in self.doctor) {
             NSString *phone=d.phonenumber;
-            if ([phone isEqualToString:phonenumber]) {
+            if ([phone isEqualToString:phonenumber]&&![self.datasourses containsObject:d]) {
                 [self.datasourses addObject:d];
             }
         }
@@ -101,18 +103,19 @@
 
 - (void)addNameFromConversation:(EMConversation *)conversation{
     NSString *phonenumber=conversation.chatter;
+//    NSLog(@"聊天对象的phonenumber=%@",phonenumber);
     for (doctor *d in self.doctor) {
         NSString *phone=d.phonenumber;
         if ([phone isEqualToString:phonenumber]) {
             [self.datasourses addObject:d];
         }
+//        NSLog(@"查找对象的phonenumber=%@",phone);
         
     }
 }
 
 - (void)addname{
     //遍历
-    
     //网络请求获取用户名 patient_getInfo.php get请求
     NSURLSession *session=[NSURLSession sharedSession];
     NSURL *url=[NSURL URLWithString:@"http://112.74.92.197/doctor/getAllInfo.php"];
@@ -135,9 +138,10 @@
                                           andHospital:obj[@"hospital"]
                        ];
             [self.doctor addObject:d];
-            NSLog(@"线程=%@",[NSThread currentThread]);
+//            NSLog(@"线程=%@",[NSThread currentThread]);
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+//            [self loadConversations];
             [self addNameFromLocal];
             [self.tableView reloadData];
             [self.tableView.mj_header endRefreshing];
@@ -164,7 +168,7 @@
 #pragma mark 未读消息数改变
 - (void)didUnreadMessagesCountChanged{
     //更新表格
-    NSLog(@"更新表格");
+//    NSLog(@"更新表格");
     self.conversations=  [[EaseMob sharedInstance].chatManager loadAllConversationsFromDatabaseWithAppend2Chat:YES];
     [self.tableView reloadData];
     //显示总的未读数
@@ -179,17 +183,26 @@
 - (void)didUpdateConversationList:(NSArray *)conversationList{
     
     NSLog(@"历史会话列表更新");
-    //给数据源重新赋值
+    [self.conversations removeAllObjects];
+//    [self.conversations addObjectsFromArray:conversationList];
     for (EMConversation *obj in conversationList) {
-        NSLog(@"obj.lastmessage=%@",obj.latestMessage);
-        
         if (![self.conversations containsObject:obj]&&obj.latestMessage!=nil) {
             [self.conversations addObject:obj];
-            [self addNameFromConversation:obj];
             
         }
         
     }
+    
+    [self.conversations sortUsingComparator:^NSComparisonResult(EMConversation*  _Nonnull obj1, EMConversation*  _Nonnull obj2) {
+        if (obj1.latestMessage.timestamp>obj2.latestMessage.timestamp) {
+            return NSOrderedAscending;
+        }else{
+            return NSOrderedDescending;
+        }
+    }
+    ];
+    [self addNameFromLocal];
+    
     
     [self.tableView reloadData];
     //显示总的未读数
@@ -331,7 +344,7 @@
         [messageLabel  setFont:[UIFont systemFontOfSize:16]];
         messageLabel.backgroundColor = [UIColor clearColor];
         messageLabel.textColor = [UIColor lightGrayColor];
-        messageLabel.text = @"作为医生我觉得你没必要抢救了";
+        messageLabel.text = @"";
         messageLabel.tag = messageTag;
         [cell.contentView addSubview:messageLabel];
     }
@@ -344,7 +357,7 @@
         textLabel.text=d.username;
         NSString *imageurl=d.imageurl;
         NSURL *url=[NSURL URLWithString:imageurl];
-        NSLog(@"imageurl=%@",imageurl);
+//        NSLog(@"imageurl=%@",imageurl);
         [imageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"1.jpg"]];
         
         // 2.显示最新的一条记录
@@ -361,22 +374,18 @@
             //图片消息
         }else if([body isKindOfClass:[EMImageMessageBody class]]){
             EMImageMessageBody *imgBody = body;
-            messageLabel.text = [imgBody displayName];
+            messageLabel.text = @"[图片]";
         }else{
             messageLabel.text = @"未知消息类型";
         }
     }
     EMMessage *message=conversaion.latestMessage;
-    NSLog(@"message=%@",message);
+//    NSLog(@"message=%@",message);
     long long time=message.timestamp;
     
-    NSDate *msgDate = [NSDate dateWithTimeIntervalSince1970:time/1000.0];
-    
-    NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
-    formatter.dateFormat=@"HH:mm";
-    NSString *timeStr=[formatter stringFromDate:msgDate];
-    NSLog(@"timestr=%@",timeStr);
-    cell.detailTextLabel.text =timeStr;
+    NSString *timestr=[TimeTool timeStr:time];
+//    NSLog(@"timestr=%@",timeStr);
+    cell.detailTextLabel.text =timestr;
     return cell;
 }
 

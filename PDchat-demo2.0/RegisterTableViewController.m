@@ -30,7 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.phonenumber=@"18069966619";
+    self.phonenumber=@"01705311326";
     self.password=@"123456";
     
     // Uncomment the following line to preserve selection between presentations.
